@@ -1,6 +1,8 @@
 import type { Request, Response } from "express";
 import { convertToModelMessages, stepCountIs, streamText, type UIMessage } from "ai";
+import { createAnthropic } from "@ai-sdk/anthropic";
 import { createOpenAI } from "@ai-sdk/openai";
+import type { LanguageModel } from "ai";
 import type { Person, StudentProfile } from "@hermes/shared";
 import { buildSkillsSystemBlock } from "../agents/loadSkill";
 import { hermesTools } from "../agents/tools/registry";
@@ -26,6 +28,21 @@ interface ChatBody {
   selectedPerson?: Person | null;
 }
 
+function resolveChatModel(): LanguageModel {
+  if (process.env.ANTHROPIC_API_KEY) {
+    return createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY })(
+      "claude-sonnet-4-6"
+    );
+  }
+  if (process.env.OPENAI_API_KEY) {
+    return createOpenAI({ apiKey: process.env.OPENAI_API_KEY })("gpt-4o-mini");
+  }
+  throw new AppError(
+    500,
+    "Set ANTHROPIC_API_KEY or OPENAI_API_KEY in .env to use the outreach coach."
+  );
+}
+
 function buildContextBlock(student?: StudentProfile, person?: Person | null): string {
   const parts: string[] = [];
   if (student) {
@@ -48,21 +65,13 @@ export async function chatRoute(req: Request, res: Response): Promise<void> {
       throw new AppError(400, "messages are required");
     }
 
-    if (!process.env.OPENAI_API_KEY) {
-      throw new AppError(
-        500,
-        "OPENAI_API_KEY not configured. Add it to .env to use the outreach coach."
-      );
-    }
-
-    const openai = createOpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const system =
       BASE_SYSTEM_PROMPT +
       buildSkillsSystemBlock() +
       buildContextBlock(body.student, body.selectedPerson ?? null);
 
     const result = streamText({
-      model: openai("gpt-4o-mini"),
+      model: resolveChatModel(),
       system,
       messages: await convertToModelMessages(body.messages),
       tools: hermesTools,
