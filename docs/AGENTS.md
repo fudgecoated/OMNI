@@ -107,9 +107,9 @@ Open the center chat and use a phrase from the skill `description`, e.g.:
 |-------|------|
 | Runtime skill | `apps/server/skills/hiring-manager-finder/SKILL.md` |
 | Cursor skill | `.cursor/skills/hiring-manager-finder/SKILL.md` |
-| Tool | `find_company_people` → `data/mock_people.json` (no extra API) |
+| Tool | `find_hiring_contacts` — seed data for Google/Amazon/Meta; **any other company** needs `TAVILY_API_KEY` |
 
-**Claude-only:** only `ANTHROPIC_API_KEY` (or `OPENAI_API_KEY`) is required. People data is seeded for google / amazon / meta.
+**Required:** `ANTHROPIC_API_KEY` (chat). **Optional:** `TAVILY_API_KEY` for Shopify, Microsoft, etc.
 
 ---
 

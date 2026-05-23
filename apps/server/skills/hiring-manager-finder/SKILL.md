@@ -1,60 +1,43 @@
 ---
 name: hiring-manager-finder
 description: >
-  Find relevant employees and hiring contacts at Google, Amazon, or Meta for a given role.
-  Use when the user wants to find who to contact at a company, hiring managers, or people
-  to reach out to for internships/new grad roles. Trigger on "find hiring managers at X",
-  "who should I contact at Google", "people hiring for SWE at Meta", etc.
+  Find hiring contacts and relevant employees at ANY company for a given role.
+  Use when the user wants hiring managers, who to contact, or people to reach out to.
+  Trigger on "find hiring managers at X", "who is hiring at Shopify", etc.
 ---
 
-# Hiring Manager Finder (Hermes)
+# Hiring Manager Finder
 
-Find people to contact using the **`find_company_people`** tool. Do not invent names or LinkedIn URLs.
+Use **`find_hiring_contacts`** for every lookup. Never invent names or LinkedIn URLs.
 
-**Supported companies:** `google`, `amazon`, `meta` only (hackathon seed data).
+## Inputs
 
-## Three-tier search (use the tool)
+- `company` — any company name (e.g. Shopify, Microsoft, Google)
+- `roleFilter` — e.g. software engineering intern
+- `schoolFilter` — optional, e.g. ucalgary
+- `city` — optional, e.g. Calgary
 
-Work through tiers in order. Stop when you have **3+ relevant people**.
+## How it works
 
-### Tier 1 — Exact (company + role + school)
+| Company | Data source |
+|---------|-------------|
+| Google, Amazon, Meta (and aliases like AWS, Facebook) | Built-in Hermes seed data (fast) |
+| **Any other company** | Live LinkedIn search via Tavily (`TAVILY_API_KEY` in `.env`) |
 
-```
-find_company_people({
-  company: "google",
-  roleFilter: "software engineer",
-  schoolFilter: "ucalgary"
-})
-```
+If the tool returns an error about missing Tavily, tell the user to add `TAVILY_API_KEY` for companies outside Google/Amazon/Meta.
 
-### Tier 2 — Adjacent (drop school)
+## Three-tier strategy
 
-Same `company` and `roleFilter`, omit `schoolFilter`.
+Call the tool with tighter filters first, then relax:
 
-### Tier 3 — Broad (company only)
+1. **Exact** — include `city` + `schoolFilter` + `roleFilter`
+2. **Adjacent** — drop `city` or `schoolFilter`
+3. **Broad** — only `company` + `roleFilter`
 
-```
-find_company_people({ company: "google" })
-```
-
-Pick the highest `relevanceScore` results related to the user's role. Note when school/role filters were relaxed.
+For seed companies, tier behavior is simulated via filters on seed data.
 
 ## Present results
 
-For each person from the tool:
+For each person: name, role/title, LinkedIn URL, tier, evidence snippet (if live), relevance score.
 
-- **Name**, **Role**, **Team**
-- **LinkedIn URL**
-- **School connection** (if any)
-- **Relevance score**
-- **Tier** used (Exact / Adjacent / Broad)
-
-If fewer than 3 people, say so and suggest the user try the **People Finder** in the left sidebar or broaden role/company.
-
-## After results
-
-Offer to:
-
-- Draft a LinkedIn message for a selected person
-- Log outreach in Follow-ups
-- Compare two contacts
+Target **3+ people**. Then offer to draft outreach or log a follow-up.

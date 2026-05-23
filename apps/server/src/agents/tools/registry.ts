@@ -1,8 +1,7 @@
-import findCompanyPeople from "./find_company_people.tool";
+import findHiringContacts from "./find_hiring_contacts.tool";
 
-/** Claude-only stack: tools use local Hermes data, no third-party search API. */
 export const hermesTools = {
-  find_company_people: findCompanyPeople,
+  find_hiring_contacts: findHiringContacts,
 } as const;
 
 export type HermesToolName = keyof typeof hermesTools;
