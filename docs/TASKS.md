@@ -61,6 +61,7 @@
 
 | Task | Done when | Est. |
 |------|-----------|------|
+| [x] Wire `hiring-manager-finder` skill + `google_dork_search` tool | See [docs/AGENTS.md](./AGENTS.md) | — |
 | [ ] Replace stub in `messageGenerator.ts` with `callLLM` + templates | Messages feel personalized | 3h |
 | [ ] Load few-shot examples from PRD into system prompt | School/domain/project hooks appear | 1h |
 | [ ] `POST /api/messages/followup` uses LLM + prior message context | Follow-up references first message | 2h |

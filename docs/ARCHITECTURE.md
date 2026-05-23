@@ -41,7 +41,7 @@ Vite proxies `/api` and `/health` to the server.
 | Method | Path | Module |
 |--------|------|--------|
 | GET | `/health` | `index.ts` |
-| POST | `/api/chat` | `routes/chat.ts` (streaming outreach coach) |
+| POST | `/api/chat` | `routes/chat.ts` (streaming coach + skills + tools) |
 | GET | `/api/companies/:company/people` | `finder/mockPeople.ts` |
 | POST | `/api/messages/generate` | `writer/messageGenerator.ts` |
 | POST | `/api/messages/followup` | `writer/messageGenerator.ts` |
@@ -54,11 +54,12 @@ Vite proxies `/api` and `/health` to the server.
 - **Contacts:** `apps/server/data/contacts.json` (gitignored, created at runtime)
 - **Alumni:** `data/alumni_sample.csv` (wired in BE milestone)
 
-## LLM
+## LLM & agents
 
-- Vercel AI SDK via `apps/server/src/agents/lib/callLLM.ts`
-- Stub templates in `writer/messageGenerator.ts` until AI milestone
-- Set `OPENAI_API_KEY` in `.env` (see `.env.example`)
+- **Chat agent:** `POST /api/chat` — `streamText` + tools (`google_dork_search`, …)
+- **Runtime skills:** `apps/server/skills/*/SKILL.md` loaded into system prompt (see [docs/AGENTS.md](./AGENTS.md))
+- **Message drafts:** `writer/messageGenerator.ts` (stub or `callLLM`)
+- Keys: `OPENAI_API_KEY` (required for chat), `TAVILY_API_KEY` (optional, live dork search)
 
 ## Out of scope (weekend)
 

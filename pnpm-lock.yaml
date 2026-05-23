@@ -19,13 +19,13 @@ importers:
     dependencies:
       '@ai-sdk/openai':
         specifier: ^2.0.0
-        version: 2.0.106(zod@4.4.3)
+        version: 2.0.106(zod@3.25.76)
       '@hermes/shared':
         specifier: workspace:*
         version: link:../../packages/shared
       ai:
         specifier: ^5.0.0
-        version: 5.0.192(zod@4.4.3)
+        version: 5.0.192(zod@3.25.76)
       cors:
         specifier: ^2.8.5
         version: 2.8.6
@@ -35,6 +35,9 @@ importers:
       express:
         specifier: ^4.21.0
         version: 4.22.2
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
     devDependencies:
       '@types/cors':
         specifier: ^2.8.17
@@ -1599,6 +1602,9 @@ packages:
   yallist@3.1.1:
     resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}
 
+  zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+
   zod@4.4.3:
     resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
 
@@ -1622,6 +1628,13 @@ packages:
 
 snapshots:
 
+  '@ai-sdk/gateway@2.0.93(zod@3.25.76)':
+    dependencies:
+      '@ai-sdk/provider': 2.0.3
+      '@ai-sdk/provider-utils': 3.0.25(zod@3.25.76)
+      '@vercel/oidc': 3.1.0
+      zod: 3.25.76
+
   '@ai-sdk/gateway@2.0.93(zod@4.4.3)':
     dependencies:
       '@ai-sdk/provider': 2.0.3
@@ -1629,11 +1642,18 @@ snapshots:
       '@vercel/oidc': 3.1.0
       zod: 4.4.3
 
-  '@ai-sdk/openai@2.0.106(zod@4.4.3)':
+  '@ai-sdk/openai@2.0.106(zod@3.25.76)':
     dependencies:
       '@ai-sdk/provider': 2.0.3
-      '@ai-sdk/provider-utils': 3.0.25(zod@4.4.3)
-      zod: 4.4.3
+      '@ai-sdk/provider-utils': 3.0.25(zod@3.25.76)
+      zod: 3.25.76
+
+  '@ai-sdk/provider-utils@3.0.25(zod@3.25.76)':
+    dependencies:
+      '@ai-sdk/provider': 2.0.3
+      '@standard-schema/spec': 1.1.0
+      eventsource-parser: 3.0.8
+      zod: 3.25.76
 
   '@ai-sdk/provider-utils@3.0.25(zod@4.4.3)':
     dependencies:
@@ -2209,6 +2229,14 @@ snapshots:
     dependencies:
       mime-types: 2.1.35
       negotiator: 0.6.3
+
+  ai@5.0.192(zod@3.25.76):
+    dependencies:
+      '@ai-sdk/gateway': 2.0.93(zod@3.25.76)
+      '@ai-sdk/provider': 2.0.3
+      '@ai-sdk/provider-utils': 3.0.25(zod@3.25.76)
+      '@opentelemetry/api': 1.9.0
+      zod: 3.25.76
 
   ai@5.0.192(zod@4.4.3):
     dependencies:
@@ -3002,6 +3030,8 @@ snapshots:
   wrappy@1.0.2: {}
 
   yallist@3.1.1: {}
+
+  zod@3.25.76: {}
 
   zod@4.4.3: {}
 
