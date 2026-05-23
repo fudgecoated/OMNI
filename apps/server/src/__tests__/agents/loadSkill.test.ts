@@ -12,13 +12,13 @@ describe("loadSkill", () => {
 
   it("loads skill body without frontmatter", () => {
     const body = loadSkillBody("hiring-manager-finder");
-    expect(body).toContain("Three-Tier System");
+    expect(body).toContain("find_company_people");
     expect(body).not.toContain("name: hiring-manager-finder");
   });
 
   it("buildSkillsSystemBlock includes skill content", () => {
     const block = buildSkillsSystemBlock();
     expect(block).toContain("hiring-manager-finder");
-    expect(block).toContain("Three-Tier System");
+    expect(block).toContain("find_company_people");
   });
 });

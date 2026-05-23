@@ -18,7 +18,7 @@ User message (center chat)
        ↓
 POST /api/chat  →  system prompt = base coach + all SKILL.md bodies
        ↓
-LLM can call tools (e.g. google_dork_search)
+LLM can call tools (e.g. find_company_people)
        ↓
 Assistant reply streams back to UI
 ```
@@ -76,18 +76,18 @@ Register in `apps/server/src/agents/tools/registry.ts`:
 import myTool from "./my_tool.tool";
 
 export const hermesTools = {
-  google_dork_search: googleDorkSearch,
+  find_company_people: findCompanyPeople,
   my_tool: myTool,
 } as const;
 ```
 
 ### 3. Reference the tool in the skill body
 
-In `SKILL.md`, tell the model to call `my_tool` with specific inputs (like the hiring-manager-finder tells it to use `google_dork_search` with dork queries).
+In `SKILL.md`, tell the model to call `my_tool` with specific inputs (like hiring-manager-finder uses `find_company_people`).
 
 ### 4. Environment variables
 
-Document any keys in `.env.example` (e.g. `TAVILY_API_KEY` for live search).
+Document any keys in `.env.example`. Chat needs `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` only.
 
 ### 5. Try it in the app
 
@@ -107,9 +107,9 @@ Open the center chat and use a phrase from the skill `description`, e.g.:
 |-------|------|
 | Runtime skill | `apps/server/skills/hiring-manager-finder/SKILL.md` |
 | Cursor skill | `.cursor/skills/hiring-manager-finder/SKILL.md` |
-| Tool | `google_dork_search` → Tavily API (or demo mock) |
+| Tool | `find_company_people` → `data/mock_people.json` (no extra API) |
 
-**Live search:** set `TAVILY_API_KEY` in `.env` ([tavily.com](https://tavily.com)). Without it, the tool returns a demo placeholder so the UI still works.
+**Claude-only:** only `ANTHROPIC_API_KEY` (or `OPENAI_API_KEY`) is required. People data is seeded for google / amazon / meta.
 
 ---
 

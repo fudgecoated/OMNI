@@ -20,7 +20,7 @@ Rules:
 - Never claim you sent messages — the student copies and sends manually
 - When a target person is provided, personalize advice to their role and team
 - Remind them to review every draft before sending
-- When a runtime skill applies, follow its steps and use \`google_dork_search\` for live lookups — never invent names or LinkedIn URLs`;
+- When a runtime skill applies, follow its steps and use \`find_company_people\` — never invent names or LinkedIn URLs`;
 
 interface ChatBody {
   messages: UIMessage[];

@@ -56,10 +56,10 @@ Vite proxies `/api` and `/health` to the server.
 
 ## LLM & agents
 
-- **Chat agent:** `POST /api/chat` — `streamText` + tools (`google_dork_search`, …)
+- **Chat agent:** `POST /api/chat` — `streamText` + tools (`find_company_people`, …)
 - **Runtime skills:** `apps/server/skills/*/SKILL.md` loaded into system prompt (see [docs/AGENTS.md](./AGENTS.md))
 - **Message drafts:** `writer/messageGenerator.ts` (stub or `callLLM`)
-- Keys: `OPENAI_API_KEY` (required for chat), `TAVILY_API_KEY` (optional, live dork search)
+- Keys: `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` (chat only; people search uses local seed data)
 
 ## Out of scope (weekend)
 
