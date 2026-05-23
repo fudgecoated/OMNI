@@ -33,7 +33,7 @@ export function errorHandler(
   } else if (lower.includes("rate limit") || lower.includes("429")) {
     statusCode = 429;
     message = "Rate limit reached";
-  } else if (statusCode >= 500) {
+  } else if (statusCode >= 500 && !(err instanceof AppError)) {
     message = "Something went wrong";
   }
 

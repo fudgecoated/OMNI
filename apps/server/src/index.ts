@@ -1,3 +1,7 @@
+import { loadEnv } from "./config/loadEnv";
+
+loadEnv();
+
 import express from "express";
 import { corsMiddleware } from "./middleware/cors";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
