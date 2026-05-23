@@ -1,0 +1,1 @@
+Write a personalized cold outreach email for a UCalgary SWE student contacting {{person_name}} ({{role}} on {{team}} at {{company}}).
