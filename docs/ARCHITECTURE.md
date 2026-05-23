@@ -15,6 +15,18 @@ OMNI/
 └── docs/
 ```
 
+## UI layout (3-column)
+
+```
+┌──────────────┬─────────────────────┬──────────────────┐
+│ Left sidebar │ Center: AI chat     │ Right: results   │
+│ People Finder│ Outreach coach      │ Message / Person │
+│ + lookup     │ (streaming)         │ / Follow-ups     │
+└──────────────┴─────────────────────┴──────────────────┘
+```
+
+Center + right use a resizable split (same pattern as multi-turn-chatbot).
+
 ## Runtime
 
 | Service | Port | Command |
@@ -29,6 +41,7 @@ Vite proxies `/api` and `/health` to the server.
 | Method | Path | Module |
 |--------|------|--------|
 | GET | `/health` | `index.ts` |
+| POST | `/api/chat` | `routes/chat.ts` (streaming outreach coach) |
 | GET | `/api/companies/:company/people` | `finder/mockPeople.ts` |
 | POST | `/api/messages/generate` | `writer/messageGenerator.ts` |
 | POST | `/api/messages/followup` | `writer/messageGenerator.ts` |

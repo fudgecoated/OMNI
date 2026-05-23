@@ -10,7 +10,8 @@
 - [x] Monorepo scaffold (pnpm + turbo)
 - [x] `@hermes/shared` types
 - [x] Express server + stub routes
-- [x] React web shell (3 tabs)
+- [x] **3-column UI** (sidebar + chat + results panel)
+- [x] `POST /api/chat` streaming outreach coach
 - [x] Mock data (`data/mock_people.json`)
 - [x] Basic finder API test
 
@@ -47,11 +48,10 @@
 
 | Task | Done when | Est. |
 |------|-----------|------|
-| [ ] Finder: auto-search on company change; empty/loading states | No blank confusion on first load | 1h |
-| [ ] Writer: form fields for student (not raw JSON) | Editable name, year, interests, GitHub | 2h |
-| [ ] Writer: show selected person card | Clear who message is for | 30m |
+| [x] 3-column shell (sidebar / chat / results) | Matches chatbot layout pattern | — |
+| [ ] Student profile editor in sidebar or results | Editable name, year, interests, GitHub | 2h |
 | [ ] Tracker: "Mark responded" button per contact | Calls PATCH API | 1h |
-| [ ] Tracker: follow-up badge counts on tab | Due count visible in nav | 30m |
+| [ ] Follow-up badge count on sidebar nav | Due count on Follow-ups item | 30m |
 | [ ] Polish: mobile-friendly layout, Calgary vibe | Looks demo-ready | 2h |
 | [ ] Error toasts or inline errors on all API calls | Failed fetch visible | 1h |
 

@@ -18,7 +18,7 @@ export function useMessageWriter() {
       person: Person,
       student: StudentProfile,
       templateType: MessageTemplateType
-    ) => {
+    ): Promise<GenerateMessageResponse | null> => {
       setLoading(true);
       setError(null);
       try {
@@ -28,9 +28,11 @@ export function useMessageWriter() {
           { method: "POST", body: JSON.stringify(body) }
         );
         setResult(data);
+        return data;
       } catch (e) {
         setError(e instanceof Error ? e.message : "Generation failed");
         setResult(null);
+        return null;
       } finally {
         setLoading(false);
       }

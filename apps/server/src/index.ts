@@ -4,6 +4,7 @@ import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
 import { finderRouter } from "./routes/finder";
 import { messagesRouter } from "./routes/messages";
 import { contactsRouter } from "./routes/contacts";
+import { chatRoute } from "./routes/chat";
 
 export function createApp(): express.Express {
   const app = express();
@@ -13,6 +14,10 @@ export function createApp(): express.Express {
 
   app.get("/health", (_req, res) => {
     res.json({ status: "ok", service: "hermes-server" });
+  });
+
+  app.post("/api/chat", (req, res, next) => {
+    void chatRoute(req, res).catch(next);
   });
 
   app.use("/api", finderRouter);
