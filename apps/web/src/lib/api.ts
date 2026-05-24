@@ -36,7 +36,12 @@ async function parseJsonResponse<T>(res: Response, url: string): Promise<T> {
   } catch {
     if (/not_found/i.test(text)) {
       throw new Error(
-        `API is not deployed at ${url}. Redeploy with the serverless API routes, or set VITE_API_URL to a running backend (e.g. http://127.0.0.1:3002) and rebuild.`
+        `API route not found (${url}). Redeploy the latest build or set VITE_API_URL to a running backend.`
+      );
+    }
+    if (/function_invocation_failed/i.test(text)) {
+      throw new Error(
+        `API crashed (${url}). Check Vercel function logs and that ANTHROPIC_API_KEY is set for live search/chat.`
       );
     }
     const preview = trimmed.slice(0, 160).replace(/\s+/g, " ");

@@ -1,13 +1,5 @@
-import type { Handler } from "@vercel/node";
-import serverless from "serverless-http";
-import { createApp } from "../../server/src/index";
+import expressApp from "@hermes/server";
+import { config } from "./_config";
 
-let cached: Handler | null = null;
-
-/** Shared Express app for all /api/* Vercel serverless routes. */
-export function getApiHandler(): Handler {
-  if (!cached) {
-    cached = serverless(createApp()) as Handler;
-  }
-  return cached;
-}
+export default expressApp;
+export { config };

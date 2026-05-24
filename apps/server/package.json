@@ -3,6 +3,12 @@
   "description": "Express and AI backend for Weave company research, contact discovery, outreach coaching, and CRM storage.",
   "version": "0.0.1",
   "private": true,
+  "main": "./dist/vercelApp.js",
+  "types": "./dist/vercelApp.d.ts",
+  "exports": {
+    ".": "./dist/vercelApp.js",
+    "./app": "./dist/app.js"
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch src/index.ts",

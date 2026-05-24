@@ -72,6 +72,9 @@ importers:
       '@ai-sdk/react':
         specifier: ^2.0.0
         version: 2.0.194(react@19.2.6)(zod@4.4.3)
+      '@hermes/server':
+        specifier: workspace:*
+        version: link:../server
       '@hermes/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -93,9 +96,6 @@ importers:
       remark-gfm:
         specifier: ^4.0.1
         version: 4.0.1
-      serverless-http:
-        specifier: ^3.2.0
-        version: 3.2.0
       zustand:
         specifier: ^5.0.12
         version: 5.0.13(@types/react@19.2.15)(react@19.2.6)(use-sync-external-store@1.6.0(react@19.2.6))
@@ -2193,10 +2193,6 @@ packages:
   serve-static@1.16.3:
     resolution: {integrity: sha512-x0RTqQel6g5SY7Lg6ZreMmsOzncHFU7nhnRWkKgWuMTu5NN0DR5oruckMqRvacAN9d5w6ARnRBXl9xhDCgfMeA==}
     engines: {node: '>= 0.8.0'}
-
-  serverless-http@3.2.0:
-    resolution: {integrity: sha512-QvSyZXljRLIGqwcJ4xsKJXwkZnAVkse1OajepxfjkBXV0BMvRS5R546Z4kCBI8IygDzkQY0foNPC/rnipaE9pQ==}
-    engines: {node: '>=12.0'}
 
   setprototypeof@1.2.0:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
@@ -4718,8 +4714,6 @@ snapshots:
       send: 0.19.2
     transitivePeerDependencies:
       - supports-color
-
-  serverless-http@3.2.0: {}
 
   setprototypeof@1.2.0: {}
 
