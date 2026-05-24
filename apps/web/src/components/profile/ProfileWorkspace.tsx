@@ -27,11 +27,11 @@ export function ProfileWorkspace() {
           <div className="hermes-profile-workspace__progress">
             <div className="hermes-profile-progress__bar" style={{ width: `${percent}%` }} />
             <span className="hermes-profile-workspace__progress-label">
-              {percent}% complete{isEditing ? " · editing" : ""}
+              {percent}% complete{isEditing ? " | editing" : ""}
             </span>
           </div>
           {missing.length > 0 && (
-            <p className="hermes-understanding__missing">Still needed: {missing.join(" · ")}</p>
+            <p className="hermes-understanding__missing">Still needed: {missing.join(" | ")}</p>
           )}
         </div>
         <div className="hermes-profile-workspace__actions">

@@ -1,6 +1,6 @@
 import { generateText, stepCountIs, type ToolSet } from "ai";
 import { createAnthropic } from "@ai-sdk/anthropic";
-import type { CompanyResearch, CompanySlug } from "@hermes/shared";
+import type { CompanyResearch, CompanySlug, OutreachTarget } from "@hermes/shared";
 import { loadSkillBody } from "../loadSkill";
 import { parseJsonBlock } from "./parseJsonBlock";
 
@@ -95,6 +95,65 @@ export function stubCompanyResearch(
       techStack: [],
       hiringSignals: [],
       internRelevance: `Targeting ${role}${city ? ` in ${city}` : ""}.`,
+    },
+    company
+  );
+}
+
+export function isStubCompanyResearch(company?: CompanyResearch): boolean {
+  return Boolean(
+    company?.summary.toLowerCase().includes("company brief will be refined")
+  );
+}
+
+function uniqueNonEmpty(values: Array<string | undefined>, limit: number): string[] {
+  return Array.from(
+    new Set(values.map((value) => value?.trim()).filter((value): value is string => Boolean(value)))
+  ).slice(0, limit);
+}
+
+export function companyResearchFromFinderContacts(params: {
+  company: string;
+  role: string;
+  city?: string;
+  teamFocus?: string;
+  people: OutreachTarget[];
+}): CompanyResearch {
+  const { company, role, city, teamFocus, people } = params;
+  const teams = uniqueNonEmpty(
+    people
+      .map((person) => person.team)
+      .filter((team) => team.toLowerCase() !== company.toLowerCase()),
+    6
+  );
+  const roles = people.map((person) => person.role.toLowerCase()).join(" | ");
+  const hasRecruiting = /recruit|talent|sourcer|campus|university/.test(roles);
+  const hasManager = /manager|director|lead|head/.test(roles);
+  const hasAdjacent = /program|project|product|staff|senior/.test(roles);
+  const signals = [
+    `${people.length} current or current-looking contacts found for this search.`,
+    hasManager ? "Search found likely hiring influencers such as managers, directors, or team leads." : "",
+    hasAdjacent ? "Search found adjacent team connectors such as PMs, TPMs, project managers, or senior ICs." : "",
+    hasRecruiting ? "Search found recruiting or talent contacts who can route applications internally." : "",
+  ].filter(Boolean);
+  const evidenceSignals = uniqueNonEmpty(
+    people.map((person) => person.evidence),
+    4
+  );
+
+  return withTimestamp(
+    {
+      company,
+      summary: `${company} search focused on ${role}${teamFocus ? ` for ${teamFocus}` : ""}${city ? ` in ${city}` : ""}. Weave found ${people.length} current or current-looking contacts and is using their roles, teams, and evidence snippets to shape outreach.`,
+      productsAndTeams: teams,
+      cultureValues: [],
+      recentNews: [],
+      techStack: [],
+      hiringSignals: [...signals, ...evidenceSignals].slice(0, 6),
+      internRelevance:
+        teams.length > 0
+          ? `For outreach, reference the most relevant team signal: ${teams[0]}.`
+          : `For outreach, connect your profile to ${role} work at ${company}.`,
     },
     company
   );

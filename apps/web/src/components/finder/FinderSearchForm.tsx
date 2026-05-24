@@ -1,23 +1,36 @@
 import { useEffect, useState } from "react";
 import { useFinder } from "../../hooks/useFinder";
 
+const DEFAULT_COMPANY = "Google";
+const DEFAULT_ROLE = "software engineering intern";
+const DEFAULT_CITY = "Calgary";
+
 export function FinderSearchForm() {
   const { search, loading, error, activeSession } = useFinder();
   const [elapsed, setElapsed] = useState(0);
   const query = activeSession?.query;
 
-  const [company, setCompany] = useState(query?.company ?? "");
-  const [role, setRole] = useState(query?.role ?? "software engineering intern");
-  const [city, setCity] = useState(query?.city ?? "Calgary");
-  const [school, setSchool] = useState(query?.school ?? "ucalgary");
+  const [company, setCompany] = useState(query?.company || DEFAULT_COMPANY);
+  const [role, setRole] = useState(query?.role ?? DEFAULT_ROLE);
+  const [teamFocus, setTeamFocus] = useState(query?.teamFocus ?? "");
+  const [city, setCity] = useState(query?.city ?? DEFAULT_CITY);
+  const [school, setSchool] = useState(query?.school ?? "");
 
   useEffect(() => {
     if (!query) return;
-    setCompany(query.company ?? "");
-    setRole(query.role ?? "software engineering intern");
-    setCity(query.city ?? "Calgary");
-    setSchool(query.school ?? "ucalgary");
-  }, [activeSession?.id, query?.company, query?.role, query?.city, query?.school]);
+    setCompany(query.company || DEFAULT_COMPANY);
+    setRole(query.role ?? DEFAULT_ROLE);
+    setTeamFocus(query.teamFocus ?? "");
+    setCity(query.city ?? DEFAULT_CITY);
+    setSchool(query.school ?? "");
+  }, [
+    activeSession?.id,
+    query?.company,
+    query?.role,
+    query?.teamFocus,
+    query?.city,
+    query?.school,
+  ]);
 
   useEffect(() => {
     if (!loading) {
@@ -32,20 +45,42 @@ export function FinderSearchForm() {
   }, [loading]);
 
   const runSearch = () => {
-    void search(company, role, city, school);
+    void search(company, role, city, school, teamFocus);
   };
 
   return (
     <div className="hermes-finder-search">
-      <header className="hermes-panel-header">
-        <h1 className="hermes-panel-header__title">
-          {query?.company ? activeSession?.searchTitle ?? "Company search" : "New company search"}
-        </h1>
-        <p className="hermes-panel-header__subtitle">
-          {query?.company
-            ? "Run Find people to research the company and load contacts. Company brief appears on the right."
-            : "Search a company for this pin. Hermes researches the company, finds contacts, then you can chat about who to message."}
-        </p>
+      <header className="hermes-finder-search__hero">
+        <div className="hermes-finder-search__hero-main">
+          <div>
+            <div className="hermes-finder-search__eyebrow">People Finder</div>
+            <h1 className="hermes-finder-search__title">Company-aware contact search</h1>
+            <p className="hermes-finder-search__subtitle">
+              Run one search, then use the ranked contacts, company brief, and coaching thread to
+              decide who deserves the first message.
+            </p>
+          </div>
+          <img
+            src="/brand-icons/network.png"
+            alt=""
+            className="hermes-finder-search__hero-icon"
+          />
+        </div>
+
+        <div className="hermes-finder-search__signals" aria-label="Search signals Weave uses">
+          <span className="hermes-signal-card hermes-signal-card--gold">
+            <strong>Company context</strong>
+            <span>Teams, products, timing</span>
+          </span>
+          <span className="hermes-signal-card hermes-signal-card--sage">
+            <strong>Warm paths</strong>
+            <span>Alumni and local ties</span>
+          </span>
+          <span className="hermes-signal-card hermes-signal-card--terra">
+            <strong>Personal angles</strong>
+            <span>Skills, interests, goals</span>
+          </span>
+        </div>
       </header>
 
       <div className="hermes-finder-search__form">
@@ -63,9 +98,20 @@ export function FinderSearchForm() {
           <span className="hermes-profile-field__label">Role / team</span>
           <input
             className="hermes-profile-input"
-            placeholder="e.g. product owner, SWE intern"
+            placeholder="e.g. SWE intern, product owner"
             value={role}
             onChange={(e) => setRole(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && runSearch()}
+          />
+        </label>
+        <label className="hermes-profile-field">
+          <span className="hermes-profile-field__label">Team focus (optional)</span>
+          <input
+            className="hermes-profile-input"
+            placeholder="e.g. platform, data, mobile, payments"
+            value={teamFocus}
+            onChange={(e) => setTeamFocus(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && runSearch()}
           />
         </label>
         <div className="hermes-profile-grid hermes-profile-grid--2">
@@ -75,14 +121,17 @@ export function FinderSearchForm() {
               className="hermes-profile-input"
               value={city}
               onChange={(e) => setCity(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && runSearch()}
             />
           </label>
           <label className="hermes-profile-field">
-            <span className="hermes-profile-field__label">School filter</span>
+            <span className="hermes-profile-field__label">School filter (optional)</span>
             <input
               className="hermes-profile-input"
+              placeholder="Any school"
               value={school}
               onChange={(e) => setSchool(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && runSearch()}
             />
           </label>
         </div>
@@ -91,14 +140,24 @@ export function FinderSearchForm() {
 
         {loading && (
           <p className="hermes-finder-search__progress" role="status">
-            Researching company and finding contacts…
+            Researching company and finding contacts...
             {elapsed > 0 ? ` (${elapsed}s)` : ""}
             <br />
             <span className="hermes-finder-search__progress-hint">
               WestJet uses cached results when available (~2s). Other companies use live AI and
-              can take 1–2 minutes.
+              can take 1-2 minutes.
             </span>
           </p>
+        )}
+
+        {loading && (
+          <div className="hermes-finder-search__timeline" aria-hidden={!loading}>
+            {["Researching company", "Matching roles", "Ranking contacts", "Preparing angles"].map(
+              (step) => (
+                <span key={step}>{step}</span>
+              )
+            )}
+          </div>
         )}
 
         <button
@@ -107,7 +166,7 @@ export function FinderSearchForm() {
           onClick={runSearch}
           disabled={loading}
         >
-          {loading ? "Searching…" : "Find people"}
+          {loading ? "Searching..." : "Find people"}
         </button>
       </div>
     </div>

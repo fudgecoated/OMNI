@@ -55,10 +55,10 @@ export function ResizableSplit({
   return (
     <div
       ref={containerRef}
-      className="flex flex-1 min-h-0 relative"
+      className="flex flex-1 min-h-0 relative hermes-split"
       style={{ display: "flex", flex: 1, minHeight: 0, position: "relative" }}
     >
-      <div style={{ width: `${leftPct}%`, minWidth: 0, flexShrink: 0 }}>{left}</div>
+      <div className="hermes-split__pane hermes-split__pane--left" style={{ width: `${leftPct}%`, minWidth: 0, flexShrink: 0 }}>{left}</div>
       <div
         role="separator"
         aria-orientation="vertical"
@@ -69,6 +69,7 @@ export function ResizableSplit({
         }}
         onDoubleClick={() => setLeftPct(defaultLeftPct)}
         data-testid="split-resizer"
+        className="hermes-split__resizer"
         style={{
           width: 6,
           flexShrink: 0,
@@ -76,7 +77,7 @@ export function ResizableSplit({
           background: dragging ? "var(--vl-accent)" : "var(--vl-menu-border)",
         }}
       />
-      <div style={{ flex: 1, minWidth: 0 }}>{right}</div>
+      <div className="hermes-split__pane hermes-split__pane--right" style={{ flex: 1, minWidth: 0 }}>{right}</div>
     </div>
   );
 }

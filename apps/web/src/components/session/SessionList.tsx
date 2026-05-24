@@ -33,7 +33,7 @@ export function SessionList({ variant, onSelect }: Props) {
     onSelect?.();
   };
 
-  /** Sole entry point for a new finder pin / outreach thread (no duplicate buttons in center or right panels). */
+  /** Sole entry point for a new finder pin / outreach thread. */
   const handleNew = () => {
     createSession();
     onSelect?.();
@@ -68,8 +68,8 @@ export function SessionList({ variant, onSelect }: Props) {
             const resultCount = s.results.length;
             const meta =
               variant === "finder"
-                ? `${resultCount} contact${resultCount === 1 ? "" : "s"} · ${msgCount} msg${msgCount === 1 ? "" : "s"}`
-                : `${msgCount} msg${msgCount === 1 ? "" : "s"} · ${resultCount} found`;
+                ? `${resultCount} contact${resultCount === 1 ? "" : "s"} - ${msgCount} msg${msgCount === 1 ? "" : "s"}`
+                : `${msgCount} msg${msgCount === 1 ? "" : "s"} - ${resultCount} found`;
 
             return (
               <li key={s.id}>
@@ -97,7 +97,7 @@ export function SessionList({ variant, onSelect }: Props) {
                     aria-label={`Delete ${s.searchTitle}`}
                     onClick={(e) => handleDelete(e, s.id)}
                   >
-                    ×
+                    x
                   </button>
                 </div>
               </li>

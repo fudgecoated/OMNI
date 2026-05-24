@@ -10,10 +10,15 @@ import { normalizeStudentProfile } from "@hermes/shared";
 import { AppError } from "../middleware/errorHandler";
 import { buildApplicantContext } from "../agents/context/applicantContext";
 import { buildJobRoleContext } from "../agents/context/jobRoleContext";
+import {
+  companyResearchFromFinderContacts,
+  isStubCompanyResearch,
+} from "../agents/context/companyResearch";
 import { resolveCompanySlug, displayCompanyName } from "../finder/companyAliases";
 import { aiFinderSearch } from "../finder/aiFinderSearch";
 import { buildSearchContext } from "../finder/buildSearchContext";
 import { tryCachedFinderSearch } from "../finder/cachedFinderSearch";
+import { getCachedFinderResult, saveFinderResult } from "../finder/finderResultCache";
 import { findPeople, isValidCompany } from "../finder/mockPeople";
 import { dedupeTargets, personToTarget } from "../finder/outreachTargets";
 
@@ -50,7 +55,10 @@ finderRouter.post("/finder/search", (req, res, next) => {
 
       const cached = tryCachedFinderSearch(body);
       if (cached?.context?.company) {
-        const role = body.role?.trim() || "software engineering intern";
+        const roleBase = body.role?.trim() || "software engineering intern";
+        const role = body.teamFocus?.trim()
+          ? `${roleBase} (${body.teamFocus.trim()} team focus)`
+          : roleBase;
         const applicant = buildApplicantContext(
           normalizeStudentProfile(body.student),
           displayName
@@ -75,11 +83,42 @@ finderRouter.post("/finder/search", (req, res, next) => {
       const skipLiveCompanyResearch =
         !slug && process.env.HERMES_FINDER_FAST !== "0";
 
-      const context = await buildSearchContext(body, { skipLiveCompanyResearch });
+      if (!slug) {
+        const aiCached = getCachedFinderResult(body);
+        if (aiCached) {
+          const roleBase = body.role?.trim() || "software engineering intern";
+          const fallbackCompanyResearch =
+            !aiCached.companyResearch || isStubCompanyResearch(aiCached.companyResearch)
+              ? companyResearchFromFinderContacts({
+                  company: displayName,
+                  role: roleBase,
+                  city: body.city,
+                  teamFocus: body.teamFocus,
+                  people: aiCached.people,
+                })
+              : aiCached.companyResearch;
+          const context = await buildSearchContext(body, {
+            skipLiveCompanyResearch: true,
+            company: fallbackCompanyResearch,
+          });
+          const people = dedupeTargets(aiCached.people);
+          const response: FinderSearchResponse = {
+            company: displayName,
+            count: people.length,
+            people,
+            source: "claude_ai",
+            context,
+          };
+          res.json(response);
+          return;
+        }
+      }
+
+      let context = await buildSearchContext(body, { skipLiveCompanyResearch });
 
       if (slug) {
         const people = findPeople(slug, {
-          role: body.role,
+          role: [body.role, body.teamFocus].filter(Boolean).join(" "),
           school: body.school,
         }).map(personToTarget);
         const response: FinderSearchResponse = {
@@ -93,7 +132,27 @@ finderRouter.post("/finder/search", (req, res, next) => {
         return;
       }
 
-      const people = await aiFinderSearch(body, context);
+      const aiResult = await aiFinderSearch(body, context);
+      const people = aiResult.people;
+      const roleBase = body.role?.trim() || "software engineering intern";
+      const companyResearch =
+        aiResult.companyResearch ??
+        (people.length > 0
+          ? companyResearchFromFinderContacts({
+              company: displayName,
+              role: roleBase,
+              city: body.city,
+              teamFocus: body.teamFocus,
+              people,
+            })
+          : undefined);
+      if (companyResearch) {
+        context = await buildSearchContext(body, {
+          skipLiveCompanyResearch: true,
+          company: companyResearch,
+        });
+      }
+      saveFinderResult(body, people, context.company);
       const response: FinderSearchResponse = {
         company: displayName,
         count: people.length,

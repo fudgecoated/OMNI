@@ -28,13 +28,18 @@ export function FinderWorkspace() {
 
   if (!activeId || !activeSession) {
     return (
-      <div
-        className="vl-tile flex items-center justify-center h-full text-sm"
-        style={{ color: "var(--vl-muted)" }}
-      >
-        <button type="button" className="vl-btn" onClick={() => createSession()}>
-          Start a search pin
-        </button>
+      <div className="vl-tile flex items-center justify-center h-full text-sm hermes-finder-start">
+        <div className="hermes-finder-start__body">
+          <p className="hermes-results-eyebrow">New search</p>
+          <h2 className="hermes-finder-start__title">Create a pin for the company you are targeting.</h2>
+          <p className="hermes-finder-start__text">
+            Pins keep the company brief, ranked contacts, coaching thread, and outreach drafts
+            together.
+          </p>
+          <button type="button" className="vl-btn vl-btn--primary" onClick={() => createSession()}>
+            Start a search pin
+          </button>
+        </div>
       </div>
     );
   }

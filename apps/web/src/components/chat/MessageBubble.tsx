@@ -24,10 +24,12 @@ export function MessageBubble({ message, isStreaming }: Props) {
   return (
     <div
       data-testid="message-bubble"
-      className={`message-bubble max-w-80p rounded-2xl px-4 py-3 ${isUser ? "self-end" : "self-start"}`}
+      className={`message-bubble max-w-80p rounded-2xl px-4 py-3 ${
+        isUser ? "message-bubble--user self-end" : "message-bubble--assistant self-start"
+      }`}
       style={
         isUser
-          ? { backgroundColor: "var(--vl-accent)", color: "white" }
+          ? { backgroundColor: "var(--vl-accent)", color: "#ffffff" }
           : {
               backgroundColor: "var(--vl-tile-soft)",
               color: "var(--vl-text)",

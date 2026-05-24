@@ -15,7 +15,7 @@ export function ApplicantUnderstandingCard({
   if (!applicant && percent < 40) {
     return (
       <div className="hermes-understanding hermes-understanding--empty">
-        <p className="hermes-understanding__title">Hermes doesn&apos;t know you yet</p>
+        <p className="hermes-understanding__title">Weave doesn&apos;t know you yet</p>
         <p className="hermes-understanding__text">
           Fill in <strong>My Profile</strong> so outreach can mention your projects, goals,
           and what you&apos;re learning — not generic filler.
@@ -40,7 +40,7 @@ export function ApplicantUnderstandingCard({
   return (
     <div className={`hermes-understanding ${compact ? "hermes-understanding--compact" : ""}`}>
       <div className="hermes-understanding__header">
-        <span className="hermes-understanding__title">What Hermes knows about you</span>
+        <span className="hermes-understanding__title">What Weave knows about you</span>
         <span className="hermes-understanding__badge">{percent}% profile</span>
       </div>
       <p className="hermes-understanding__summary">{a.whoTheyAre}</p>

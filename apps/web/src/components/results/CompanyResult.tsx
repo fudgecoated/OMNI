@@ -14,11 +14,31 @@ export function CompanyResult() {
   if (!context?.company?.summary) {
     return (
       <div className="hermes-result-block">
-        <h3 style={{ margin: "0 0 0.5rem" }}>Company brief</h3>
-        <p style={{ color: "var(--vl-muted)", fontSize: "0.875rem" }}>
-          Run <strong>Find people</strong> for {finderCompany || "a company"} to load research
-          and hiring signals here.
-        </p>
+        <div className="hermes-company-empty">
+          <div className="weave-empty-brief__head">
+            <img src="/brand-icons/draft.png" alt="" className="weave-empty-brief__icon" />
+            <div>
+              <p className="hermes-results-eyebrow">Company brief</p>
+              <h3 className="hermes-company-empty__title">
+                Research appears after your first search.
+              </h3>
+            </div>
+          </div>
+          <p className="hermes-company-empty__text">
+            Run <strong>Find people</strong> for {finderCompany || "a company"} to load the
+            company context, hiring signals, and outreach angles that support the ranked contacts.
+          </p>
+          <div className="weave-brief-preview" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className="hermes-company-empty__signals" aria-hidden="true">
+            <span>Hiring signals</span>
+            <span>Role context</span>
+            <span>Message angles</span>
+          </div>
+        </div>
       </div>
     );
   }
@@ -57,7 +77,7 @@ function CompanyBrief({
       {role && (
         <>
           <h4 style={{ margin: "1rem 0 0.35rem", fontSize: "0.8rem" }}>
-            Role context · {role.roleTitle}
+            Role context - {role.roleTitle}
           </h4>
           <p style={{ fontSize: "0.8125rem", margin: 0 }}>{role.summary}</p>
           {role.skillsToEmphasize.length > 0 && (

@@ -7,6 +7,12 @@ import { useProfileStore } from "../../stores/profileStore";
 import { SECTION_CONFIG } from "../../lib/sectionConfig";
 
 const NAV: SidebarSection[] = ["profile", "finder", "chat", "followups"];
+const NAV_ICONS: Record<SidebarSection, string> = {
+  profile: "/brand-icons/profile.png",
+  finder: "/brand-icons/finder.png",
+  chat: "/brand-icons/chat.png",
+  followups: "/brand-icons/followups.png",
+};
 
 export function HermesSidebar() {
   const sidebarSection = useHermesStore((s) => s.sidebarSection);
@@ -18,18 +24,18 @@ export function HermesSidebar() {
   const panel = SECTION_CONFIG[sidebarSection];
 
   return (
-    <aside className="vl-menu" aria-label="Hermes navigation">
-      <div className="vl-menu__header">Hermes</div>
+    <aside className="vl-menu" aria-label="Weave navigation">
+      <div className="vl-menu__brand">
+        <img
+          src="/brand-icons/weave-transparent-logo-updated.png"
+          alt="Weave"
+          className="vl-menu__brand-mark"
+        />
+      </div>
 
       <div className="vl-menu__scroll hermes-sidebar-nav">
         {NAV.map((id) => {
           const item = SECTION_CONFIG[id];
-          const icons: Record<SidebarSection, string> = {
-            profile: "👤",
-            finder: "🔍",
-            chat: "💬",
-            followups: "⏰",
-          };
           return (
             <button
               key={id}
@@ -38,7 +44,7 @@ export function HermesSidebar() {
               onClick={() => setSidebarSection(id)}
             >
               <span className="vl-menu__item-icon" aria-hidden>
-                {icons[id]}
+                <img src={NAV_ICONS[id]} alt="" />
               </span>
               <span className="vl-menu__item-label">{item.navLabel}</span>
               {id === "profile" && profilePercent < 100 && (
@@ -83,7 +89,7 @@ export function HermesSidebar() {
         )}
       </div>
 
-      <div className="vl-menu__profile" style={{ padding: "0.75rem 1rem" }}>
+      <div className="vl-menu__profile">
         <button
           type="button"
           className="hermes-profile-footer"
@@ -97,7 +103,7 @@ export function HermesSidebar() {
               {profileName || "Complete profile"}
             </div>
             <div style={{ fontSize: "0.7rem", color: "var(--vl-menu-muted)" }}>
-              {profilePercent}% · profile context
+              {profilePercent}% | profile context
             </div>
           </div>
         </button>

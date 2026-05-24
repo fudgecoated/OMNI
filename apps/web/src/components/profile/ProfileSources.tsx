@@ -37,7 +37,7 @@ export function ProfileSources() {
     setFileError(null);
     for (const file of Array.from(fileList)) {
       if (!TEXT_TYPES.test(file.name) && file.type && !file.type.startsWith("text/")) {
-        setFileError(`Skipped ${file.name} — use .txt, .md, or .json (or paste in chat).`);
+        setFileError(`Skipped ${file.name}. Use .txt, .md, or .json (or paste in chat).`);
         continue;
       }
       if (file.size > MAX_FILE_BYTES) {
@@ -64,7 +64,7 @@ export function ProfileSources() {
       <div className="hermes-profile-card__head">
         <h3 className="hermes-profile-card__title">Sources</h3>
         <p className="hermes-profile-card__desc">
-          Add a resume, README, or links — Hermes reads them and fills your profile + context markdown.
+          Add a resume, README, or links. Weave reads them and fills your profile + context markdown.
         </p>
       </div>
 
@@ -73,7 +73,7 @@ export function ProfileSources() {
         <textarea
           className="hermes-profile-textarea"
           rows={2}
-          placeholder="GitHub, LinkedIn, portfolio — one per line"
+          placeholder="GitHub, LinkedIn, portfolio, one per line"
           value={linkInput}
           onChange={(e) => setLinkInput(e.target.value)}
           onBlur={syncLinks}
@@ -116,7 +116,7 @@ export function ProfileSources() {
         disabled={loading}
         onClick={() => void runImport()}
       >
-        {loading ? "Reading sources…" : "Import with Hermes"}
+        {loading ? "Reading sources..." : "Import with Weave"}
       </button>
     </section>
   );

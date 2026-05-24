@@ -13,7 +13,10 @@ export function FinderCoachToolbar() {
   return (
     <header className="hermes-finder-coach-toolbar">
       <div className="hermes-finder-coach-toolbar__text">
-        <h1 className="hermes-finder-coach-toolbar__title">Search coach</h1>
+        <p className="hermes-results-eyebrow">Weave Coach</p>
+        <h1 className="hermes-finder-coach-toolbar__title">
+          Decide who to message first.
+        </h1>
         <p className="hermes-finder-coach-toolbar__subtitle">
           <span className="session-pin-label">{activeSession?.searchTitle}</span>
           {" · "}

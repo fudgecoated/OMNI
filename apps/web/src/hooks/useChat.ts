@@ -95,7 +95,7 @@ export const WELCOME_MESSAGE: UIMessage = {
   parts: [
     {
       type: "text",
-      text: "I'm Hermes — your outreach coach. Use **People Finder** to search any company, select contacts, then ask me to draft messages or plan follow-ups.",
+      text: "I'm Weave, your outreach coach. Use **People Finder** to search any company, select contacts, then ask me to draft messages or plan follow-ups.",
     },
   ],
 };

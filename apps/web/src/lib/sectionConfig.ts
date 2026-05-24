@@ -30,7 +30,7 @@ export const SECTION_CONFIG: Record<SidebarSection, SectionConfig> = {
     workspaceTitle: "My Profile",
     workspaceRegion: "Applicant story",
     workspaceBrief: () =>
-      "Build your story once — Hermes reuses it in People Finder, outreach drafts, and follow-ups.",
+      "Build your story once. Weave reuses it in People Finder, outreach drafts, and follow-ups.",
     centerTitle: "Profile Coach",
     centerSubtitle:
       "Chat to add projects and skills. The Details form and Context markdown on the right update together.",
@@ -46,7 +46,7 @@ export const SECTION_CONFIG: Record<SidebarSection, SectionConfig> = {
       const pin = searchTitle ? `Pin: ${searchTitle}. ` : "";
       const sel =
         selectedCount > 0
-          ? `${selectedCount} selected — see Selected tab or open Outreach Chat.`
+          ? `${selectedCount} selected. See Selected tab or open Outreach Chat.`
           : "Run Find people, then review Company and Selected on the right.";
       return `${pin}${sel}`;
     },
@@ -72,9 +72,9 @@ export const SECTION_CONFIG: Record<SidebarSection, SectionConfig> = {
         return "Select a pin below. Drafts use your profile + company research from that search.";
       }
       if (selectedCount === 0) {
-        return `${searchTitle} — select contacts in People Finder to personalize drafts.`;
+        return `${searchTitle}. Select contacts in People Finder to personalize drafts.`;
       }
-      return `${searchTitle} — ${selectedCount} contact${selectedCount === 1 ? "" : "s"} in this thread.`;
+      return `${searchTitle}. ${selectedCount} contact${selectedCount === 1 ? "" : "s"} in this thread.`;
     },
     centerTitle: "Outreach Coach",
     centerSubtitle:
@@ -95,7 +95,7 @@ export const SECTION_CONFIG: Record<SidebarSection, SectionConfig> = {
     workspaceRegion: "Outreach tracking",
     workspaceBrief: ({ selectedCount }) =>
       selectedCount > 0
-        ? "Update status on the right · Pipeline tab for your full job-hunt board."
+        ? "Update status on the right. Pipeline tab for your full job-hunt board."
         : "Track outreach and pipeline phases on the right after you contact people.",
     centerTitle: "Follow-up planner",
     centerSubtitle:
@@ -103,7 +103,7 @@ export const SECTION_CONFIG: Record<SidebarSection, SectionConfig> = {
     tabs: [{ id: "followups", label: "Follow-ups" }],
     defaultTab: "followups",
     sidebarPanelTitle: "Tracker",
-    sidebarPanelDescription: "List + Pipeline views · status dropdowns on each contact.",
+    sidebarPanelDescription: "List + Pipeline views. Status dropdowns on each contact.",
   },
 };
 

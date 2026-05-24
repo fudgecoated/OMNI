@@ -123,7 +123,7 @@ export function ProfilePanel() {
 
   return (
     <div className="hermes-profile-panel">
-      <SectionCard title="Who you are" description="Basics Hermes uses in every outreach thread.">
+      <SectionCard title="Who you are" description="Basics Weave uses in every outreach thread.">
         <div className="hermes-profile-grid hermes-profile-grid--2">
           <Field label="Full name">
             <input
@@ -207,7 +207,7 @@ export function ProfilePanel() {
 
       <SectionCard
         title="Skills & learning"
-        description="Be honest — Hermes won't claim skills you list as off-limits."
+        description="Be honest — Weave won't claim skills you list as off-limits."
       >
         <Field label="Can demonstrate">
           <textarea
@@ -270,7 +270,7 @@ export function ProfilePanel() {
 
       {readOnly && (
         <p className="hermes-profile-readonly-hint">
-          Click <strong>Modify</strong> to edit, or use <strong>Import with Hermes</strong> / Profile
+          Click <strong>Modify</strong> to edit, or use <strong>Import with Weave</strong> / Profile
           Coach on the left.
         </p>
       )}

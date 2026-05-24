@@ -37,7 +37,7 @@ function ChatGlyph() {
     >
       <path
         d="M22 36c0-7.732 6.268-14 14-14h48c7.732 0 14 6.268 14 14v32c0 7.732-6.268 14-14 14H58l-16 14v-14h-6c-7.732 0-14-6.268-14-14V36z"
-        stroke="#B6C7CD"
+        stroke="#d4cec6"
         strokeWidth="3"
         fill="none"
       />
@@ -130,13 +130,13 @@ export function ChatInterface({
             <h1 className="hermes-panel-header__title">{config.centerTitle}</h1>
             <p className="hermes-panel-header__subtitle">
               <span className="session-pin-label">{searchTitle}</span>
-              {" · "}
+              {" - "}
               {targetSummary}
-              {" · "}
+              {" - "}
               {config.centerSubtitle}
               {selectedTargets.length === 0 && (
                 <>
-                  {" · "}
+                  {" - "}
                   <button
                     type="button"
                     className="hermes-inline-link"
@@ -180,7 +180,7 @@ export function ChatInterface({
 
       {isLoading && lastIsUser && (
         <div className="px-5 py-2 text-sm italic" style={{ color: "var(--vl-muted)" }}>
-          Thinking…
+          Thinking...
         </div>
       )}
 
@@ -197,7 +197,7 @@ export function ChatInterface({
       <ChatInput
         onSend={send}
         disabled={isLoading}
-        placeholder={isFinder ? "Ask about these contacts…" : undefined}
+        placeholder={isFinder ? "Ask about these contacts..." : undefined}
       />
     </div>
   );

@@ -9,7 +9,7 @@ interface Props {
 export function ChatInput({
   onSend,
   disabled,
-  placeholder = "Ask Hermes about outreach…",
+  placeholder = "Ask Weave about outreach...",
 }: Props) {
   const [value, setValue] = useState("");
   const ref = useRef<HTMLTextAreaElement>(null);
@@ -28,16 +28,8 @@ export function ChatInput({
   const canSend = !disabled && !!value.trim();
 
   return (
-    <div className="p-4">
-      <div
-        className="flex items-end gap-2"
-        style={{
-          borderRadius: 999,
-          padding: "6px 6px 6px 16px",
-          backgroundColor: "var(--vl-tile)",
-          border: "1px solid var(--vl-border)",
-        }}
-      >
+    <div className="chat-composer">
+      <div className="chat-input-shell">
         <textarea
           ref={ref}
           value={value}
@@ -52,28 +44,12 @@ export function ChatInput({
           placeholder={placeholder}
           rows={1}
           className="flex-1 text-sm"
-          style={{
-            border: "none",
-            outline: "none",
-            resize: "none",
-            background: "transparent",
-            color: "var(--vl-text)",
-            padding: "8px 0",
-          }}
         />
         <button
           type="button"
           onClick={submit}
           disabled={!canSend}
-          className="text-sm"
-          style={{
-            borderRadius: 999,
-            padding: "8px 20px",
-            border: "none",
-            color: "white",
-            backgroundColor: canSend ? "var(--vl-accent)" : "#a9c0e8",
-            cursor: canSend ? "pointer" : "not-allowed",
-          }}
+          className={`text-sm chat-input-send ${canSend ? "chat-input-send--ready" : ""}`}
         >
           Send
         </button>

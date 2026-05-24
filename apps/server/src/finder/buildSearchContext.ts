@@ -28,6 +28,8 @@ export async function buildSearchContext(
   const displayName = displayCompanyName(req.company);
   const slug = resolveCompanySlug(req.company);
   const role = req.role?.trim() || "software engineering intern";
+  const teamFocus = req.teamFocus?.trim();
+  const roleContext = teamFocus ? `${role} (${teamFocus} team focus)` : role;
 
   const company =
     opts?.company ??
@@ -35,15 +37,15 @@ export async function buildSearchContext(
       ? seedCompanyResearch(slug, displayName)
       : opts?.skipLiveCompanyResearch ||
           process.env.HERMES_FINDER_FAST === "1"
-        ? stubCompanyResearch(displayName, role, req.city)
+        ? stubCompanyResearch(displayName, roleContext, req.city)
         : await runCompanyResearch({
             company: displayName,
-            role,
+            role: roleContext,
             city: req.city,
           }));
 
   const jobRole = buildJobRoleContext({
-    role,
+    role: roleContext,
     company: displayName,
     city: req.city,
     companyResearch: company,

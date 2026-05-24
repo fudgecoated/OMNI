@@ -68,17 +68,25 @@ export function MessageResult() {
     <div className="hermes-result-block hermes-message-result">
       <h3 className="hermes-message-result__title">Generated outreach</h3>
       {selectedTargets.length === 0 ? (
-        <p style={{ color: "var(--vl-muted)", fontSize: "0.875rem" }}>
-          Select contacts in{" "}
-          <button
-            type="button"
-            className="hermes-inline-link"
-            onClick={() => setSidebarSection("finder")}
-          >
-            People Finder
-          </button>{" "}
-          to generate a message.
-        </p>
+        <div className="weave-message-empty">
+          <img src="/brand-icons/draft.png" alt="" className="weave-message-empty__icon" />
+          <div className="weave-message-empty__card" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
+          <p>
+            Select contacts in{" "}
+            <button
+              type="button"
+              className="hermes-inline-link"
+              onClick={() => setSidebarSection("finder")}
+            >
+              People Finder
+            </button>{" "}
+            to generate a message.
+          </p>
+        </div>
       ) : (
         <>
           <div className="hermes-message-result__toolbar">
@@ -118,7 +126,7 @@ export function MessageResult() {
                 onClick={handleGenerate}
                 disabled={loading}
               >
-                {loading ? "Generating…" : "Generate draft"}
+                {loading ? "Generating..." : "Generate draft"}
               </button>
               {(editedBody || editedSubject) && (
                 <button type="button" className="vl-btn" onClick={copy}>
@@ -129,7 +137,7 @@ export function MessageResult() {
           </div>
 
           <p className="hermes-message-result__hint">
-            Edit the draft below before you send. Hermes does not auto-send.
+            Edit the draft below before you send. Weave does not auto-send.
           </p>
 
           {error && <p className="hermes-profile-import-error">{error}</p>}
@@ -157,7 +165,7 @@ export function MessageResult() {
                     setEditedBody(e.target.value);
                     persistEdits(editedSubject, e.target.value);
                   }}
-                  placeholder="Your outreach message…"
+                  placeholder="Your outreach message..."
                 />
               </label>
             </div>

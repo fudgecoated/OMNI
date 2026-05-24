@@ -42,14 +42,20 @@ export function useFinder() {
   }, [activeId, setFinderError, updateSession]);
 
   const search = useCallback(
-    async (company: string, role?: string, city?: string, school?: string) => {
+    async (
+      company: string,
+      role?: string,
+      city?: string,
+      school?: string,
+      teamFocus?: string
+    ) => {
       const trimmed = company.trim();
       if (!trimmed) {
         setFinderError("Enter a company name");
         return;
       }
 
-      const query = toSessionQuery({ company: trimmed, role, city, school });
+      const query = toSessionQuery({ company: trimmed, role, city, school, teamFocus });
       const key = queryKey(query);
 
       const existingWithResults = useSessionStore
@@ -69,8 +75,14 @@ export function useFinder() {
         return;
       }
 
-      let sessionId = useSessionStore.getState().activeId;
-      if (!sessionId) sessionId = createSession();
+      const state = useSessionStore.getState();
+      const active = state.sessions.find((s) => s.id === state.activeId);
+      let sessionId = state.activeId;
+      const shouldStartNewPin =
+        active &&
+        active.results.length > 0 &&
+        queryKey(active.query) !== key;
+      if (!sessionId || shouldStartNewPin) sessionId = createSession();
 
       setFinderLoadingSession(sessionId);
       setFinderError(null);
@@ -87,6 +99,7 @@ export function useFinder() {
             role: role || undefined,
             city: city || undefined,
             school: school || undefined,
+            teamFocus: teamFocus || undefined,
             student,
           }),
           timeoutMs: FINDER_SEARCH_TIMEOUT_MS,

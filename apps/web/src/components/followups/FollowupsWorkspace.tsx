@@ -24,14 +24,14 @@ export function FollowupsWorkspace() {
           </p>
           <p className="hermes-understanding__text">
             Log outreach in the <strong>Follow-ups</strong> tab on the right after you send a
-            message. Hermes will remind you when it&apos;s time for a polite check-in.
+            message. Weave will remind you when it is time for a polite check-in.
           </p>
         </div>
 
         {selectedTargets.length > 0 && (
           <p className="text-sm" style={{ marginTop: "1rem" }}>
             {selectedTargets.length} contact
-            {selectedTargets.length === 1 ? "" : "s"} selected from your active pin — log them on
+            {selectedTargets.length === 1 ? "" : "s"} selected from your active pin. Log them on
             the right.
           </p>
         )}
@@ -44,7 +44,7 @@ export function FollowupsWorkspace() {
             <ul style={{ margin: 0, paddingLeft: "1.1rem", fontSize: "0.8125rem" }}>
               {contacts.slice(0, 5).map((c) => (
                 <li key={c.id}>
-                  {c.personName} · {c.company}
+                  {c.personName} | {c.company}
                 </li>
               ))}
             </ul>
@@ -57,7 +57,7 @@ export function FollowupsWorkspace() {
           style={{ marginTop: "1.25rem" }}
           onClick={() => setSidebarSection("chat")}
         >
-          Draft follow-up in Outreach Chat →
+          Draft follow-up in Outreach Chat
         </button>
       </div>
     </div>

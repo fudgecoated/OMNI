@@ -11,7 +11,10 @@ export function ContactTrackerCard({
   highlightDue,
 }: {
   contact: Contact;
-  onUpdate: (id: string, patch: { status?: ContactStatus; followupDate?: string; notes?: string }) => void;
+  onUpdate: (
+    id: string,
+    patch: { status?: ContactStatus; followupDate?: string; notes?: string }
+  ) => Promise<void> | void;
   onRemove?: (id: string) => void;
   highlightDue?: boolean;
 }) {
@@ -21,7 +24,7 @@ export function ContactTrackerCard({
   const saveNotes = () => {
     if (notes === (contact.notes ?? "")) return;
     setSavingNotes(true);
-    void onUpdate(contact.id, { notes }).finally(() => setSavingNotes(false));
+    void Promise.resolve(onUpdate(contact.id, { notes })).finally(() => setSavingNotes(false));
   };
 
   return (

@@ -15,7 +15,7 @@ export function MessageList({ messages, isStreaming }: Props) {
   }, [messages]);
 
   return (
-    <div data-testid="message-list" className="flex-1 overflow-y-auto p-4 flex flex-col">
+    <div data-testid="message-list" className="flex-1 overflow-y-auto flex flex-col message-list">
       <div className="flex-1">
         {messages.map((message, index) => (
           <div

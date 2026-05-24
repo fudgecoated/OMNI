@@ -49,6 +49,7 @@ export interface FinderSearchRequest {
   role?: string;
   city?: string;
   school?: string;
+  teamFocus?: string;
   student?: StudentProfile;
 }
 

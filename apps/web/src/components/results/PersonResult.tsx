@@ -20,7 +20,7 @@ export function PersonResult({ variant = "chat" }: { variant?: "chat" | "finder"
       <div className="hermes-result-block">
         <h3 style={{ margin: "0 0 0.5rem" }}>Contacts</h3>
         <p style={{ color: "var(--vl-muted)", fontSize: "0.875rem" }}>
-          Use **+ New search** in the sidebar, then **Find people** in the center.
+          Use + New search in the sidebar, then Find people in the center.
         </p>
       </div>
     );
@@ -50,24 +50,34 @@ export function PersonResult({ variant = "chat" }: { variant?: "chat" | "finder"
     setResultsTab("message");
   };
 
+  const draftFor = (person: OutreachTarget) => {
+    if (!selectedIds.has(person.id)) {
+      toggleTarget(person);
+    }
+    openOutreach();
+  };
+
   if (variant === "finder") {
     return (
       <div className="hermes-finder-selected-panel">
         <div className="hermes-finder-selected-panel__head">
-          <h3 className="hermes-finder-selected-panel__title">
-            Contacts ({allPeople.length})
-          </h3>
+          <div>
+            <p className="hermes-results-eyebrow">Ranked contacts</p>
+            <h3 className="hermes-finder-selected-panel__title">
+              Curated recommendations
+            </h3>
+          </div>
           {selectedTargets.length > 0 && (
             <div className="hermes-finder-selected-panel__actions">
               <button type="button" className="vl-btn vl-btn--primary" onClick={openOutreach}>
-                Draft outreach →
+                Draft outreach
               </button>
             </div>
           )}
         </div>
 
         <p className="hermes-finder-selected-panel__hint">
-          {selectedTargets.length} selected for outreach · toggle to narrow the list
+          {allPeople.length} ranked people - {selectedTargets.length} selected for outreach
         </p>
 
         <div className="hermes-finder-selected-panel__list">
@@ -77,6 +87,7 @@ export function PersonResult({ variant = "chat" }: { variant?: "chat" | "finder"
               person={person}
               selected={selectedIds.has(person.id)}
               onToggle={() => toggleTarget(person)}
+              onDraft={() => draftFor(person)}
             />
           ))}
         </div>
@@ -125,7 +136,7 @@ function ContactDetailCard({
         </button>
       </div>
       <p style={{ color: "var(--vl-muted)", fontSize: "0.875rem", margin: "0.25rem 0" }}>
-        {person.role} · {person.team}
+        {person.role} - {person.team}
       </p>
       <dl style={{ fontSize: "0.8125rem", margin: 0 }}>
         <dt style={{ fontWeight: 600, marginTop: "0.5rem" }}>Company</dt>
@@ -133,7 +144,9 @@ function ContactDetailCard({
         {person.schoolConnection && (
           <>
             <dt style={{ fontWeight: 600, marginTop: "0.5rem" }}>School tie</dt>
-            <dd style={{ margin: "0.15rem 0 0", color: "#059669" }}>{person.schoolConnection}</dd>
+            <dd style={{ margin: "0.15rem 0 0", color: "var(--ws-sage)" }}>
+              {person.schoolConnection}
+            </dd>
           </>
         )}
         {person.relevanceScore != null && (

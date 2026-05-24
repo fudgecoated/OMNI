@@ -9,6 +9,14 @@ import { ResultsPanel } from "../results/ResultsPanel";
 import { SECTION_CONFIG } from "../../lib/sectionConfig";
 import { useHermesStore } from "../../stores/hermesStore";
 import { useSessionStore } from "../../stores/sessionStore";
+import type { SidebarSection } from "../../stores/hermesStore";
+
+const SECTION_ICONS: Record<SidebarSection, string> = {
+  profile: "/brand-icons/profile.png",
+  finder: "/brand-icons/finder.png",
+  chat: "/brand-icons/chat.png",
+  followups: "/brand-icons/followups.png",
+};
 
 export function WorkspacePage() {
   const selectedTargets = useHermesStore((s) => s.selectedTargets);
@@ -67,26 +75,27 @@ export function WorkspacePage() {
       <div
         className={
           sidebarSection === "finder"
-            ? "vl-project-header vl-project-header--compact"
-            : "vl-project-header"
+            ? "vl-project-header vl-project-header--compact vl-project-header--with-icon"
+            : "vl-project-header vl-project-header--with-icon"
         }
       >
-        <div className="vl-project-header__row">
-          <h2 className="vl-project-header__title">{config.workspaceTitle}</h2>
-          {sidebarSection !== "finder" && (
-            <span className="vl-project-header__region">{config.workspaceRegion}</span>
-          )}
+        <div className="vl-project-header__main">
+          <img src={SECTION_ICONS[sidebarSection]} alt="" className="vl-project-header__icon" />
+          <div>
+            <div className="vl-project-header__row">
+              <h2 className="vl-project-header__title">{config.workspaceTitle}</h2>
+              <span className="vl-project-header__region">{config.workspaceRegion}</span>
+            </div>
+            <div className="vl-project-header__brief">{brief}</div>
+          </div>
         </div>
-        {sidebarSection !== "finder" && (
-          <div className="vl-project-header__brief">{brief}</div>
-        )}
       </div>
 
       <ResizableSplit
         storageKey="split:hermes-workspace"
         left={centerPanel}
         right={<ResultsPanel />}
-        defaultLeftPct={48}
+        defaultLeftPct={52}
       />
     </div>
   );

@@ -12,6 +12,25 @@ describe("GET /api/companies/:company/people", () => {
     expect(res.body.people[0]).toHaveProperty("relevanceScore");
   });
 
+  it("treats a blank school query as no school filter", async () => {
+    const res = await request(app)
+      .get("/api/companies/google/people")
+      .query({ role: "software engineering intern", school: "" });
+
+    expect(res.status).toBe(200);
+    expect(res.body.count).toBeGreaterThan(0);
+  });
+
+  it("matches common role wording instead of requiring an exact substring", async () => {
+    const res = await request(app)
+      .get("/api/companies/google/people")
+      .query({ role: "software engineering intern", school: "ucalgary" });
+
+    expect(res.status).toBe(200);
+    expect(res.body.count).toBeGreaterThan(0);
+    expect(res.body.people[0].schoolConnection).toMatch(/ucalgary/i);
+  });
+
   it("rejects unknown company", async () => {
     const res = await request(app).get("/api/companies/acme/people");
     expect(res.status).toBe(400);

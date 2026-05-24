@@ -31,10 +31,7 @@ export function ResultsPanel() {
     : defaultTabForSection(sidebarSection);
 
   return (
-    <div
-      className="flex flex-col h-full overflow-hidden"
-      style={{ backgroundColor: "var(--vl-bg)" }}
-    >
+    <div className="hermes-results-panel flex flex-col h-full overflow-hidden">
       {showTabBar && (
         <TabBar
           activeTab={activeTab}

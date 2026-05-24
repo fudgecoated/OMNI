@@ -5,6 +5,7 @@ export interface SessionQuery {
   role?: string;
   city?: string;
   school?: string;
+  teamFocus?: string;
 }
 
 export function toSessionQuery(req: FinderSearchRequest): SessionQuery {
@@ -13,18 +14,27 @@ export function toSessionQuery(req: FinderSearchRequest): SessionQuery {
     role: req.role?.trim() || undefined,
     city: req.city?.trim() || undefined,
     school: req.school?.trim() || undefined,
+    teamFocus: req.teamFocus?.trim() || undefined,
   };
 }
 
 export function searchTitle(query: SessionQuery): string {
   const parts = [query.company];
   if (query.role) parts.push(query.role);
+  if (query.teamFocus) parts.push(query.teamFocus);
   if (query.city) parts.push(query.city);
-  return parts.join(" · ") || "New search";
+  if (query.school) parts.push(query.school);
+  return parts.join(" - ") || "New search";
 }
 
 export function queryKey(query: SessionQuery): string {
-  return [query.company, query.role ?? "", query.city ?? "", query.school ?? ""]
+  return [
+    query.company,
+    query.role ?? "",
+    query.teamFocus ?? "",
+    query.city ?? "",
+    query.school ?? "",
+  ]
     .join("|")
     .toLowerCase();
 }

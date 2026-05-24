@@ -99,7 +99,7 @@ export function ProfileCoachInterface() {
 
       {pendingUpdates && !isLoading && (
         <div className="hermes-profile-chat__apply" style={{ margin: "0 1.25rem 0.5rem" }}>
-          <span>Hermes suggested profile updates.</span>
+          <span>Weave suggested profile updates.</span>
           <button type="button" className="vl-btn vl-btn--primary" onClick={onApply}>
             Apply to profile
           </button>
@@ -112,7 +112,7 @@ export function ProfileCoachInterface() {
 
       {isLoading && lastIsUser && (
         <div className="px-5 py-2 text-sm italic" style={{ color: "var(--vl-muted)" }}>
-          Thinking…
+          Thinking...
         </div>
       )}
 
@@ -135,7 +135,7 @@ export function ProfileCoachInterface() {
       <ChatInput
         onSend={send}
         disabled={isLoading}
-        placeholder="Tell Hermes about you…"
+        placeholder="Tell Weave about you..."
       />
     </div>
   );

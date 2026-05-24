@@ -27,7 +27,15 @@ export function errorHandler(
   }
 
   const lower = err.message.toLowerCase();
-  if (lower.includes("api key") || lower.includes("authentication")) {
+  if (
+    lower.includes("anthropic_api_key") &&
+    (lower.includes("required") ||
+      lower.includes("missing") ||
+      lower.includes("set"))
+  ) {
+    statusCode = 500;
+    message = "Missing ANTHROPIC_API_KEY. Add it to .env and restart the server.";
+  } else if (lower.includes("api key") || lower.includes("authentication")) {
     statusCode = 401;
     message = "Invalid API key";
   } else if (lower.includes("rate limit") || lower.includes("429")) {
