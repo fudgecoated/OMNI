@@ -105,29 +105,6 @@ export function WeaveLandingPage({ onEnterDemo }: WeaveLandingPageProps) {
           </ul>
         </section>
 
-        <section id="how" className="weave-landing__section weave-landing__path-wrap">
-          <div className="weave-landing__section-head">
-            <p className="weave-landing__section-eyebrow">How it works</p>
-            <h2 className="weave-landing__section-title">Three moves, one workspace</h2>
-            <p className="weave-landing__section-lede">
-              Weave mirrors how strong students actually network: research first, reach out with
-              proof, then stay on top of replies.
-            </p>
-          </div>
-          <div className="weave-landing__path" aria-label="How Weave helps">
-            {pathSteps.map((step, index) => (
-              <article className="weave-path-card" key={step.title}>
-                <div className="weave-path-card__top">
-                  <span className="weave-path-card__number">0{index + 1}</span>
-                  <img src={step.icon} alt="" className="weave-path-card__icon" />
-                </div>
-                <h3>{step.title}</h3>
-                <p>{step.copy}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
         <section id="psychology" className="weave-landing__section weave-landing__psychology">
           <div className="weave-landing__section-head weave-landing__section-head--wide">
             <p className="weave-landing__section-eyebrow">The psychology of reaching out</p>
@@ -155,6 +132,29 @@ export function WeaveLandingPage({ onEnterDemo }: WeaveLandingPageProps) {
           <div className="weave-psychology-punchline">
             <span>Weave makes the next step concrete:</span>
             <strong>who to contact, why they matter, what to say, and when to follow up.</strong>
+          </div>
+        </section>
+
+        <section id="how" className="weave-landing__section weave-landing__path-wrap">
+          <div className="weave-landing__section-head">
+            <p className="weave-landing__section-eyebrow">How it works</p>
+            <h2 className="weave-landing__section-title">Three moves, one workspace</h2>
+            <p className="weave-landing__section-lede">
+              Weave mirrors how strong students actually network: research first, reach out with
+              proof, then stay on top of replies.
+            </p>
+          </div>
+          <div className="weave-landing__path" aria-label="How Weave helps">
+            {pathSteps.map((step, index) => (
+              <article className="weave-path-card" key={step.title}>
+                <div className="weave-path-card__top">
+                  <span className="weave-path-card__number">0{index + 1}</span>
+                  <img src={step.icon} alt="" className="weave-path-card__icon" />
+                </div>
+                <h3>{step.title}</h3>
+                <p>{step.copy}</p>
+              </article>
+            ))}
           </div>
         </section>
 

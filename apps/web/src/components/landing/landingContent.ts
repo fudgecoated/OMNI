@@ -1,6 +1,6 @@
 export const landingNav = [
-  { id: "how", label: "How it works" },
   { id: "psychology", label: "Why it sticks" },
+  { id: "how", label: "How it works" },
   { id: "features", label: "Features" },
   { id: "students", label: "For students" },
   { id: "faq", label: "FAQ" },
