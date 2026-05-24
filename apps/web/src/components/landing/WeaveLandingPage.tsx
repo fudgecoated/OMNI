@@ -1,108 +1,274 @@
+import {
+  faqItems,
+  landingNav,
+  pathSteps,
+  productFeatures,
+  studentBullets,
+} from "./landingContent";
+
 type WeaveLandingPageProps = {
   onEnterDemo: () => void;
 };
 
-const steps = [
-  {
-    icon: "/brand-icons/finder.png",
-    title: "Read the room before you reach out",
-    copy: "Start with a company brief that turns public signals into a sharper search.",
-  },
-  {
-    icon: "/brand-icons/network.png",
-    title: "Find people with a real reason to care",
-    copy: "Prioritize recruiters, product leaders, alumni, and warm adjacency in one pass.",
-  },
-  {
-    icon: "/brand-icons/draft.png",
-    title: "Draft like you already did the homework",
-    copy: "Use your profile, the company context, and the contact's role to write a note worth opening.",
-  },
-];
+function scrollToSection(id: string) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
 export function WeaveLandingPage({ onEnterDemo }: WeaveLandingPageProps) {
   return (
-    <main className="weave-landing" aria-labelledby="weave-landing-title">
-      <div className="weave-landing__glow weave-landing__glow--blue" />
-      <div className="weave-landing__glow weave-landing__glow--pink" />
-      <section className="weave-landing__hero">
-        <div className="weave-landing__story">
-          <a className="weave-landing__brand" href="/" aria-label="Weave landing page">
-            <img
-              src="/brand-icons/weave-transparent-logo-updated.png"
-              alt="Weave"
-              className="weave-landing__logo"
-            />
-          </a>
+    <div className="weave-landing">
+      <div className="weave-landing__glow weave-landing__glow--blue" aria-hidden="true" />
+      <div className="weave-landing__glow weave-landing__glow--pink" aria-hidden="true" />
 
-          <p className="weave-landing__eyebrow">Student outreach, with receipts</p>
-          <h1 id="weave-landing-title" className="weave-landing__title">
-            Weave turns cold applications into warm conversations.
-          </h1>
-          <p className="weave-landing__lede">
-            Find the right hiring contacts, draft context-rich outreach, and keep every
-            follow-up moving from one focused workspace.
-          </p>
-
-          <div className="weave-landing__actions">
-            <button type="button" className="weave-landing__primary" onClick={onEnterDemo}>
-              Enter demo workspace
-            </button>
-            <span className="weave-landing__demo-note">
-              Built for Calgary SWE students chasing internship conversations.
-            </span>
+      <header className="weave-landing__header">
+        <div className="weave-landing__header-inner">
+          <div className="weave-landing__header-main">
+            <a
+              className="weave-landing__header-brand"
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("top");
+              }}
+            >
+              <img
+                src="/brand-icons/weave-transparent-logo-updated.png"
+                alt="Weave"
+                className="weave-landing__header-logo"
+              />
+            </a>
+            <nav className="weave-landing__nav" aria-label="Page sections">
+              {landingNav.map((item) => (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection(item.id);
+                  }}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
           </div>
-        </div>
-
-        <form
-          className="weave-login"
-          aria-label="Demo login"
-          onSubmit={(event) => {
-            event.preventDefault();
-            onEnterDemo();
-          }}
-        >
-          <div className="weave-login__header">
-            <img src="/brand-icons/pin.png" alt="" className="weave-login__pin" />
-            <div>
-              <p className="weave-login__kicker">Demo access</p>
-              <h2 className="weave-login__title">Step into the workspace</h2>
-            </div>
-          </div>
-
-          <label className="weave-login__field">
-            <span>Email</span>
-            <input type="email" defaultValue="demo@weave.local" autoComplete="email" />
-          </label>
-
-          <label className="weave-login__field">
-            <span>Password</span>
-            <input type="text" defaultValue="weave-demo" autoComplete="current-password" />
-          </label>
-
-          <button type="submit" className="weave-login__submit">
-            Continue with demo info
+          <button type="button" className="weave-landing__header-cta" onClick={onEnterDemo}>
+            Open demo
           </button>
+        </div>
+      </header>
 
-          <p className="weave-login__fine-print">
-            Temporary demo login only. No account setup, no production auth, just the main
-            Weave workspace ready for the hackathon flow.
-          </p>
-        </form>
-      </section>
-
-      <section className="weave-landing__path" aria-label="How Weave helps">
-        {steps.map((step, index) => (
-          <article className="weave-path-card" key={step.title}>
-            <div className="weave-path-card__top">
-              <span className="weave-path-card__number">0{index + 1}</span>
-              <img src={step.icon} alt="" className="weave-path-card__icon" />
+      <main>
+        <section id="top" className="weave-landing__hero" aria-labelledby="weave-landing-title">
+          <div className="weave-landing__hero-copy">
+            <p className="weave-landing__eyebrow">Student outreach, with receipts</p>
+            <h1 id="weave-landing-title" className="weave-landing__title">
+              Weave turns cold applications into warm conversations.
+            </h1>
+            <p className="weave-landing__lede">
+              Find the right hiring contacts, draft context-rich outreach, and keep every
+              follow-up moving from one focused workspace.
+            </p>
+            <p className="weave-landing__story-links">
+              <button
+                type="button"
+                className="weave-landing__text-link"
+                onClick={() => scrollToSection("how")}
+              >
+                See how it works
+              </button>
+            </p>
+            <div className="weave-landing__actions weave-landing__actions--mobile">
+              <button type="button" className="weave-landing__primary" onClick={onEnterDemo}>
+                Enter demo workspace
+              </button>
             </div>
-            <h2>{step.title}</h2>
-            <p>{step.copy}</p>
-          </article>
-        ))}
-      </section>
-    </main>
+            <p className="weave-landing__demo-note">
+              Built for Calgary SWE students chasing internship conversations. Use{" "}
+              <strong>Open demo</strong> above or the workspace card to enter.
+            </p>
+          </div>
+
+          <aside className="weave-landing__hero-aside" aria-label="Demo workspace access">
+            <DemoLoginCard onEnterDemo={onEnterDemo} />
+          </aside>
+        </section>
+
+        <section className="weave-landing__strip" aria-label="Product pillars">
+          <ul className="weave-landing__strip-list">
+            <li>Company briefs with hiring signals</li>
+            <li>Ranked contacts with evidence</li>
+            <li>Editable outreach drafts</li>
+            <li>Follow-up pipeline</li>
+          </ul>
+        </section>
+
+        <section id="how" className="weave-landing__section weave-landing__path-wrap">
+          <div className="weave-landing__section-head">
+            <p className="weave-landing__section-eyebrow">How it works</p>
+            <h2 className="weave-landing__section-title">Three moves, one workspace</h2>
+            <p className="weave-landing__section-lede">
+              Weave mirrors how strong students actually network: research first, reach out with
+              proof, then stay on top of replies.
+            </p>
+          </div>
+          <div className="weave-landing__path" aria-label="How Weave helps">
+            {pathSteps.map((step, index) => (
+              <article className="weave-path-card" key={step.title}>
+                <div className="weave-path-card__top">
+                  <span className="weave-path-card__number">0{index + 1}</span>
+                  <img src={step.icon} alt="" className="weave-path-card__icon" />
+                </div>
+                <h3>{step.title}</h3>
+                <p>{step.copy}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="features" className="weave-landing__section">
+          <div className="weave-landing__section-head">
+            <p className="weave-landing__section-eyebrow">Inside the product</p>
+            <h2 className="weave-landing__section-title">Everything you need before you hit send</h2>
+            <p className="weave-landing__section-lede">
+              The demo workspace is the same UI judges see: profile on the right, search and coach
+              in the center, results tabs for company, contacts, and messages.
+            </p>
+          </div>
+          <div className="weave-feature-grid">
+            {productFeatures.map((feature) => (
+              <article
+                key={feature.title}
+                className={`weave-feature-card weave-feature-card--${feature.accent}`}
+              >
+                <img src={feature.icon} alt="" className="weave-feature-card__icon" />
+                <h3>{feature.title}</h3>
+                <p>{feature.copy}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="students" className="weave-landing__section weave-landing__audience">
+          <div className="weave-audience-card">
+            <div className="weave-audience-card__copy">
+              <p className="weave-landing__section-eyebrow">For students</p>
+              <h2 className="weave-landing__section-title">Stop spraying applications into the void</h2>
+              <p className="weave-landing__section-lede">
+                Weave is for people who will do the work but want better tools than a spreadsheet
+                and a generic LinkedIn template.
+              </p>
+              <ul className="weave-audience-card__list">
+                {studentBullets.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+              <button type="button" className="weave-landing__primary" onClick={onEnterDemo}>
+                Try the demo workspace
+              </button>
+            </div>
+            <div className="weave-audience-card__visual" aria-hidden="true">
+              <div className="weave-audience-card__tile weave-audience-card__tile--profile">
+                <img src="/brand-icons/profile.png" alt="" />
+                <span>Your story</span>
+              </div>
+              <div className="weave-audience-card__tile weave-audience-card__tile--finder">
+                <img src="/brand-icons/finder.png" alt="" />
+                <span>Find people</span>
+              </div>
+              <div className="weave-audience-card__tile weave-audience-card__tile--draft">
+                <img src="/brand-icons/draft.png" alt="" />
+                <span>Draft outreach</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="faq" className="weave-landing__section weave-landing__faq-section">
+          <div className="weave-landing__section-head">
+            <p className="weave-landing__section-eyebrow">FAQ</p>
+            <h2 className="weave-landing__section-title">Quick answers</h2>
+          </div>
+          <dl className="weave-faq">
+            {faqItems.map((item) => (
+              <div className="weave-faq__item" key={item.question}>
+                <dt>{item.question}</dt>
+                <dd>{item.answer}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <section className="weave-landing__cta-band" aria-labelledby="weave-cta-title">
+          <h2 id="weave-cta-title" className="weave-landing__cta-title">
+            Ready to weave your next outreach thread?
+          </h2>
+          <p className="weave-landing__cta-lede">
+            Open the demo, run a WestJet search, pick contacts, and generate a draft in under a
+            minute.
+          </p>
+          <button type="button" className="weave-landing__primary" onClick={onEnterDemo}>
+            Enter demo workspace
+          </button>
+        </section>
+      </main>
+
+      <footer className="weave-landing__footer">
+        <img
+          src="/brand-icons/weave-transparent-logo-updated.png"
+          alt=""
+          className="weave-landing__footer-logo"
+        />
+        <p>
+          Weave · Student outreach workspace · University of Calgary SWE hackathon project
+        </p>
+        <p className="weave-landing__footer-meta">
+          <button type="button" className="weave-landing__footer-link" onClick={onEnterDemo}>
+            Demo workspace
+          </button>
+        </p>
+      </footer>
+    </div>
+  );
+}
+
+function DemoLoginCard({ onEnterDemo }: { onEnterDemo: () => void }) {
+  return (
+    <form
+      className="weave-login"
+      aria-label="Demo login"
+      onSubmit={(event) => {
+        event.preventDefault();
+        onEnterDemo();
+      }}
+    >
+      <div className="weave-login__header">
+        <img src="/brand-icons/pin.png" alt="" className="weave-login__pin" />
+        <div>
+          <p className="weave-login__kicker">Demo access</p>
+          <h2 className="weave-login__title">Step into the workspace</h2>
+        </div>
+      </div>
+
+      <label className="weave-login__field">
+        <span>Email</span>
+        <input type="email" defaultValue="demo@weave.local" autoComplete="email" />
+      </label>
+
+      <label className="weave-login__field">
+        <span>Password</span>
+        <input type="text" defaultValue="weave-demo" autoComplete="current-password" />
+      </label>
+
+      <button type="submit" className="weave-login__submit">
+        Continue with demo info
+      </button>
+
+      <p className="weave-login__fine-print">
+        Temporary demo login only. No account setup, no production auth, just the main Weave
+        workspace ready for the hackathon flow.
+      </p>
+    </form>
   );
 }
