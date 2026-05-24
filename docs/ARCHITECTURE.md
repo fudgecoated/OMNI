@@ -110,6 +110,10 @@ See [AGENTS.md](./AGENTS.md).
 
 Vite proxies `/api` and `/health` with 180s timeout for long AI finder runs.
 
+### Vercel
+
+Root directory: `apps/web`. The API is a single Express app at `api/index.ts` (not per-file routes). `vercel.json` rewrites all `/api/*` to that handler so nested paths like `/api/messages/generate` and `/api/finder/search` work. On Vercel, CRM and finder cache files are written under `/tmp/hermes-data` (ephemeral). Demo seed data for Google/Amazon/Meta is bundled at `apps/server/src/finder/bundled/mock_people.json`.
+
 ## Related docs
 
 - [PRODUCT.md](./PRODUCT.md) — why we built it

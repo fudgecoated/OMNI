@@ -24,6 +24,10 @@ export function contactsDataDir(): string {
   const fromEnv = process.env.HERMES_CONTACTS_DATA_DIR?.trim();
   if (fromEnv) return fromEnv;
 
+  if (process.env.VERCEL || process.env.VERCEL_ENV) {
+    return join("/tmp", "hermes-data");
+  }
+
   const candidates = [
     join(process.cwd(), "data"),
     join(process.cwd(), "apps", "server", "data"),

@@ -1,6 +1,19 @@
-import { readFileSync } from "fs";
+import { existsSync, readFileSync } from "fs";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 import type { CompanySlug, Person, PeopleSearchParams } from "@hermes/shared";
 import { mockPeoplePath } from "../config/paths";
+
+const bundledMockPeople = join(
+  dirname(fileURLToPath(import.meta.url)),
+  "bundled",
+  "mock_people.json"
+);
+
+function resolveMockPeoplePath(): string {
+  if (existsSync(bundledMockPeople)) return bundledMockPeople;
+  return mockPeoplePath();
+}
 
 const VALID_COMPANIES: CompanySlug[] = ["google", "amazon", "meta"];
 
@@ -10,7 +23,7 @@ let cache: MockPeopleFile | null = null;
 
 export function loadMockPeople(): MockPeopleFile {
   if (!cache) {
-    const raw = readFileSync(mockPeoplePath(), "utf-8");
+    const raw = readFileSync(resolveMockPeoplePath(), "utf-8");
     cache = JSON.parse(raw) as MockPeopleFile;
   }
   return cache;

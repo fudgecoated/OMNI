@@ -1,0 +1,165 @@
+{
+  "google": [
+    {
+      "id": "google-1",
+      "name": "Alex Chen",
+      "role": "Software Engineer",
+      "team": "Cloud Spanner",
+      "company": "google",
+      "linkedinUrl": "https://linkedin.com/in/example-alex-chen",
+      "schoolConnection": "UCalgary Software Engineering, 2019",
+      "contactMethod": "linkedin",
+      "relevanceScore": 92
+    },
+    {
+      "id": "google-2",
+      "name": "Priya Sharma",
+      "role": "Senior SWE",
+      "team": "Kubernetes Engine",
+      "company": "google",
+      "linkedinUrl": "https://linkedin.com/in/example-priya-sharma",
+      "contactMethod": "linkedin",
+      "relevanceScore": 88
+    },
+    {
+      "id": "google-3",
+      "name": "Marcus Lee",
+      "role": "Staff Engineer",
+      "team": "Distributed Systems",
+      "company": "google",
+      "linkedinUrl": "https://linkedin.com/in/example-marcus-lee",
+      "schoolConnection": "UCalgary Computer Engineering, 2016",
+      "contactMethod": "linkedin",
+      "relevanceScore": 95
+    },
+    {
+      "id": "google-4",
+      "name": "Jordan Kim",
+      "role": "SWE Intern Alumni",
+      "team": "Search Infrastructure",
+      "company": "google",
+      "linkedinUrl": "https://linkedin.com/in/example-jordan-kim",
+      "contactMethod": "linkedin",
+      "relevanceScore": 81
+    },
+    {
+      "id": "google-5",
+      "name": "Sam Okonkwo",
+      "role": "Engineering Manager",
+      "team": "Site Reliability",
+      "company": "google",
+      "linkedinUrl": "https://linkedin.com/in/example-sam-okonkwo",
+      "contactMethod": "email",
+      "email": "sam.okonkwo@example.com",
+      "relevanceScore": 74
+    }
+  ],
+  "amazon": [
+    {
+      "id": "amazon-1",
+      "name": "Sarah Mitchell",
+      "role": "SDE II",
+      "team": "Elastic Container Service",
+      "company": "amazon",
+      "linkedinUrl": "https://linkedin.com/in/example-sarah-mitchell",
+      "schoolConnection": "UCalgary Computer Engineering, 2018",
+      "contactMethod": "linkedin",
+      "relevanceScore": 94
+    },
+    {
+      "id": "amazon-2",
+      "name": "David Park",
+      "role": "SDE",
+      "team": "AWS Lambda",
+      "company": "amazon",
+      "linkedinUrl": "https://linkedin.com/in/example-david-park",
+      "contactMethod": "linkedin",
+      "relevanceScore": 86
+    },
+    {
+      "id": "amazon-3",
+      "name": "Emily Torres",
+      "role": "Principal Engineer",
+      "team": "DynamoDB",
+      "company": "amazon",
+      "linkedinUrl": "https://linkedin.com/in/example-emily-torres",
+      "contactMethod": "linkedin",
+      "relevanceScore": 79
+    },
+    {
+      "id": "amazon-4",
+      "name": "Ryan Fraser",
+      "role": "SDE Intern",
+      "team": "Prime Video",
+      "company": "amazon",
+      "linkedinUrl": "https://linkedin.com/in/example-ryan-fraser",
+      "schoolConnection": "UCalgary Software Engineering, 2024",
+      "contactMethod": "linkedin",
+      "relevanceScore": 83
+    },
+    {
+      "id": "amazon-5",
+      "name": "Nina Patel",
+      "role": "Engineering Manager",
+      "team": "Fulfillment Tech",
+      "company": "amazon",
+      "linkedinUrl": "https://linkedin.com/in/example-nina-patel",
+      "contactMethod": "linkedin",
+      "relevanceScore": 70
+    }
+  ],
+  "meta": [
+    {
+      "id": "meta-1",
+      "name": "Chris Nguyen",
+      "role": "Software Engineer",
+      "team": "Messenger Infrastructure",
+      "company": "meta",
+      "linkedinUrl": "https://linkedin.com/in/example-chris-nguyen",
+      "schoolConnection": "UCalgary Software Engineering, 2020",
+      "contactMethod": "linkedin",
+      "relevanceScore": 90
+    },
+    {
+      "id": "meta-2",
+      "name": "Laura Berg",
+      "role": "Senior SWE",
+      "team": "React Native",
+      "company": "meta",
+      "linkedinUrl": "https://linkedin.com/in/example-laura-berg",
+      "contactMethod": "linkedin",
+      "relevanceScore": 84
+    },
+    {
+      "id": "meta-3",
+      "name": "Omar Hassan",
+      "role": "Staff Engineer",
+      "team": "Distributed Systems",
+      "company": "meta",
+      "linkedinUrl": "https://linkedin.com/in/example-omar-hassan",
+      "contactMethod": "linkedin",
+      "relevanceScore": 91
+    },
+    {
+      "id": "meta-4",
+      "name": "Taylor Brooks",
+      "role": "SWE",
+      "team": "Instagram Backend",
+      "company": "meta",
+      "linkedinUrl": "https://linkedin.com/in/example-taylor-brooks",
+      "contactMethod": "linkedin",
+      "relevanceScore": 77
+    },
+    {
+      "id": "meta-5",
+      "name": "Jamie Walsh",
+      "role": "Recruiting Partner",
+      "team": "University Programs",
+      "company": "meta",
+      "linkedinUrl": "https://linkedin.com/in/example-jamie-walsh",
+      "contactMethod": "email",
+      "email": "jamie.walsh@example.com",
+      "relevanceScore": 65
+    }
+  ]
+}
