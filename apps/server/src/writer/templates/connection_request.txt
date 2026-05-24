@@ -1,0 +1,1 @@
+Write a LinkedIn connection request under 300 characters for a UCalgary SWE student reaching out to {{person_name}} at {{company}}.
