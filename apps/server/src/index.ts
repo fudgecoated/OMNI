@@ -2,7 +2,7 @@ import { loadEnv } from "./config/loadEnv";
 
 loadEnv();
 
-import express from "express";
+import express, { type Express, type NextFunction, type Request, type Response } from "express";
 import { corsMiddleware } from "./middleware/cors";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
 import { finderRouter } from "./routes/finder";
@@ -12,25 +12,25 @@ import { chatRoute } from "./routes/chat";
 import { profileChatRoute } from "./routes/profileChat";
 import { profileIngestRoute } from "./routes/profileIngest";
 
-export function createApp(): express.Express {
-  const app = express();
+export function createApp(): Express {
+  const app: Express = express();
 
   app.use(express.json());
   app.use(corsMiddleware());
 
-  app.get("/health", (_req, res) => {
+  app.get("/health", (_req: Request, res: Response) => {
     res.json({ status: "ok", service: "hermes-server" });
   });
 
-  app.post("/api/chat", (req, res, next) => {
+  app.post("/api/chat", (req: Request, res: Response, next: NextFunction) => {
     void chatRoute(req, res).catch(next);
   });
 
-  app.post("/api/profile/chat", (req, res, next) => {
+  app.post("/api/profile/chat", (req: Request, res: Response, next: NextFunction) => {
     void profileChatRoute(req, res).catch(next);
   });
 
-  app.post("/api/profile/ingest", (req, res, next) => {
+  app.post("/api/profile/ingest", (req: Request, res: Response, next: NextFunction) => {
     void profileIngestRoute(req, res).catch(next);
   });
 
