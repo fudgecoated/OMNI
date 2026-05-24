@@ -1,4 +1,5 @@
 import {
+  behavioralInsights,
   faqItems,
   landingNav,
   pathSteps,
@@ -124,6 +125,36 @@ export function WeaveLandingPage({ onEnterDemo }: WeaveLandingPageProps) {
                 <p>{step.copy}</p>
               </article>
             ))}
+          </div>
+        </section>
+
+        <section id="psychology" className="weave-landing__section weave-landing__psychology">
+          <div className="weave-landing__section-head weave-landing__section-head--wide">
+            <p className="weave-landing__section-eyebrow">The psychology of reaching out</p>
+            <h2 className="weave-landing__section-title">
+              Outreach feels risky because the cost is immediate and the upside is invisible.
+            </h2>
+            <p className="weave-landing__section-lede">
+              Weave is designed around the moment people hesitate: they have a goal, but not a
+              warm path, a specific person, or a safe next sentence.
+            </p>
+          </div>
+
+          <div className="weave-psychology-grid">
+            {behavioralInsights.map((item, index) => (
+              <article className="weave-psychology-card" key={item.title}>
+                <span className="weave-psychology-card__index">0{index + 1}</span>
+                <p className="weave-psychology-card__label">{item.label}</p>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+                <div className="weave-psychology-card__fact">{item.fact}</div>
+              </article>
+            ))}
+          </div>
+
+          <div className="weave-psychology-punchline">
+            <span>Weave makes the next step concrete:</span>
+            <strong>who to contact, why they matter, what to say, and when to follow up.</strong>
           </div>
         </section>
 

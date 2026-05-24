@@ -1,8 +1,30 @@
 export const landingNav = [
   { id: "how", label: "How it works" },
+  { id: "psychology", label: "Why it sticks" },
   { id: "features", label: "Features" },
   { id: "students", label: "For students" },
   { id: "faq", label: "FAQ" },
+] as const;
+
+export const behavioralInsights = [
+  {
+    label: "The fear",
+    title: "Will I sound annoying?",
+    copy: "Outreach feels socially expensive before the upside is visible, so people wait, apply, and disappear into silence.",
+    fact: "People often underestimate how much others appreciate a respectful reach-out.",
+  },
+  {
+    label: "The hidden leverage",
+    title: "Your close circle already knows what you know.",
+    copy: "Weak ties create reach because they sit outside your usual information environment.",
+    fact: "Close friends give support. Weak ties give reach.",
+  },
+  {
+    label: "The missing next step",
+    title: "Silence kills momentum.",
+    copy: "A useful connection is not one message. It is a sequence: reason, message, reply, nudge, next conversation.",
+    fact: "The best opportunities are often passed, not posted.",
+  },
 ] as const;
 
 export const pathSteps = [

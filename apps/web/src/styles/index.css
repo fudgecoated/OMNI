@@ -6345,6 +6345,10 @@ select {
   margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
 }
 
+.weave-landing__section-head--wide {
+  max-width: 54rem;
+}
+
 .weave-landing__section-eyebrow {
   margin: 0 0 0.65rem;
   color: color-mix(in oklab, var(--landing-blue) 74%, var(--landing-ink));
@@ -6430,6 +6434,135 @@ select {
   font-size: clamp(1.25rem, 2.2vw, 1.65rem);
   letter-spacing: -0.045em;
   line-height: 1.08;
+}
+
+.weave-landing__psychology {
+  position: relative;
+}
+
+.weave-landing__psychology::before {
+  content: "";
+  position: absolute;
+  inset: clamp(1.5rem, 4vw, 3rem) -1rem auto auto;
+  z-index: -1;
+  width: min(24rem, 42vw);
+  height: min(24rem, 42vw);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--landing-pink) 16%, transparent);
+  filter: blur(42px);
+}
+
+.weave-psychology-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.85rem, 2vw, 1.15rem);
+}
+
+.weave-psychology-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 18rem;
+  overflow: hidden;
+  padding: clamp(1.05rem, 2.3vw, 1.4rem);
+  border: 1px solid color-mix(in oklab, var(--landing-blue) 14%, transparent);
+  border-radius: 1.55rem;
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in oklab, var(--landing-yellow) 18%, transparent) 0 6rem, transparent 13rem),
+    linear-gradient(145deg, color-mix(in oklab, oklch(100% 0 0) 82%, transparent), var(--landing-panel));
+  box-shadow: 0 16px 40px color-mix(in oklab, var(--landing-blue) 9%, transparent);
+}
+
+.weave-psychology-card:nth-child(2) {
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in oklab, var(--landing-purple) 16%, transparent) 0 6rem, transparent 13rem),
+    linear-gradient(145deg, color-mix(in oklab, oklch(100% 0 0) 82%, transparent), var(--landing-panel));
+}
+
+.weave-psychology-card:nth-child(3) {
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in oklab, var(--landing-green) 16%, transparent) 0 6rem, transparent 13rem),
+    linear-gradient(145deg, color-mix(in oklab, oklch(100% 0 0) 82%, transparent), var(--landing-panel));
+}
+
+.weave-psychology-card__index {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: color-mix(in oklab, var(--landing-blue) 18%, transparent);
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.08em;
+  line-height: 0.8;
+}
+
+.weave-psychology-card__label {
+  margin: 0 0 1.25rem;
+  color: color-mix(in oklab, var(--landing-blue) 78%, var(--landing-ink));
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.weave-psychology-card h3 {
+  max-width: 14rem;
+  margin: 0;
+  color: var(--landing-ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1.02;
+}
+
+.weave-psychology-card p:not(.weave-psychology-card__label) {
+  margin: 0.9rem 0 1rem;
+  color: var(--landing-muted);
+  font-family: var(--font-reading);
+  font-size: 1rem;
+  line-height: 1.58;
+}
+
+.weave-psychology-card__fact {
+  margin-top: auto;
+  padding: 0.72rem 0.78rem;
+  border: 1px solid color-mix(in oklab, var(--landing-blue) 14%, transparent);
+  border-radius: 1rem;
+  background: color-mix(in oklab, var(--landing-blue) 8%, oklch(99% 0.01 250));
+  color: color-mix(in oklab, var(--landing-ink) 88%, var(--landing-blue));
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.weave-psychology-punchline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem 0.65rem;
+  margin-top: clamp(1rem, 2.4vw, 1.5rem);
+  padding: 1rem 1.15rem;
+  border: 1px solid color-mix(in oklab, var(--landing-blue) 16%, transparent);
+  border-radius: 1.35rem;
+  background: color-mix(in oklab, oklch(100% 0 0) 70%, var(--landing-panel));
+  color: var(--landing-muted);
+  font-family: var(--font-reading);
+  font-size: clamp(1rem, 1.8vw, 1.18rem);
+  line-height: 1.45;
+  text-align: center;
+}
+
+.weave-psychology-punchline strong {
+  color: color-mix(in oklab, var(--landing-blue) 76%, var(--landing-ink));
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .weave-feature-grid {
@@ -6738,6 +6871,14 @@ select {
 
   .weave-landing__path {
     grid-template-columns: 1fr;
+  }
+
+  .weave-psychology-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .weave-psychology-card {
+    min-height: auto;
   }
 
   .weave-path-card {
