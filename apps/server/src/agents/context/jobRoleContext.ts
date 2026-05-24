@@ -62,9 +62,11 @@ export function buildJobRoleContext(params: {
 
   const summary = [
     `Targeting ${roleTitle} (${level}) at ${company}${cityLine}.`,
-    params.companyResearch?.summary
-      ? `Company angle: ${params.companyResearch.summary.slice(0, 200)}…`
-      : "",
+    params.companyResearch?.internRelevance
+      ? params.companyResearch.internRelevance.slice(0, 220)
+      : hiring[0]
+        ? `Active signal: ${hiring[0].slice(0, 160)}${hiring[0].length > 160 ? "…" : ""}`
+        : "",
   ]
     .filter(Boolean)
     .join(" ");

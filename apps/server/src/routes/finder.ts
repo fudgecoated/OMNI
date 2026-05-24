@@ -23,6 +23,7 @@ import { tryCachedFinderSearch } from "../finder/cachedFinderSearch";
 import { getCachedFinderResult, saveFinderResult } from "../finder/finderResultCache";
 import { findPeople, isValidCompany } from "../finder/mockPeople";
 import { dedupeTargets, personToTarget } from "../finder/outreachTargets";
+import { enrichOutreachContext } from "../agents/context/enrichOutreachContext";
 
 export const finderRouter: IRouter = Router();
 
@@ -76,7 +77,11 @@ finderRouter.post("/finder/search", (req, res, next) => {
           count: cached.people.length,
           people: dedupeTargets(cached.people),
           source: cached.source ?? "hermes_seed_data",
-          context: { company: cached.context.company, jobRole, applicant },
+          context: enrichOutreachContext({
+            company: cached.context.company,
+            jobRole,
+            applicant,
+          }),
         };
         res.json(response);
         return;

@@ -42,5 +42,24 @@ export function formatOutreachContextBlock(ctx: OutreachContext): string {
     }
   }
 
+  if (ctx.guidance) {
+    const g = ctx.guidance;
+    parts.push(
+      "## Personalized playbook",
+      g.applyApproach.length
+        ? `How to apply:\n${g.applyApproach.map((s) => `- ${s}`).join("\n")}`
+        : "",
+      g.skillsToLearn.length
+        ? `What to learn:\n${g.skillsToLearn.map((s) => `- ${s}`).join("\n")}`
+        : "",
+      g.outreachStrategy.length
+        ? `Outreach strategy:\n${g.outreachStrategy.map((s) => `- ${s}`).join("\n")}`
+        : "",
+      g.messageAngles.length
+        ? `Message angles: ${g.messageAngles.join("; ")}`
+        : ""
+    );
+  }
+
   return parts.filter(Boolean).join("\n");
 }

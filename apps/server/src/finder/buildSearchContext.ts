@@ -12,6 +12,7 @@ import {
   seedCompanyResearch,
   stubCompanyResearch,
 } from "../agents/context/companyResearch";
+import { enrichOutreachContext } from "../agents/context/enrichOutreachContext";
 
 export type BuildSearchContextOptions = {
   /** Skip live web research; use stub (people finder still researches in one AI pass). */
@@ -56,5 +57,5 @@ export async function buildSearchContext(
     displayName
   );
 
-  return { company, jobRole, applicant };
+  return enrichOutreachContext({ company, jobRole, applicant });
 }

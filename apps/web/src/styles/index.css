@@ -207,6 +207,61 @@ body,
   box-sizing: border-box;
 }
 
+.hermes-company-brief__title {
+  margin: 0 0 0.65rem;
+  font-size: 1.05rem;
+}
+
+.hermes-company-brief__summary {
+  margin: 0 0 0.5rem;
+  line-height: 1.45;
+  font-size: 0.875rem;
+}
+
+.hermes-company-brief__section {
+  margin-top: 1rem;
+}
+
+.hermes-company-brief__heading {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--vl-muted);
+}
+
+.hermes-company-brief__list {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.hermes-company-brief__list li + li {
+  margin-top: 0.35rem;
+}
+
+.hermes-company-brief__inline {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+.hermes-company-brief__meta {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  color: var(--vl-muted);
+}
+
+.hermes-company-brief__footer {
+  margin-top: 1.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--vl-border, rgba(0, 0, 0, 0.08));
+  font-size: 0.75rem;
+  color: var(--vl-muted);
+}
+
 .hermes-message-result {
   display: flex;
   flex-direction: column;

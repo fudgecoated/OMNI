@@ -23,6 +23,7 @@ Use **web_search** to gather factual, recent information:
 4. Tech stack and engineering practices
 5. Hiring signals (intern program, team growth, job postings tone)
 6. Why a **software engineering intern** would care
+7. Practical angles: how a student should apply, what skills to build, and how to open outreach (factual, not generic)
 
 ## Output format
 

@@ -1,1 +1,5 @@
 Write a personalized cold outreach email for a UCalgary SWE student contacting {{person_name}} ({{role}} on {{team}} at {{company}}).
+
+Subject: max 50–60 characters. Example: "UCalgary SWE intern — intro" or "Quick intro — SWE intern @ {{company}}". Do not include the full team name in the subject.
+
+Body: 3–5 short paragraphs with a blank line between each. Under ~150 words. One project as proof. One clear ask (15 minutes). Sign off with the student's name.

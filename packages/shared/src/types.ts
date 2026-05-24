@@ -80,6 +80,14 @@ export interface JobRoleContext {
   talkingPoints: string[];
 }
 
+/** Personalized playbook for applying and messaging at this company. */
+export interface OutreachGuidance {
+  applyApproach: string[];
+  skillsToLearn: string[];
+  outreachStrategy: string[];
+  messageAngles: string[];
+}
+
 export interface ApplicantProject {
   name: string;
   description: string;
@@ -134,6 +142,7 @@ export interface OutreachContext {
   company?: CompanyResearch;
   jobRole?: JobRoleContext;
   applicant?: ApplicantContext;
+  guidance?: OutreachGuidance;
 }
 
 export interface FinderSearchResponse {
