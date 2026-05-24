@@ -2,6 +2,9 @@
 
 Weave is a connection workspace for students and early-career job seekers. It helps someone turn cold applications and vague networking advice into useful conversations by finding the right people, drafting specific outreach, and remembering the follow-up.
 
+https://omni-web-peach.vercel.app/app
+https://omni-1elwsxw2w-ali-s-projects-omni.vercel.app/
+
 ## Naming
 
 - **Weave** is the product name shown in the demo UI and submission materials.
