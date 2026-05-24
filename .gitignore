@@ -7,3 +7,4 @@ dist
 .DS_Store
 .vite
 apps/server/data/contacts.json
+apps/server/data/finder-cache.json

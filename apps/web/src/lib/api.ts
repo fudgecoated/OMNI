@@ -32,9 +32,19 @@ async function parseJsonResponse<T>(res: Response, url: string): Promise<T> {
 
   let body: unknown;
   try {
-    body = trimmed ? JSON.parse(text) : {};
+    body = trimmed ? JSON.parse(trimmed) : {};
   } catch {
-    throw new Error(`Invalid JSON from ${url}`);
+    if (/not_found/i.test(text)) {
+      throw new Error(
+        `API is not deployed at ${url}. Redeploy with the serverless API routes, or set VITE_API_URL to a running backend (e.g. http://127.0.0.1:3002) and rebuild.`
+      );
+    }
+    const preview = trimmed.slice(0, 160).replace(/\s+/g, " ");
+    throw new Error(
+      preview
+        ? `Invalid JSON from ${url}: ${preview}`
+        : `Invalid JSON from ${url} (empty or non-JSON response). Is the API server running?`
+    );
   }
 
   if (!res.ok) {

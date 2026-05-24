@@ -47,7 +47,12 @@ export function createApp(): express.Express {
 
 const app = createApp();
 
-if (process.env.VITEST !== "true") {
+const shouldListen =
+  process.env.VITEST !== "true" &&
+  !process.env.VERCEL &&
+  !process.env.VERCEL_ENV;
+
+if (shouldListen) {
   const port = Number(process.env.PORT) || 3002;
   const server = app.listen(port, () => {
     console.log(`Hermes server running on http://localhost:${port}`);
