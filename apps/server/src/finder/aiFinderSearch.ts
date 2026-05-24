@@ -16,6 +16,11 @@ import {
   parseTargetsFromJsonBlock,
   rawToTarget,
 } from "./outreachTargets";
+import {
+  finderMaxSteps,
+  finderMaxWebSearchUses,
+  finderSearchTimeoutMs,
+} from "./finderLimits";
 
 const FINDER_SYSTEM = `You are Weave People Finder. Find real, currently employed outreach contacts for the student.
 
@@ -39,12 +44,6 @@ Rules:
 \`\`\`
 
 Target 6-10 people when credible. Return fewer if current employment cannot be verified.`;
-
-function envInt(name: string, fallback: number, min: number, max: number): number {
-  const value = Number(process.env[name]);
-  if (!Number.isFinite(value)) return fallback;
-  return Math.min(max, Math.max(min, Math.trunc(value)));
-}
 
 function shouldRetryEmptyFinderSearch(): boolean {
   return process.env.HERMES_FINDER_RETRY === "1";
@@ -149,8 +148,9 @@ export async function aiFinderSearch(
   const school = req.school?.trim();
 
   const anthropic = createAnthropic({ apiKey });
-  const maxWebSearchUses = envInt("HERMES_FINDER_WEB_SEARCH_USES", 5, 1, 10);
-  const maxSteps = envInt("HERMES_FINDER_STEPS", 8, 4, 12);
+  const maxWebSearchUses = finderMaxWebSearchUses();
+  const maxSteps = finderMaxSteps();
+  const timeoutMs = finderSearchTimeoutMs();
   const tools: ToolSet = {
     ...hermesTools,
     web_search: anthropic.tools.webSearch_20250305({ maxUses: maxWebSearchUses }),
@@ -172,13 +172,36 @@ Find current hiring managers, hiring-adjacent teammates, project/program/product
 
 Prioritize current employees only. Search broadly enough to return exact hiring influencers plus adjacent connectors, but exclude anyone whose current employment at ${company} is not supported by the search result snippet or profile headline.`;
 
-  const result = await generateText({
-    model,
-    system: FINDER_SYSTEM,
-    prompt,
-    tools,
-    stopWhen: stepCountIs(maxSteps),
-  });
+  const runSearch = async (searchPrompt: string, signal: AbortSignal) =>
+    generateText({
+      model,
+      system: FINDER_SYSTEM,
+      prompt: searchPrompt,
+      tools,
+      stopWhen: stepCountIs(maxSteps),
+      abortSignal: signal,
+    });
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  let result;
+  try {
+    result = await runSearch(prompt, controller.signal);
+  } catch (err) {
+    const aborted =
+      controller.signal.aborted ||
+      (err instanceof Error &&
+        (err.name === "AbortError" || /aborted/i.test(err.message)));
+    if (aborted) {
+      throw new AppError(
+        504,
+        `People Finder timed out after ${Math.round(timeoutMs / 1000)}s. For an instant demo try WestJet or Google. For ${company}, retry with a narrower role or set HERMES_FINDER_TIMEOUT_MS higher locally.`
+      );
+    }
+    throw err;
+  } finally {
+    clearTimeout(timer);
+  }
 
   const fromTools = extractFromToolResults(result.steps, company);
   const fromJson = parseTargetsFromJsonBlock(result.text);
@@ -193,7 +216,11 @@ Prioritize current employees only. Search broadly enough to return exact hiring 
     return { people: firstPass, companyResearch: firstCompanyResearch };
   }
 
-  const retry = await generateText({
+  const retryController = new AbortController();
+  const retryTimer = setTimeout(() => retryController.abort(), timeoutMs);
+  let retry;
+  try {
+    retry = await generateText({
     model,
     system: FINDER_SYSTEM,
     prompt: `${prompt}
@@ -211,7 +238,23 @@ The previous search returned no usable contacts. Run broader web searches now. T
     Return only contacts with real linkedin.com/in URLs and evidence of current employment at ${company}. If current employment cannot be verified, return {"people":[]}.`,
     tools,
     stopWhen: stepCountIs(maxSteps),
+    abortSignal: retryController.signal,
   });
+  } catch (err) {
+    const aborted =
+      retryController.signal.aborted ||
+      (err instanceof Error &&
+        (err.name === "AbortError" || /aborted/i.test(err.message)));
+    if (aborted) {
+      throw new AppError(
+        504,
+        `People Finder timed out after ${Math.round(timeoutMs / 1000)}s. For an instant demo try WestJet or Google.`
+      );
+    }
+    throw err;
+  } finally {
+    clearTimeout(retryTimer);
+  }
 
   const retryPeople = dedupeTargets([
     ...extractFromToolResults(retry.steps, company),

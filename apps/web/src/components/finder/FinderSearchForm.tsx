@@ -58,6 +58,9 @@ export function FinderSearchForm() {
     <div className="hermes-finder-search__form--compact">
       <div className="hermes-finder-search__intro">
         <p className="hermes-finder-search__lead">Find people at your target company</p>
+        <p className="hermes-finder-search__demo-hint">
+          Try <strong>WestJet</strong> or <strong>Google</strong> for a fast demo.
+        </p>
         <div className="hermes-finder-search__chips" aria-label="What Weave uses in search">
           {SIGNAL_CHIPS.map((label) => (
             <span key={label} className="hermes-finder-search__chip">
@@ -126,8 +129,8 @@ export function FinderSearchForm() {
             Researching company and finding contacts...
             {elapsed > 0 ? ` (${elapsed}s)` : ""}
             <span className="hermes-finder-search__progress-hint">
-              WestJet uses cached results when available (~2s). Live AI searches can take 1–2
-              minutes.
+              Instant demos: WestJet, Google, Amazon, or Meta. Other companies use live AI (1–2
+              min; may time out on the free tier).
             </span>
           </p>
         )}

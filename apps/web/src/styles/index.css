@@ -4580,6 +4580,13 @@ a:focus-visible {
   color: var(--vl-text);
 }
 
+.hermes-finder-search__demo-hint {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--vl-muted);
+}
+
 .hermes-finder-search__form--compact .hermes-finder-search__title {
   margin: 0 0 0.35rem;
   font-family: inherit;

@@ -13,7 +13,8 @@ import { useHermesStore } from "../stores/hermesStore";
 import { getStudentProfile } from "../stores/profileStore";
 import { useSessionStore } from "../stores/sessionStore";
 
-const FINDER_SEARCH_TIMEOUT_MS = 180_000;
+/** Slightly above server default (120s local / 50s Vercel) so API errors surface first. */
+const FINDER_SEARCH_TIMEOUT_MS = 150_000;
 
 export function useFinder() {
   const setFinderLoadingSession = useHermesStore((s) => s.setFinderLoadingSession);

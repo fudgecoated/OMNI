@@ -5,6 +5,7 @@
 import { readFileSync } from "fs";
 import type { FinderSearchRequest, FinderSearchResponse } from "@hermes/shared";
 import { westjetSearchSamplePath } from "../config/dataPaths";
+import { loadWestjetBundledSample } from "./bundledSamples";
 
 export function normalizeCompanyKey(company: string): string {
   return company.toLowerCase().trim().replace(/[^a-z0-9]/g, "");
@@ -22,11 +23,17 @@ export function tryCachedFinderSearch(
   if (normalizeCompanyKey(req.company) !== "westjet") return null;
 
   const path = westjetSearchSamplePath();
-  if (!path) return null;
+  if (path) {
+    try {
+      const raw = readFileSync(path, "utf-8");
+      return JSON.parse(raw) as FinderSearchResponse;
+    } catch {
+      // Fall through to bundled copy (Vercel / production).
+    }
+  }
 
   try {
-    const raw = readFileSync(path, "utf-8");
-    return JSON.parse(raw) as FinderSearchResponse;
+    return loadWestjetBundledSample();
   } catch {
     return null;
   }
