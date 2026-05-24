@@ -1,3 +1,4 @@
+/** Sync selected contacts after a finder run and focus the Selected results tab. */
 import type { OutreachTarget } from "@hermes/shared";
 import { useHermesStore } from "../stores/hermesStore";
 import { useSessionStore } from "../stores/sessionStore";

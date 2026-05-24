@@ -2,8 +2,9 @@ import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useChat as useAISDKChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
 import type { OutreachContext, OutreachTarget, StudentProfile } from "@hermes/shared";
+import { apiUrl } from "../lib/api";
 
-const CHAT_API_URL = "/api/chat";
+const CHAT_API_URL = apiUrl("/api/chat");
 
 interface UseHermesChatOptions {
   chatId: string;

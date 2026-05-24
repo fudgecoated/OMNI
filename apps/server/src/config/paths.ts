@@ -18,3 +18,19 @@ export function mockPeoplePath(): string {
     `mock_people.json not found. Tried:\n${candidates.join("\n")}`
   );
 }
+
+/** Directory for runtime `contacts.json` (tracker CRM). */
+export function contactsDataDir(): string {
+  const fromEnv = process.env.HERMES_CONTACTS_DATA_DIR?.trim();
+  if (fromEnv) return fromEnv;
+
+  const candidates = [
+    join(process.cwd(), "data"),
+    join(process.cwd(), "apps", "server", "data"),
+    join(moduleDir, "..", "..", "data"),
+  ];
+  for (const path of candidates) {
+    if (existsSync(path)) return path;
+  }
+  return join(process.cwd(), "data");
+}

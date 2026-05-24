@@ -7,10 +7,12 @@ const STATUS_OPTIONS = PIPELINE_COLUMNS.map((c) => c.id);
 export function ContactTrackerCard({
   contact,
   onUpdate,
+  onRemove,
   highlightDue,
 }: {
   contact: Contact;
   onUpdate: (id: string, patch: { status?: ContactStatus; followupDate?: string; notes?: string }) => void;
+  onRemove?: (id: string) => void;
   highlightDue?: boolean;
 }) {
   const [notes, setNotes] = useState(contact.notes ?? "");
@@ -33,20 +35,40 @@ export function ContactTrackerCard({
             {contact.personRole} · {contact.company}
           </p>
         </div>
-        <select
-          className="hermes-tracker-card__status"
-          value={contact.status}
-          aria-label={`Status for ${contact.personName}`}
-          onChange={(e) =>
-            void onUpdate(contact.id, { status: e.target.value as ContactStatus })
-          }
-        >
-          {STATUS_OPTIONS.map((s) => (
-            <option key={s} value={s}>
-              {CONTACT_STATUS_LABELS[s]}
-            </option>
-          ))}
-        </select>
+        <div className="hermes-tracker-card__actions">
+          <select
+            className="hermes-tracker-card__status"
+            value={contact.status}
+            aria-label={`Status for ${contact.personName}`}
+            onChange={(e) =>
+              void onUpdate(contact.id, { status: e.target.value as ContactStatus })
+            }
+          >
+            {STATUS_OPTIONS.map((s) => (
+              <option key={s} value={s}>
+                {CONTACT_STATUS_LABELS[s]}
+              </option>
+            ))}
+          </select>
+          {onRemove && (
+            <button
+              type="button"
+              className="vl-chip hermes-tracker-card__remove"
+              aria-label={`Remove ${contact.personName}`}
+              onClick={() => {
+                if (
+                  window.confirm(
+                    `Remove ${contact.personName} from your tracker? This cannot be undone.`
+                  )
+                ) {
+                  onRemove(contact.id);
+                }
+              }}
+            >
+              Remove
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="hermes-tracker-card__dates">

@@ -10,7 +10,8 @@ type FollowupsView = "tracker" | "pipeline";
 export function FollowupsPanel() {
   const [view, setView] = useState<FollowupsView>("tracker");
   const selectedTargets = useHermesStore((s) => s.selectedTargets);
-  const { contacts, due, loading, error, addContact, updateContact } = useContacts();
+  const { contacts, due, loading, error, addContact, updateContact, removeContact } =
+    useContacts();
   const [targetIndex, setTargetIndex] = useState(0);
 
   const activeTarget = selectedTargets[targetIndex] ?? selectedTargets[0];
@@ -111,52 +112,59 @@ export function FollowupsPanel() {
       {loading && <p className="hermes-panel-empty">Loading…</p>}
       {error && <p className="hermes-profile-import-error">{error}</p>}
 
-      {view === "pipeline" ? (
-        <PipelineKanban
-          contacts={contacts}
-          onMove={(id, status) => void handleUpdate(id, { status })}
-        />
-      ) : (
-        <>
-          <section className="hermes-followups-section">
-            <h4 className="hermes-followups-section__title">Due now</h4>
-            {due.length === 0 ? (
-              <p className="hermes-panel-empty">No follow-ups due today.</p>
-            ) : (
-              <div className="hermes-tracker-list">
-                {due.map((c) => (
-                  <ContactTrackerCard
-                    key={c.id}
-                    contact={c}
-                    highlightDue
-                    onUpdate={handleUpdate}
-                  />
-                ))}
-              </div>
-            )}
-          </section>
+      <div className="hermes-followups-panel__scroll">
+        {view === "pipeline" ? (
+          <PipelineKanban
+            contacts={contacts}
+            onMove={(id, status) => void handleUpdate(id, { status })}
+            onRemove={(id) => void removeContact(id)}
+          />
+        ) : (
+          <>
+            <section className="hermes-followups-section">
+              <h4 className="hermes-followups-section__title">Due now</h4>
+              {due.length === 0 ? (
+                <p className="hermes-panel-empty">No follow-ups due today.</p>
+              ) : (
+                <div className="hermes-tracker-list">
+                  {due.map((c) => (
+                    <ContactTrackerCard
+                      key={c.id}
+                      contact={c}
+                      highlightDue
+                      onUpdate={handleUpdate}
+                      onRemove={(id) => void removeContact(id)}
+                    />
+                  ))}
+                </div>
+              )}
+            </section>
 
-          <section className="hermes-followups-section">
-            <h4 className="hermes-followups-section__title">All contacts ({contacts.length})</h4>
-            {contacts.length === 0 ? (
-              <p className="hermes-panel-empty">
-                Add people from People Finder, or log outreach after you message someone.
-              </p>
-            ) : (
-              <div className="hermes-tracker-list">
-                {contacts.map((c) => (
-                  <ContactTrackerCard
-                    key={c.id}
-                    contact={c}
-                    highlightDue={dueIds.has(c.id)}
-                    onUpdate={handleUpdate}
-                  />
-                ))}
-              </div>
-            )}
-          </section>
-        </>
-      )}
+            <section className="hermes-followups-section">
+              <h4 className="hermes-followups-section__title">
+                All contacts ({contacts.length})
+              </h4>
+              {contacts.length === 0 ? (
+                <p className="hermes-panel-empty">
+                  Add people from People Finder, or log outreach after you message someone.
+                </p>
+              ) : (
+                <div className="hermes-tracker-list">
+                  {contacts.map((c) => (
+                    <ContactTrackerCard
+                      key={c.id}
+                      contact={c}
+                      highlightDue={dueIds.has(c.id)}
+                      onUpdate={handleUpdate}
+                      onRemove={(id) => void removeContact(id)}
+                    />
+                  ))}
+                </div>
+              )}
+            </section>
+          </>
+        )}
+      </div>
     </div>
   );
 }

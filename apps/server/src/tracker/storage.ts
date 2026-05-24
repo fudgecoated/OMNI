@@ -8,9 +8,10 @@ import type {
   UpdateContactRequest,
 } from "@hermes/shared";
 import { normalizeContactStatus } from "@hermes/shared";
+import { contactsDataDir } from "../config/paths";
 
 function resolveDataDir(dataDir?: string): string {
-  return dataDir ?? join(process.cwd(), "data");
+  return dataDir ?? contactsDataDir();
 }
 
 function contactsFile(dataDir: string): string {
@@ -123,6 +124,14 @@ export function updateContact(
   all[idx] = next;
   writeAll(all, dataDir);
   return next;
+}
+
+export function deleteContact(id: string, dataDir?: string): boolean {
+  const all = readAll(dataDir);
+  const next = all.filter((c) => c.id !== id);
+  if (next.length === all.length) return false;
+  writeAll(next, dataDir);
+  return true;
 }
 
 export function listDueContacts(withinDays = 0, dataDir?: string): Contact[] {

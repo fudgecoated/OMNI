@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { MessageTemplateType } from "@hermes/shared";
 import { useHermesStore } from "../../stores/hermesStore";
 import { useProfileStore } from "../../stores/profileStore";
@@ -16,12 +16,33 @@ export function MessageResult() {
   const [templateType, setTemplateType] =
     useState<MessageTemplateType>("cold_email");
   const [targetIndex, setTargetIndex] = useState(0);
+  const [editedSubject, setEditedSubject] = useState("");
+  const [editedBody, setEditedBody] = useState("");
 
   const outreachContext = useSessionStore((s) =>
     s.sessions.find((sess) => sess.id === s.activeId)?.outreachContext
   );
   const activeTarget = selectedTargets[targetIndex] ?? selectedTargets[0];
   const display = result ?? generatedMessage;
+
+  useEffect(() => {
+    if (!display) {
+      setEditedSubject("");
+      setEditedBody("");
+      return;
+    }
+    setEditedSubject(display.subject ?? "");
+    setEditedBody(display.body ?? "");
+  }, [display, activeTarget?.id]);
+
+  const persistEdits = (subject: string, body: string) => {
+    if (!display) return;
+    setGeneratedMessage({
+      subject,
+      body,
+      templateType: display.templateType,
+    });
+  };
 
   const handleGenerate = () => {
     if (!activeTarget) return;
@@ -36,14 +57,16 @@ export function MessageResult() {
   };
 
   const copy = () => {
-    if (!display) return;
-    const text = display.subject ? `Subject: ${display.subject}\n\n${display.body}` : display.body;
+    if (!editedBody.trim() && !editedSubject.trim()) return;
+    const text = editedSubject.trim()
+      ? `Subject: ${editedSubject.trim()}\n\n${editedBody}`
+      : editedBody;
     void navigator.clipboard.writeText(text);
   };
 
   return (
-    <div className="hermes-result-block">
-      <h3 style={{ margin: "0 0 0.75rem", fontSize: "1rem" }}>Generated outreach</h3>
+    <div className="hermes-result-block hermes-message-result">
+      <h3 className="hermes-message-result__title">Generated outreach</h3>
       {selectedTargets.length === 0 ? (
         <p style={{ color: "var(--vl-muted)", fontSize: "0.875rem" }}>
           Select contacts in{" "}
@@ -58,18 +81,14 @@ export function MessageResult() {
         </p>
       ) : (
         <>
-          {selectedTargets.length > 1 && (
-            <div className="hermes-result-actions" style={{ marginBottom: "0.5rem" }}>
-              <label style={{ fontSize: "0.8rem" }}>
-                Draft for:{" "}
+          <div className="hermes-message-result__toolbar">
+            {selectedTargets.length > 1 && (
+              <label className="hermes-message-result__field">
+                <span className="hermes-message-result__label">Draft for</span>
                 <select
+                  className="hermes-profile-input"
                   value={targetIndex}
                   onChange={(e) => setTargetIndex(Number(e.target.value))}
-                  style={{
-                    padding: "0.35rem 0.5rem",
-                    borderRadius: 6,
-                    border: "1px solid var(--vl-border)",
-                  }}
                 >
                   {selectedTargets.map((t, i) => (
                     <option key={t.id} value={i}>
@@ -78,70 +97,69 @@ export function MessageResult() {
                   ))}
                 </select>
               </label>
-            </div>
-          )}
-          <div className="hermes-result-actions">
-            <select
-              value={templateType}
-              onChange={(e) =>
-                setTemplateType(e.target.value as MessageTemplateType)
-              }
-              style={{
-                padding: "0.35rem 0.5rem",
-                borderRadius: 6,
-                border: "1px solid var(--vl-border)",
-              }}
-            >
-              <option value="connection_request">Connection request</option>
-              <option value="cold_email">Cold email / DM</option>
-            </select>
-            <button
-              type="button"
-              className="vl-btn vl-btn--primary"
-              onClick={handleGenerate}
-              disabled={loading}
-            >
-              {loading ? "Generating…" : "Generate draft"}
-            </button>
-            {display && (
-              <button type="button" className="vl-btn" onClick={copy}>
-                Copy
-              </button>
             )}
-          </div>
-          <p
-            style={{
-              fontSize: "0.75rem",
-              color: "var(--vl-muted)",
-              marginTop: "0.75rem",
-            }}
-          >
-            Review every message before sending. Hermes does not auto-send.
-          </p>
-          {error && (
-            <p style={{ color: "#b91c1c", fontSize: "0.875rem" }}>{error}</p>
-          )}
-          {display && (
-            <div
-              className="vl-tile"
-              style={{ marginTop: "1rem", padding: "1rem", borderRadius: 12 }}
-            >
-              {display.subject && (
-                <p style={{ fontSize: "0.875rem", marginBottom: "0.5rem" }}>
-                  <strong>Subject:</strong> {display.subject}
-                </p>
-              )}
-              <pre
-                className="whitespace-pre-wrap"
-                style={{
-                  margin: 0,
-                  fontFamily: "inherit",
-                  fontSize: "0.875rem",
-                  whiteSpace: "pre-wrap",
-                }}
+            <label className="hermes-message-result__field">
+              <span className="hermes-message-result__label">Message type</span>
+              <select
+                className="hermes-profile-input"
+                value={templateType}
+                onChange={(e) =>
+                  setTemplateType(e.target.value as MessageTemplateType)
+                }
               >
-                {display.body}
-              </pre>
+                <option value="connection_request">Connection request</option>
+                <option value="cold_email">Cold email / DM</option>
+              </select>
+            </label>
+            <div className="hermes-message-result__actions">
+              <button
+                type="button"
+                className="vl-btn vl-btn--primary"
+                onClick={handleGenerate}
+                disabled={loading}
+              >
+                {loading ? "Generating…" : "Generate draft"}
+              </button>
+              {(editedBody || editedSubject) && (
+                <button type="button" className="vl-btn" onClick={copy}>
+                  Copy
+                </button>
+              )}
+            </div>
+          </div>
+
+          <p className="hermes-message-result__hint">
+            Edit the draft below before you send. Hermes does not auto-send.
+          </p>
+
+          {error && <p className="hermes-profile-import-error">{error}</p>}
+
+          {(display || editedBody) && (
+            <div className="hermes-message-result__editor">
+              <label className="hermes-message-result__field">
+                <span className="hermes-message-result__label">Subject</span>
+                <input
+                  className="hermes-profile-input hermes-message-result__subject"
+                  value={editedSubject}
+                  onChange={(e) => {
+                    setEditedSubject(e.target.value);
+                    persistEdits(e.target.value, editedBody);
+                  }}
+                  placeholder="Email subject line"
+                />
+              </label>
+              <label className="hermes-message-result__field hermes-message-result__field--message">
+                <span className="hermes-message-result__label">Message</span>
+                <textarea
+                  className="hermes-profile-textarea hermes-message-draft__body"
+                  value={editedBody}
+                  onChange={(e) => {
+                    setEditedBody(e.target.value);
+                    persistEdits(editedSubject, e.target.value);
+                  }}
+                  placeholder="Your outreach message…"
+                />
+              </label>
             </div>
           )}
         </>

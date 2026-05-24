@@ -1,5 +1,7 @@
 # Hermes agents & skills
 
+People Finder and outreach both consume **OutreachContext** built before search — see [FINDER.md](./FINDER.md) and `apps/server/src/agents/context/`.
+
 Hermes uses **two** skill concepts. They are not the same file in the same place.
 
 | Kind | Where | Who uses it |

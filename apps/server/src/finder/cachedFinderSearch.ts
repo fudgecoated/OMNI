@@ -1,3 +1,7 @@
+/**
+ * Instant finder responses for demo companies (e.g. WestJet) from data/*-search-sample.json.
+ * Set HERMES_FINDER_LIVE=1 to force live Claude search instead.
+ */
 import { readFileSync } from "fs";
 import type { FinderSearchRequest, FinderSearchResponse } from "@hermes/shared";
 import { westjetSearchSamplePath } from "../config/dataPaths";

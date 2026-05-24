@@ -1,3 +1,7 @@
+/**
+ * Builds OutreachContext before people search: company brief, job role, applicant profile.
+ * Non-seed companies use stub research by default (HERMES_FINDER_FAST=0 for full web research).
+ */
 import type { FinderSearchRequest, OutreachContext } from "@hermes/shared";
 import { normalizeStudentProfile } from "@hermes/shared";
 import { resolveCompanySlug, displayCompanyName } from "./companyAliases";

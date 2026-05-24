@@ -1,3 +1,9 @@
+/**
+ * People Finder center column — three phases:
+ * 1) FinderSearchForm (no results yet)
+ * 2) Empty state if searchedAt but zero contacts
+ * 3) Full-height finder coach chat (contacts live on right Selected tab)
+ */
 import { useFinder } from "../../hooks/useFinder";
 import { useSessionStore } from "../../stores/sessionStore";
 import { ChatInterface } from "../chat/ChatInterface";
@@ -11,7 +17,7 @@ const FINDER_WELCOME: UIMessage = {
   parts: [
     {
       type: "text",
-      text: "Contacts are loaded on the **Selected** tab (all selected by default). Ask who to prioritize, how they fit your profile, or what to mention — then open **Outreach Chat** to draft messages.",
+      text: "Contacts are on the **Selected** tab (all selected by default). Ask who to prioritize, how they fit your profile, or what to mention — then use **Draft outreach** to write messages.",
     },
   ],
 };

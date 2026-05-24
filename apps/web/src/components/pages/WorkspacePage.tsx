@@ -1,3 +1,4 @@
+/** Main workspace: section-specific center panel + ResultsPanel right column. */
 import { useEffect } from "react";
 import { ResizableSplit } from "../layout/ResizableSplit";
 import { ChatInterface } from "../chat/ChatInterface";

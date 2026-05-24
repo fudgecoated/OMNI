@@ -33,6 +33,7 @@ export function SessionList({ variant, onSelect }: Props) {
     onSelect?.();
   };
 
+  /** Sole entry point for a new finder pin / outreach thread (no duplicate buttons in center or right panels). */
   const handleNew = () => {
     createSession();
     onSelect?.();
