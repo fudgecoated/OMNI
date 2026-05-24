@@ -94,8 +94,10 @@ export function WeaveLandingPage({ onEnterDemo }: WeaveLandingPageProps) {
       <section className="weave-landing__path" aria-label="How Weave helps">
         {steps.map((step, index) => (
           <article className="weave-path-card" key={step.title}>
-            <span className="weave-path-card__number">0{index + 1}</span>
-            <img src={step.icon} alt="" className="weave-path-card__icon" />
+            <div className="weave-path-card__top">
+              <span className="weave-path-card__number">0{index + 1}</span>
+              <img src={step.icon} alt="" className="weave-path-card__icon" />
+            </div>
             <h2>{step.title}</h2>
             <p>{step.copy}</p>
           </article>
