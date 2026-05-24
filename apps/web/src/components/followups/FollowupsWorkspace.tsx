@@ -15,7 +15,7 @@ export function FollowupsWorkspace() {
         <p className="hermes-panel-header__subtitle">{config.centerSubtitle}</p>
       </header>
 
-      <div className="flex-1 min-h-0 overflow-y-auto px-5 pb-4">
+      <div className="hermes-panel-body">
         <div className="hermes-understanding">
           <p className="hermes-understanding__title">
             {due.length > 0

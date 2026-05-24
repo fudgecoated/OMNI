@@ -64,7 +64,8 @@ export function WeaveLandingPage({ onEnterDemo }: WeaveLandingPageProps) {
           <div className="weave-landing__hero-copy">
             <p className="weave-landing__eyebrow">Student outreach, with receipts</p>
             <h1 id="weave-landing-title" className="weave-landing__title">
-              Weave turns cold applications into warm conversations.
+              <span className="weave-landing__title-weave">Weave</span> turns cold applications
+              into warm conversations.
             </h1>
             <p className="weave-landing__lede">
               Find the right hiring contacts, draft context-rich outreach, and keep every
@@ -85,8 +86,7 @@ export function WeaveLandingPage({ onEnterDemo }: WeaveLandingPageProps) {
               </button>
             </div>
             <p className="weave-landing__demo-note">
-              Built for Calgary SWE students chasing internship conversations. Use{" "}
-              <strong>Open demo</strong> above or the workspace card to enter.
+              Use <strong>Open demo</strong> above or the workspace card to enter.
             </p>
           </div>
 
@@ -220,9 +220,7 @@ export function WeaveLandingPage({ onEnterDemo }: WeaveLandingPageProps) {
           alt=""
           className="weave-landing__footer-logo"
         />
-        <p>
-          Weave · Student outreach workspace · University of Calgary SWE hackathon project
-        </p>
+        <p>Weave · Student outreach workspace</p>
         <p className="weave-landing__footer-meta">
           <button type="button" className="weave-landing__footer-link" onClick={onEnterDemo}>
             Demo workspace

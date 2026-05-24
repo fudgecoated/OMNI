@@ -24,10 +24,7 @@ interface Props {
   initialMessages: UIMessage[];
   searchTitle: string;
   outreachContext?: OutreachContext;
-  /** Embedded under finder results (no duplicate pin chrome). */
   variant?: "outreach" | "finder";
-  /** Finder layout: toolbar is in FinderCoachToolbar. */
-  hideFinderChrome?: boolean;
 }
 
 function ChatGlyph() {
@@ -56,15 +53,17 @@ export function ChatInterface({
   searchTitle,
   outreachContext,
   variant = "outreach",
-  hideFinderChrome = false,
 }: Props) {
   const isFinder = variant === "finder";
   const config = isFinder ? SECTION_CONFIG.finder : SECTION_CONFIG.chat;
   const student = useProfileStore((s) => s.profile);
   const selectedTargets = useHermesStore((s) => s.selectedTargets);
   const setSidebarSection = useHermesStore((s) => s.setSidebarSection);
+  const setResultsTab = useHermesStore((s) => s.setResultsTab);
   const updateSession = useSessionStore((s) => s.updateSession);
   const createSession = useSessionStore((s) => s.createSession);
+  const pinSession = useSessionStore((s) => s.sessions.find((sess) => sess.id === sessionId));
+  const peopleCount = pinSession?.results.length ?? 0;
 
   const onPersist = useCallback(
     (messages: UIMessage[]) => {
@@ -110,6 +109,11 @@ export function ChatInterface({
         ? `${selectedTargets[0].name} at ${selectedTargets[0].company}`
         : `${selectedTargets.length} contacts selected`;
 
+  const finderSelectionSummary =
+    peopleCount === 0
+      ? "No contacts loaded"
+      : `${selectedTargets.length} of ${peopleCount} contacts selected`;
+
   const handleNewChat = () => {
     createSession();
     useHermesStore.getState().setSelectedTargets([]);
@@ -120,44 +124,49 @@ export function ChatInterface({
       data-testid="chat-interface"
       className={
         isFinder
-          ? `flex flex-col h-full overflow-hidden hermes-finder-chat${hideFinderChrome ? " hermes-finder-chat--embedded" : ""}`
+          ? "flex flex-col flex-1 min-h-0 h-full overflow-hidden"
           : "vl-tile flex flex-col h-full overflow-hidden"
       }
     >
-      {isFinder && !hideFinderChrome ? (
-        <div className="hermes-finder-chat__label">
-          <span className="hermes-finder-chat__title">Search coach</span>
-          <span className="hermes-finder-chat__meta">{targetSummary}</span>
+      <header className="hermes-panel-header hermes-panel-header--row">
+        <div>
+          <h1 className="hermes-panel-header__title">{config.centerTitle}</h1>
+          <p className="hermes-panel-header__subtitle">
+            <span className="session-pin-label">{searchTitle}</span>
+            {" · "}
+            {isFinder ? finderSelectionSummary : targetSummary}
+            {" · "}
+            {config.centerSubtitle}
+            {!isFinder && selectedTargets.length === 0 && (
+              <>
+                {" · "}
+                <button
+                  type="button"
+                  className="hermes-inline-link"
+                  onClick={() => setSidebarSection("finder")}
+                >
+                  People Finder
+                </button>
+              </>
+            )}
+          </p>
         </div>
-      ) : !isFinder ? (
-        <header className="hermes-panel-header hermes-panel-header--row">
-          <div>
-            <h1 className="hermes-panel-header__title">{config.centerTitle}</h1>
-            <p className="hermes-panel-header__subtitle">
-              <span className="session-pin-label">{searchTitle}</span>
-              {" - "}
-              {targetSummary}
-              {" - "}
-              {config.centerSubtitle}
-              {selectedTargets.length === 0 && (
-                <>
-                  {" - "}
-                  <button
-                    type="button"
-                    className="hermes-inline-link"
-                    onClick={() => setSidebarSection("finder")}
-                  >
-                    People Finder
-                  </button>
-                </>
-              )}
-            </p>
-          </div>
+        {isFinder ? (
+          peopleCount > 0 && (
+            <button
+              type="button"
+              className="vl-chip"
+              onClick={() => setResultsTab("selected")}
+            >
+              View contacts
+            </button>
+          )
+        ) : (
           <button type="button" className="vl-chip" onClick={handleNewChat}>
             New pin
           </button>
-        </header>
-      ) : null}
+        )}
+      </header>
 
       {error && (
         <div

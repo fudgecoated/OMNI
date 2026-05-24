@@ -63,7 +63,6 @@ export const productFeatures = [
 ] as const;
 
 export const studentBullets = [
-  "Built for Calgary SWE students targeting internships and early roles.",
   "Demo workspace with WestJet sample data when you want a fast walkthrough.",
   "No auto-send: you copy, personalize, and send on LinkedIn or email yourself.",
   "Skills you cannot claim stay out of drafts so outreach stays honest.",

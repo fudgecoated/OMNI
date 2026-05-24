@@ -43,12 +43,13 @@ export const SECTION_CONFIG: Record<SidebarSection, SectionConfig> = {
     workspaceTitle: "People Finder",
     workspaceRegion: "Company search",
     workspaceBrief: ({ searchTitle, selectedCount }) => {
-      const pin = searchTitle ? `Pin: ${searchTitle}. ` : "";
-      const sel =
-        selectedCount > 0
-          ? `${selectedCount} selected. See Selected tab or open Outreach Chat.`
-          : "Run Find people, then review Company and Selected on the right.";
-      return `${pin}${sel}`;
+      if (selectedCount > 0) {
+        return `${searchTitle ? `${searchTitle} · ` : ""}${selectedCount} selected — see Selected or Outreach Chat.`;
+      }
+      if (searchTitle) {
+        return `${searchTitle} — run Find people, then check Company and Selected on the right.`;
+      }
+      return "Run Find people, then review Company and Selected on the right.";
     },
     centerTitle: "People Finder",
     centerSubtitle:

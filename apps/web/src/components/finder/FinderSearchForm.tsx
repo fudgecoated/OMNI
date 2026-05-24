@@ -5,6 +5,12 @@ const DEFAULT_COMPANY = "Google";
 const DEFAULT_ROLE = "software engineering intern";
 const DEFAULT_CITY = "Calgary";
 
+const SIGNAL_CHIPS = [
+  "Company context",
+  "Warm paths",
+  "Personal angles",
+] as const;
+
 export function FinderSearchForm() {
   const { search, loading, error, activeSession } = useFinder();
   const [elapsed, setElapsed] = useState(0);
@@ -49,41 +55,18 @@ export function FinderSearchForm() {
   };
 
   return (
-    <div className="hermes-finder-search">
-      <header className="hermes-finder-search__hero">
-        <div className="hermes-finder-search__hero-main">
-          <div>
-            <div className="hermes-finder-search__eyebrow">People Finder</div>
-            <h1 className="hermes-finder-search__title">Company-aware contact search</h1>
-            <p className="hermes-finder-search__subtitle">
-              Run one search, then use the ranked contacts, company brief, and coaching thread to
-              decide who deserves the first message.
-            </p>
-          </div>
-          <img
-            src="/brand-icons/network.png"
-            alt=""
-            className="hermes-finder-search__hero-icon"
-          />
+    <div className="hermes-finder-search__form--compact">
+      <div className="hermes-finder-search__intro">
+        <p className="hermes-finder-search__lead">Find people at your target company</p>
+        <div className="hermes-finder-search__chips" aria-label="What Weave uses in search">
+          {SIGNAL_CHIPS.map((label) => (
+            <span key={label} className="hermes-finder-search__chip">
+              {label}
+            </span>
+          ))}
         </div>
+      </div>
 
-        <div className="hermes-finder-search__signals" aria-label="Search signals Weave uses">
-          <span className="hermes-signal-card hermes-signal-card--gold">
-            <strong>Company context</strong>
-            <span>Teams, products, timing</span>
-          </span>
-          <span className="hermes-signal-card hermes-signal-card--sage">
-            <strong>Warm paths</strong>
-            <span>Alumni and local ties</span>
-          </span>
-          <span className="hermes-signal-card hermes-signal-card--terra">
-            <strong>Personal angles</strong>
-            <span>Skills, interests, goals</span>
-          </span>
-        </div>
-      </header>
-
-      <div className="hermes-finder-search__form">
         <label className="hermes-profile-field">
           <span className="hermes-profile-field__label">Company</span>
           <input
@@ -142,10 +125,9 @@ export function FinderSearchForm() {
           <p className="hermes-finder-search__progress" role="status">
             Researching company and finding contacts...
             {elapsed > 0 ? ` (${elapsed}s)` : ""}
-            <br />
             <span className="hermes-finder-search__progress-hint">
-              WestJet uses cached results when available (~2s). Other companies use live AI and
-              can take 1-2 minutes.
+              WestJet uses cached results when available (~2s). Live AI searches can take 1–2
+              minutes.
             </span>
           </p>
         )}
@@ -168,7 +150,6 @@ export function FinderSearchForm() {
         >
           {loading ? "Searching..." : "Find people"}
         </button>
-      </div>
     </div>
   );
 }

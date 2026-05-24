@@ -8,8 +8,10 @@ import { useFinder } from "../../hooks/useFinder";
 import { useSessionStore } from "../../stores/sessionStore";
 import { ChatInterface } from "../chat/ChatInterface";
 import { FinderSearchForm } from "./FinderSearchForm";
-import { FinderCoachToolbar } from "./FinderCoachToolbar";
+import { SECTION_CONFIG } from "../../lib/sectionConfig";
 import type { UIMessage } from "ai";
+
+const finderConfig = SECTION_CONFIG.finder;
 
 const FINDER_WELCOME: UIMessage = {
   id: "finder-welcome",
@@ -51,19 +53,15 @@ export function FinderWorkspace() {
         : [FINDER_WELCOME];
 
     return (
-      <div className="vl-tile flex flex-col h-full overflow-hidden hermes-finder-workspace hermes-finder-workspace--chat-only">
-        <FinderCoachToolbar />
-        <div className="hermes-finder-workspace__chat hermes-finder-workspace__chat--full">
-          <ChatInterface
-            key={`finder-${activeId}`}
-            sessionId={activeId}
-            initialMessages={finderMessages}
-            searchTitle={activeSession.searchTitle}
-            outreachContext={activeSession.outreachContext}
-            variant="finder"
-            hideFinderChrome
-          />
-        </div>
+      <div className="vl-tile flex flex-col h-full overflow-hidden">
+        <ChatInterface
+          key={`finder-${activeId}`}
+          sessionId={activeId}
+          initialMessages={finderMessages}
+          searchTitle={activeSession.searchTitle}
+          outreachContext={activeSession.outreachContext}
+          variant="finder"
+        />
       </div>
     );
   }
@@ -92,7 +90,13 @@ export function FinderWorkspace() {
 
   return (
     <div className="vl-tile flex flex-col h-full overflow-hidden">
-      <FinderSearchForm />
+      <header className="hermes-panel-header">
+        <h1 className="hermes-panel-header__title">{finderConfig.centerTitle}</h1>
+        <p className="hermes-panel-header__subtitle">{finderConfig.centerSubtitle}</p>
+      </header>
+      <div className="hermes-panel-body">
+        <FinderSearchForm />
+      </div>
     </div>
   );
 }

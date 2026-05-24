@@ -653,9 +653,16 @@ body,
 }
 
 .hermes-panel-header {
-  padding: 1.25rem 1.25rem 0.75rem;
+  padding: 1rem var(--weave-panel-gutter-lg, 1.25rem) 0.75rem;
   flex-shrink: 0;
   border-bottom: 1px solid var(--vl-border);
+}
+
+.hermes-panel-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1rem var(--weave-panel-gutter-lg, 1.25rem) 1.25rem;
 }
 
 .hermes-panel-header--row {
@@ -733,15 +740,17 @@ body,
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 0 1.25rem 1.25rem;
-  overflow-y: auto;
+  min-height: 0;
+  background: transparent;
 }
 
 .hermes-finder-search__form {
-  max-width: 28rem;
+  width: 100%;
+  max-width: none;
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
+  box-sizing: border-box;
 }
 
 .hermes-finder-search__submit {
@@ -1851,7 +1860,7 @@ body,
 /* ---------- Finder search hero ---------- */
 
 .hermes-finder-search {
-  background: #fefcf8;
+  background: transparent;
 }
 
 .hermes-finder-search__hero {
@@ -1934,7 +1943,7 @@ body,
 
 .hermes-stat-card--lavender strong { color: #c25c34; }
 
-.hermes-finder-search__form {
+.hermes-finder-search__form:not(.hermes-finder-search__form--compact) {
   background: #ffffff;
   border: 1px solid #e8e2da;
   border-radius: 16px;
@@ -2880,7 +2889,7 @@ body,
 
 .vl-tile,
 .hermes-finder-search__hero,
-.hermes-finder-search__form,
+.hermes-finder-search__form:not(.hermes-finder-search__form--compact),
 .hermes-company-empty,
 .hermes-profile-card,
 .hermes-understanding,
@@ -2901,7 +2910,7 @@ body,
 }
 
 .hermes-finder-search__hero {
-  overflow: hidden;
+  overflow: visible;
 }
 
 .hermes-finder-search__hero::after {
@@ -2972,7 +2981,7 @@ body,
   box-shadow: var(--shadow-soft);
 }
 
-.hermes-finder-search__form {
+.hermes-finder-search__form:not(.hermes-finder-search__form--compact) {
   border-color: rgba(191, 175, 157, 0.78);
   box-shadow:
     var(--shadow-card),
@@ -3143,7 +3152,6 @@ body,
     linear-gradient(180deg, rgba(255, 253, 247, 0.96), rgba(252, 250, 244, 0.92)) !important;
 }
 
-.hermes-finder-chat,
 [data-testid="message-list"] {
   background-image:
     radial-gradient(circle at 16px 16px, rgba(245, 166, 35, 0.14) 1px, transparent 1.5px),
@@ -3493,7 +3501,7 @@ a:focus-visible {
 }
 
 .hermes-finder-search__hero,
-.hermes-finder-search__form {
+.hermes-finder-search__form:not(.hermes-finder-search__form--compact) {
   border: 1px solid var(--vl-border);
   border-radius: 8px;
   background: var(--vl-tile);
@@ -3538,7 +3546,7 @@ a:focus-visible {
 
 .hermes-finder-search__signals {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
   gap: 0.55rem;
 }
 
@@ -3560,10 +3568,12 @@ a:focus-visible {
   background: var(--ws-terracotta-soft);
 }
 
-.hermes-finder-search__form {
-  max-width: 36rem;
+.hermes-finder-search__form:not(.hermes-finder-search__form--compact) {
+  width: 100%;
+  max-width: none;
   gap: 0.78rem;
   padding: 1rem 1.1rem;
+  box-sizing: border-box;
 }
 
 .hermes-profile-field {
@@ -3891,13 +3901,13 @@ a:focus-visible {
   }
 
   .hermes-finder-search__hero,
-  .hermes-finder-search__form {
+  .hermes-finder-search__form:not(.hermes-finder-search__form--compact) {
     padding: 0.9rem;
     border-radius: 8px;
     width: 100%;
     max-width: 100%;
     min-width: 0;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .hermes-finder-search__hero-main,
@@ -4121,6 +4131,12 @@ a:focus-visible {
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
+  min-width: 0;
+}
+
+.hermes-finder-search__hero-main > div {
+  flex: 1;
+  min-width: 0;
 }
 
 .hermes-finder-search__hero-icon {
@@ -4128,9 +4144,10 @@ a:focus-visible {
   height: 5.25rem;
   border: 1px solid var(--vl-border);
   border-radius: 14px;
-  object-fit: cover;
+  object-fit: contain;
   background: var(--weave-cream);
   flex: 0 0 auto;
+  padding: 0.35rem;
 }
 
 .hermes-finder-search__eyebrow,
@@ -4512,7 +4529,7 @@ a:focus-visible {
 }
 
 .hermes-panel-header {
-  padding: 0.85rem var(--weave-panel-gutter-lg) 0.62rem;
+  padding: 1rem var(--weave-panel-gutter-lg) 0.75rem;
 }
 
 .hermes-panel-header__title {
@@ -4529,8 +4546,91 @@ a:focus-visible {
 }
 
 .hermes-finder-search {
-  padding: 0.72rem var(--weave-panel-gutter-lg) 0.9rem;
-  gap: 0.78rem;
+  padding: 0.55rem var(--weave-panel-gutter-lg) 0.65rem;
+  gap: 0;
+}
+
+.hermes-finder-search__form--compact {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.hermes-finder-search__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0 0 0.25rem;
+  padding: 0;
+}
+
+.hermes-finder-search__lead {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 650;
+  line-height: 1.35;
+  color: var(--vl-text);
+}
+
+.hermes-finder-search__form--compact .hermes-finder-search__title {
+  margin: 0 0 0.35rem;
+  font-family: inherit;
+  font-style: normal;
+  font-size: 1.02rem;
+  font-weight: 750;
+  line-height: 1.25;
+  letter-spacing: 0;
+  color: var(--vl-text);
+}
+
+.hermes-finder-search__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0;
+}
+
+.hermes-finder-search__chip {
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  border: none;
+  background: var(--vl-tile-soft);
+  color: var(--vl-muted);
+}
+
+.hermes-finder-search__form--compact .hermes-profile-field {
+  gap: 0.4rem;
+}
+
+.hermes-finder-search__form--compact .hermes-profile-input {
+  min-height: 2.5rem;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.875rem;
+}
+
+.hermes-finder-search__form--compact .hermes-profile-grid--2 {
+  gap: 0.75rem;
+}
+
+.hermes-finder-search__form--compact .hermes-finder-search__submit {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.hermes-finder-search__progress-hint {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.72rem;
 }
 
 .hermes-finder-search__hero {
@@ -4549,7 +4649,7 @@ a:focus-visible {
   margin-bottom: 0.95rem;
 }
 
-.hermes-finder-search__form {
+.hermes-finder-search__form:not(.hermes-finder-search__form--compact) {
   padding: 0.9rem 0.9rem 0.78rem;
   border-radius: 14px;
 }
@@ -4786,7 +4886,7 @@ body,
 
 .hermes-finder-search,
 .hermes-finder-search__hero,
-.hermes-finder-search__form,
+.hermes-finder-search__form:not(.hermes-finder-search__form--compact),
 .vl-tile,
 .hermes-results-panel {
   background: var(--vl-tile);
@@ -4910,7 +5010,6 @@ body,
   box-shadow: 0 8rem 0 var(--cf-yellow);
 }
 
-.hermes-finder-chat,
 [data-testid="message-list"] {
   background-image:
     radial-gradient(circle at 16px 16px, rgba(59, 130, 246, 0.12) 1px, transparent 1.5px),
@@ -5280,6 +5379,12 @@ select {
   padding: var(--space-sm) var(--weave-panel-gutter-lg);
 }
 
+.vl-project-header--compact .vl-project-header__brief {
+  margin-top: 0.15rem;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
 .vl-project-header__brief {
   margin-top: 0.35rem;
   font-size: 0.98rem;
@@ -5316,12 +5421,12 @@ select {
   max-width: var(--prose-max);
 }
 
-.hermes-finder-search__form {
+.hermes-finder-search__form:not(.hermes-finder-search__form--compact) {
   padding: var(--space-lg) !important;
   gap: var(--space-md);
 }
 
-.hermes-finder-search__form .hermes-profile-field {
+.hermes-finder-search__form--compact .hermes-profile-field {
   gap: 0.4rem;
 }
 
@@ -5792,7 +5897,7 @@ select {
   top: 0;
   z-index: 20;
   margin: 0 calc(-1 * clamp(1.25rem, 2.5vw, 2.5rem));
-  padding: 0.65rem clamp(1.25rem, 2.5vw, 2.5rem);
+  padding: 0.75rem clamp(1.25rem, 2.5vw, 2.5rem);
   background: color-mix(in oklab, oklch(98% 0.026 250) 82%, transparent);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid color-mix(in oklab, var(--landing-blue) 12%, transparent);
@@ -5821,9 +5926,12 @@ select {
 }
 
 .weave-landing__header-logo {
-  width: clamp(5.5rem, 12vw, 7.5rem);
+  display: block;
+  width: clamp(7.25rem, 17vw, 10.75rem);
+  max-height: 3.4rem;
   height: auto;
   object-fit: contain;
+  object-position: left center;
 }
 
 .weave-landing__nav {
@@ -5918,6 +6026,42 @@ select {
   letter-spacing: -0.03em;
   line-height: 1.02;
   text-wrap: balance;
+}
+
+.weave-landing__title-weave {
+  background: linear-gradient(
+    105deg,
+    var(--landing-blue) 0%,
+    var(--landing-pink) 28%,
+    var(--landing-yellow) 52%,
+    var(--landing-purple) 76%,
+    var(--landing-blue) 100%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: weave-title-weave 7s ease-in-out infinite;
+}
+
+@keyframes weave-title-weave {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weave-landing__title-weave {
+    animation: none;
+    background: none;
+    color: var(--landing-blue);
+    -webkit-background-clip: unset;
+    background-clip: unset;
+  }
 }
 
 .weave-landing__lede {
@@ -6556,6 +6700,11 @@ select {
     flex: 1 1 100%;
   }
 
+  .weave-landing__header-logo {
+    width: clamp(6.5rem, 32vw, 9.5rem);
+    max-height: 3rem;
+  }
+
   .weave-landing__header-cta {
     margin-left: auto;
   }
@@ -6643,4 +6792,12 @@ select {
     font-size: 0.82rem;
     padding-inline: 0.75rem;
   }
+}
+
+/* People Finder search: single panel surface, no nested card */
+.vl-tile > .flex-1 .hermes-finder-search__form--compact {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
