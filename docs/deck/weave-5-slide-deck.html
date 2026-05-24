@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weave 5-Slide Hackathon Deck</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Figtree:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --canvas: #fafbff;
+        --shell: #eef2ff;
+        --card: #ffffff;
+        --ink: #0f172a;
+        --muted: #5b6474;
+        --border: #e2e8f0;
+        --blue: #2563eb;
+        --blue-soft: #dbeafe;
+        --pink: #ec4899;
+        --pink-soft: #fce7f3;
+        --yellow: #eab308;
+        --yellow-soft: #fef9c3;
+        --green: #22c55e;
+        --green-soft: #dcfce7;
+        --purple: #a855f7;
+        --purple-soft: #f3e8ff;
+        --cyan: #06b6d4;
+        --cyan-soft: #cffafe;
+        --display: "Bricolage Grotesque", system-ui, sans-serif;
+        --body: "Figtree", system-ui, sans-serif;
+        --serif: "Newsreader", Georgia, serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--shell);
+        color: var(--ink);
+        font-family: var(--body);
+        overflow: hidden;
+      }
+
+      .deck {
+        display: grid;
+        min-height: 100vh;
+        place-items: center;
+        padding: 2rem;
+      }
+
+      .slide {
+        display: none;
+        position: relative;
+        width: min(1200px, calc(100vw - 4rem));
+        aspect-ratio: 16 / 9;
+        margin: 0 auto;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 2rem;
+        background:
+          radial-gradient(circle at 12% 14%, color-mix(in oklab, var(--yellow) 24%, transparent) 0 8rem, transparent 18rem),
+          radial-gradient(circle at 88% 16%, color-mix(in oklab, var(--purple) 20%, transparent) 0 11rem, transparent 24rem),
+          linear-gradient(135deg, var(--canvas), var(--shell));
+      }
+
+      .slide.is-active {
+        display: block;
+      }
+
+      .slide::after {
+        content: "";
+        position: absolute;
+        inset: 1.1rem;
+        border: 1px solid color-mix(in oklab, var(--blue) 16%, transparent);
+        border-radius: 1.55rem;
+        pointer-events: none;
+      }
+
+      .slide-inner {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        min-height: 100%;
+        padding: 3.2rem;
+      }
+
+      .brand-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.25rem;
+      }
+
+      .logo {
+        width: 8.5rem;
+        height: auto;
+        object-fit: contain;
+      }
+
+      .eyebrow {
+        margin: 0;
+        color: color-mix(in oklab, var(--blue) 78%, var(--ink));
+        font-family: var(--display);
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 12ch;
+        margin: 0;
+        font-family: var(--display);
+        font-size: clamp(3.7rem, 7.4vw, 6.7rem);
+        font-weight: 800;
+        letter-spacing: -0.07em;
+        line-height: 0.88;
+      }
+
+      h2 {
+        margin: 0;
+        font-family: var(--display);
+        font-size: clamp(2.6rem, 5.6vw, 4.8rem);
+        font-weight: 800;
+        letter-spacing: -0.06em;
+        line-height: 0.95;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .lede {
+        max-width: 42rem;
+        color: var(--muted);
+        font-family: var(--serif);
+        font-size: 1.45rem;
+        line-height: 1.48;
+      }
+
+      .caption {
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.45;
+      }
+
+      .slide-1 .slide-inner {
+        grid-template-rows: auto 1fr auto;
+        gap: 2rem;
+      }
+
+      .hero-copy {
+        align-self: center;
+        display: grid;
+        gap: 1.4rem;
+      }
+
+      .pill {
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1px solid color-mix(in oklab, var(--blue) 20%, var(--border));
+        border-radius: 999px;
+        background: color-mix(in oklab, var(--blue-soft) 62%, var(--card));
+        color: color-mix(in oklab, var(--blue) 84%, var(--ink));
+        font-size: 0.95rem;
+        font-weight: 700;
+        padding: 0.55rem 0.9rem;
+      }
+
+      .slide-2 .slide-inner {
+        grid-template-columns: 1fr 0.92fr;
+        align-items: center;
+        gap: 3rem;
+      }
+
+      .idea-copy {
+        display: grid;
+        gap: 1.35rem;
+      }
+
+      .path {
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .path-step {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        border: 1px solid var(--border);
+        border-radius: 1.25rem;
+        background: color-mix(in oklab, var(--card) 84%, var(--blue-soft));
+        padding: 1rem 1.1rem;
+      }
+
+      .path-step span:first-child {
+        font-family: var(--display);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+
+      .path-step span:last-child {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .slide-3 .slide-inner {
+        gap: 2rem;
+      }
+
+      .loop {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.85rem;
+        align-self: end;
+      }
+
+      .loop-card {
+        min-height: 10rem;
+        border: 1px solid var(--border);
+        border-radius: 1.35rem;
+        background: var(--card);
+        padding: 1rem;
+      }
+
+      .loop-card img {
+        width: 2.8rem;
+        height: 2.8rem;
+        object-fit: contain;
+      }
+
+      .loop-card h3 {
+        margin: 1.2rem 0 0.45rem;
+        font-family: var(--display);
+        font-size: 1.05rem;
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+
+      .loop-card p {
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.35;
+      }
+
+      .slide-4 .slide-inner {
+        grid-template-rows: auto 1fr auto;
+        gap: 1.4rem;
+      }
+
+      .proof-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .proof-card {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        gap: 1rem;
+        border: 1px solid var(--border);
+        border-radius: 1.4rem;
+        background: var(--card);
+        padding: 1.05rem;
+      }
+
+      .proof-card h3 {
+        margin: 0;
+        font-family: var(--display);
+        font-size: 1.25rem;
+        letter-spacing: -0.04em;
+      }
+
+      .mock-ui {
+        display: grid;
+        gap: 0.7rem;
+        align-content: start;
+        border-radius: 1rem;
+        background: var(--shell);
+        padding: 0.7rem;
+      }
+
+      .mini-window {
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 0.85rem;
+        background: var(--card);
+      }
+
+      .mini-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border);
+        background: color-mix(in oklab, var(--blue-soft) 42%, var(--card));
+        color: var(--muted);
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        padding: 0.45rem 0.55rem;
+        text-transform: uppercase;
+      }
+
+      .mock-chip {
+        width: fit-content;
+        border-radius: 999px;
+        background: var(--green-soft);
+        color: color-mix(in oklab, var(--green) 62%, var(--ink));
+        font-size: 0.78rem;
+        font-weight: 800;
+        padding: 0.35rem 0.58rem;
+      }
+
+      .mini-body {
+        display: grid;
+        gap: 0.55rem;
+        padding: 0.65rem;
+      }
+
+      .person-head {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 0.55rem;
+        align-items: center;
+      }
+
+      .avatar {
+        display: grid;
+        width: 2.15rem;
+        height: 2.15rem;
+        place-items: center;
+        border-radius: 0.8rem;
+        background: var(--pink-soft);
+        color: color-mix(in oklab, var(--pink) 70%, var(--ink));
+        font-family: var(--display);
+        font-size: 0.82rem;
+        font-weight: 800;
+      }
+
+      .mini-title {
+        color: var(--ink);
+        font-family: var(--display);
+        font-size: 0.9rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+
+      .mini-subtitle {
+        margin-top: 0.18rem;
+        color: var(--muted);
+        font-size: 0.7rem;
+        line-height: 1.2;
+      }
+
+      .score {
+        border-radius: 999px;
+        background: var(--green-soft);
+        color: color-mix(in oklab, var(--green) 58%, var(--ink));
+        font-size: 0.7rem;
+        font-weight: 800;
+        padding: 0.28rem 0.42rem;
+        white-space: nowrap;
+      }
+
+      .why-box {
+        border-radius: 0.75rem;
+        background: color-mix(in oklab, var(--blue-soft) 56%, var(--card));
+        color: var(--ink);
+        font-family: var(--serif);
+        font-size: 0.76rem;
+        line-height: 1.35;
+        padding: 0.55rem;
+      }
+
+      .mini-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+      }
+
+      .mini-button {
+        border-radius: 999px;
+        background: var(--blue);
+        color: white;
+        font-size: 0.68rem;
+        font-weight: 800;
+        padding: 0.35rem 0.52rem;
+      }
+
+      .mini-button.secondary {
+        background: var(--blue-soft);
+        color: color-mix(in oklab, var(--blue) 78%, var(--ink));
+      }
+
+      .draft-subject {
+        border-radius: 0.7rem;
+        background: var(--yellow-soft);
+        color: color-mix(in oklab, var(--yellow) 52%, var(--ink));
+        font-size: 0.72rem;
+        font-weight: 800;
+        line-height: 1.25;
+        padding: 0.5rem;
+      }
+
+      .draft-copy {
+        color: var(--ink);
+        font-family: var(--serif);
+        font-size: 0.78rem;
+        line-height: 1.38;
+      }
+
+      .pipeline {
+        display: grid;
+        gap: 0.48rem;
+      }
+
+      .lane {
+        display: grid;
+        grid-template-columns: 5.2rem 1fr;
+        gap: 0.5rem;
+        align-items: center;
+        border-radius: 0.72rem;
+        background: color-mix(in oklab, var(--card) 72%, var(--cyan-soft));
+        padding: 0.48rem;
+      }
+
+      .lane strong {
+        color: color-mix(in oklab, var(--blue) 78%, var(--ink));
+        font-size: 0.68rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .lane span {
+        color: var(--muted);
+        font-size: 0.74rem;
+      }
+
+      .slide-5 .slide-inner {
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 3rem;
+      }
+
+      .tech-list {
+        display: grid;
+        gap: 0.7rem;
+        margin-top: 1.3rem;
+      }
+
+      .tech-list p {
+        border-bottom: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.35;
+        padding-bottom: 0.7rem;
+      }
+
+      .architecture {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .node {
+        border: 1px solid var(--border);
+        border-radius: 1.2rem;
+        background: var(--card);
+        padding: 1rem 1.1rem;
+      }
+
+      .node strong {
+        display: block;
+        font-family: var(--display);
+        font-size: 1.15rem;
+        letter-spacing: -0.03em;
+      }
+
+      .node span {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .close-line {
+        margin-top: 1.3rem;
+        color: var(--blue);
+        font-family: var(--display);
+        font-size: 1.65rem;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+      }
+
+      .deck-controls {
+        position: fixed;
+        right: 1.5rem;
+        bottom: 1.25rem;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: color-mix(in oklab, var(--card) 92%, var(--shell));
+        padding: 0.45rem;
+      }
+
+      .deck-controls button {
+        border: 0;
+        border-radius: 999px;
+        background: var(--blue);
+        color: white;
+        cursor: pointer;
+        font-family: var(--display);
+        font-weight: 800;
+        min-width: 2.25rem;
+        padding: 0.55rem 0.75rem;
+      }
+
+      .deck-controls button:disabled {
+        cursor: default;
+        opacity: 0.45;
+      }
+
+      .deck-count {
+        min-width: 4.4rem;
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 800;
+        text-align: center;
+      }
+
+      @media print {
+        body {
+          background: white;
+          overflow: visible;
+        }
+
+        .deck {
+          gap: 0;
+          padding: 0;
+        }
+
+        .slide {
+          display: block;
+          width: 100vw;
+          border: 0;
+          border-radius: 0;
+          break-after: page;
+        }
+
+        .deck-controls {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="deck">
+      <section class="slide slide-1 is-active">
+        <div class="slide-inner">
+          <div class="brand-row">
+            <img class="logo" src="../../apps/web/public/brand-icons/weave-transparent-logo-updated.png" alt="Weave" />
+            <span class="pill">Cold outreach, warmer connections</span>
+          </div>
+          <div class="hero-copy">
+            <p class="eyebrow">The access problem</p>
+            <h1>Most people are not short on effort. They are short on access.</h1>
+            <p class="lede">
+              The right conversation can change your trajectory, but most people do not know who to contact, what to say, or how to follow up.
+            </p>
+          </div>
+          <p class="caption">Weave turns outreach anxiety into a concrete next step.</p>
+        </div>
+      </section>
+
+      <section class="slide slide-2">
+        <div class="slide-inner">
+          <div class="idea-copy">
+            <p class="eyebrow">Big idea</p>
+            <h2>The best opportunities are often not posted. They are passed.</h2>
+            <p class="lede">
+              Weave starts with job search, but the larger product is useful connections: referrals, mentors, collaborators, customers, advisors, and hidden opportunities.
+            </p>
+            <span class="pill">Cold outreach increases the surface area of luck.</span>
+          </div>
+          <div class="path" aria-label="Opportunity path">
+            <div class="path-step"><span>You have a goal</span><span>but no obvious way in</span></div>
+            <div class="path-step"><span>Weave finds the people</span><span>who can point you closer</span></div>
+            <div class="path-step"><span>You send a credible note</span><span>specific, low-pressure, human</span></div>
+            <div class="path-step"><span>A conversation opens</span><span>advice, referrals, collaborators</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide slide-3">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Solution</p>
+            <h2>Weave makes the first human step concrete.</h2>
+            <p class="lede">
+              Research the context. Find relevant people. Understand why they matter. Draft a credible message. Follow through.
+            </p>
+          </div>
+          <div class="loop">
+            <article class="loop-card">
+              <img src="../../apps/web/public/brand-icons/profile.png" alt="" />
+              <h3>Profile</h3>
+              <p>Ground outreach in real projects, goals, and proof.</p>
+            </article>
+            <article class="loop-card">
+              <img src="../../apps/web/public/brand-icons/finder.png" alt="" />
+              <h3>Find people</h3>
+              <p>Start with a target company and relationship intent.</p>
+            </article>
+            <article class="loop-card">
+              <img src="../../apps/web/public/brand-icons/network.png" alt="" />
+              <h3>Why this person</h3>
+              <p>Explain why the connection is worth attempting.</p>
+            </article>
+            <article class="loop-card">
+              <img src="../../apps/web/public/brand-icons/draft.png" alt="" />
+              <h3>Draft outreach</h3>
+              <p>Write a specific, low-pressure message.</p>
+            </article>
+            <article class="loop-card">
+              <img src="../../apps/web/public/brand-icons/followups.png" alt="" />
+              <h3>Follow up</h3>
+              <p>Keep useful conversations alive after silence.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide slide-4">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Product proof</p>
+            <h2>From cold application to warm conversation.</h2>
+          </div>
+          <div class="proof-grid">
+            <article class="proof-card">
+              <h3>Find the person</h3>
+              <div class="mock-ui">
+                <div class="mini-window">
+                  <div class="mini-topbar">
+                    <span>Selected contact</span>
+                    <span>People Finder</span>
+                  </div>
+                  <div class="mini-body">
+                    <div class="person-head">
+                      <div class="avatar">PN</div>
+                      <div>
+                        <div class="mini-title">Priya Nair</div>
+                        <div class="mini-subtitle">Product Ops Manager · WestJet Digital</div>
+                      </div>
+                      <span class="score">94 match</span>
+                    </div>
+                    <div class="why-box">
+                      Why this person: bridges guest experience and internal workflow tools, close to the product path Alex wants to understand.
+                    </div>
+                    <div class="mini-actions">
+                      <span class="mini-button secondary">LinkedIn</span>
+                      <span class="mini-button">Draft outreach</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="proof-card">
+              <h3>Write with proof</h3>
+              <div class="mock-ui">
+                <div class="mini-window">
+                  <div class="mini-topbar">
+                    <span>Message draft</span>
+                    <span>Outreach Chat</span>
+                  </div>
+                  <div class="mini-body">
+                    <div class="draft-subject">
+                      Subject: Quick question about digital product ops at WestJet
+                    </div>
+                    <p class="draft-copy">
+                      Hi Priya, I am Alex, a software engineering student building tools around queueing and campus workflows. Your work near WestJet Digital stood out because I am trying to understand how product teams improve real operational systems.
+                    </p>
+                    <div class="mini-actions">
+                      <span class="mini-button">Copy draft</span>
+                      <span class="mini-button secondary">Make warmer</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="proof-card">
+              <h3>Follow through</h3>
+              <div class="mock-ui">
+                <div class="mini-window">
+                  <div class="mini-topbar">
+                    <span>Pipeline</span>
+                    <span>Follow-ups</span>
+                  </div>
+                  <div class="mini-body pipeline">
+                    <div class="lane"><strong>Prospect</strong><span>Priya Nair · draft ready</span></div>
+                    <div class="lane"><strong>Contacted</strong><span>Marcus Lee · sent May 24</span></div>
+                    <div class="lane"><strong>Due</strong><span>Sara Patel · nudge May 29</span></div>
+                    <span class="mock-chip">next useful nudge stays visible</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+          <p class="caption">These are designed mini product states; replace with real screenshots after capture if desired.</p>
+        </div>
+      </section>
+
+      <section class="slide slide-5">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Technical quality and vision</p>
+            <h2>AI is inside the connection loop.</h2>
+            <div class="tech-list">
+              <p>React/Vite frontend and Express/TypeScript backend.</p>
+              <p>Shared TypeScript contracts across web and server.</p>
+              <p>AI research, finder reasoning, chat coaching, and skill-based prompts.</p>
+              <p>Cached/seeded demo paths for reliable judging.</p>
+            </div>
+            <p class="close-line">Make useful connections less accidental.</p>
+          </div>
+          <div class="architecture">
+            <div class="node"><strong>Profile</strong><span>candidate proof and goals</span></div>
+            <div class="node"><strong>Finder API</strong><span>company research and people search</span></div>
+            <div class="node"><strong>OutreachContext</strong><span>company, role, applicant, contacts</span></div>
+            <div class="node"><strong>Coaches and drafts</strong><span>reasoning, message writing, follow-up</span></div>
+            <div class="node"><strong>Follow-ups</strong><span>relationship momentum</span></div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <nav class="deck-controls" aria-label="Slide controls">
+      <button type="button" id="prev-slide" aria-label="Previous slide">‹</button>
+      <span class="deck-count" id="slide-count" aria-live="polite">1 / 5</span>
+      <button type="button" id="next-slide" aria-label="Next slide">›</button>
+    </nav>
+    <script>
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const previousButton = document.querySelector("#prev-slide");
+      const nextButton = document.querySelector("#next-slide");
+      const slideCount = document.querySelector("#slide-count");
+      let activeIndex = 0;
+
+      function showSlide(index) {
+        activeIndex = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach((slide, slideIndex) => {
+          slide.classList.toggle("is-active", slideIndex === activeIndex);
+        });
+        slideCount.textContent = `${activeIndex + 1} / ${slides.length}`;
+        previousButton.disabled = activeIndex === 0;
+        nextButton.disabled = activeIndex === slides.length - 1;
+      }
+
+      previousButton.addEventListener("click", () => showSlide(activeIndex - 1));
+      nextButton.addEventListener("click", () => showSlide(activeIndex + 1));
+
+      window.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") {
+          event.preventDefault();
+          showSlide(activeIndex + 1);
+        }
+        if (event.key === "ArrowLeft" || event.key === "PageUp") {
+          event.preventDefault();
+          showSlide(activeIndex - 1);
+        }
+        if (event.key === "Home") {
+          event.preventDefault();
+          showSlide(0);
+        }
+        if (event.key === "End") {
+          event.preventDefault();
+          showSlide(slides.length - 1);
+        }
+      });
+
+      showSlide(0);
+    </script>
+  </body>
+</html>

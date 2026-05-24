@@ -1,5 +1,6 @@
 {
   "name": "@hermes/server",
+  "description": "Express and AI backend for Weave company research, contact discovery, outreach coaching, and CRM storage.",
   "version": "0.0.1",
   "private": true,
   "scripts": {

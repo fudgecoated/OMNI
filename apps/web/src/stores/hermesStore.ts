@@ -1,3 +1,10 @@
+/**
+ * Transient workspace UI state.
+ *
+ * Persisted pin data lives in sessionStore; this store mirrors the active UI
+ * selection, tabs, loading state, and selected contacts so the three-column
+ * workspace can react immediately while sessionStore keeps durable context.
+ */
 import { create } from "zustand";
 import type {
   CompanySlug,

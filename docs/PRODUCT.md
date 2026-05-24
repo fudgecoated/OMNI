@@ -2,7 +2,7 @@
 
 ## Problem
 
-Calgary SWE students applying to internships often:
+Students and early-career job seekers applying to roles often:
 
 - Do not know **who** to message at a target company (hiring manager vs recruiter vs alumni).
 - Send **generic** LinkedIn notes that ignore company context and their own projects.
@@ -12,7 +12,9 @@ Hermes is a single workspace that combines company research, contact discovery, 
 
 ## Users
 
-Primary: **3rd/4th-year UCalgary software engineering students** job-hunting in Calgary or remote roles.
+Primary wedge: **students and early-career candidates** who are applying to internships, co-ops, new-grad roles, part-time roles, referrals, or other relationship-led opportunities without a warm network.
+
+Initial demo persona: a Calgary/UCalgary software engineering student, because that is the team's personal pain point and gives the hackathon story a concrete starting place.
 
 Secondary: hackathon judges and teammates demoing with WestJet / big-tech examples.
 

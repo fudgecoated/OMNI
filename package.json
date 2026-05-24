@@ -1,5 +1,6 @@
 {
   "name": "hermes",
+  "description": "Weave hackathon monorepo: AI-assisted student outreach, people finder, message drafting, and follow-up tracking.",
   "private": true,
   "workspaces": [
     "apps/*",

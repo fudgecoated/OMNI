@@ -1,3 +1,9 @@
+/**
+ * Shared web/server contract surface.
+ *
+ * Review these types first when tracing a feature end-to-end: the frontend,
+ * API routes, finder, writer, and follow-up tracker all exchange these shapes.
+ */
 export type CompanySlug = "google" | "amazon" | "meta";
 
 export type MessageTemplateType = "connection_request" | "cold_email";

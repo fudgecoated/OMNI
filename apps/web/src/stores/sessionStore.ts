@@ -3,6 +3,8 @@
  *
  * Each pin holds finder results, outreachContext from the server, selected contacts,
  * and two message arrays: `messages` (outreach) vs `finderMessages` (people finder coach).
+ * This preserves the behavioral loop judges see in the demo: research, choose contacts,
+ * draft, then return later without losing the company-specific context.
  *
  * @see docs/FRONTEND.md
  * @see docs/FINDER.md

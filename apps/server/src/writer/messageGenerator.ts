@@ -6,6 +6,13 @@ import type {
 } from "@hermes/shared";
 import { normalizeStudentProfile } from "@hermes/shared";
 
+/**
+ * Deterministic draft path used by the Message panel.
+ *
+ * The streaming coach can reason conversationally, but this writer guarantees a
+ * fast draft that follows the outreach structure: why them, student proof,
+ * company relevance, and a small ask.
+ */
 function companyLabel(company: string): string {
   const labels: Record<string, string> = {
     google: "Google",

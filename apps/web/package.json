@@ -1,5 +1,6 @@
 {
   "name": "@hermes/web",
+  "description": "Weave React workspace for landing, profile, people finder, outreach chat, and follow-up tracking.",
   "version": "0.0.1",
   "private": true,
   "type": "module",

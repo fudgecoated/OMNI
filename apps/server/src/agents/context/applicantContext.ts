@@ -17,7 +17,13 @@ const DEFAULT_STUDENT = normalizeStudentProfile({
   projects: [],
 });
 
-/** Build rich applicant context from profile (follows applicant-context skill). */
+/**
+ * Build applicant context from the student's profile.
+ *
+ * The behavioral goal is to move outreach away from generic flattery and toward
+ * honest proof: motivation, projects, strengths, learning edges, and a concrete
+ * reason this company/contact makes sense.
+ */
 export function buildApplicantContext(
   student?: StudentProfile,
   companyName?: string

@@ -1,15 +1,36 @@
-# Hermes Demo Script (~90 seconds)
+# Weave Demo Script (~90 seconds)
 
-1. **People Finder** — Select **Google**, filter school `ucalgary`, click Search.  
-   Show 5 people with relevance scores and a UCalgary connection.
+## Setup
 
-2. **Draft message** — Click **Draft message** on Marcus Lee (or top result).  
-   Switch to **Message Writer**, choose **Cold email**, click **Generate**.  
-   Highlight personalization; click **Copy**.
+- Open the web app at http://localhost:5173/.
+- Click **Enter demo workspace** to route to `/app`.
+- Use the WestJet cached sample for the fastest live demo, or use seeded companies for fallback examples.
 
-3. **Log outreach** — Open **Follow-ups**, click **Log outreach**.  
-   Show contact appears with follow-up date (+5 days).
+## Script
 
-4. **Close** — "Hermes finds people, writes the message, and reminds you to follow up — built for Calgary SWE students targeting Big Tech."
+1. **Frame the pain.**
+   "Online applications make students feel invisible. Weave helps a student find the right person, say something specific, and remember the follow-up."
 
-**Fallback:** If live scrape fails, demo uses `data/mock_people.json` only.
+2. **Enter the workspace.**
+   Show the landing page, logo, and demo login. Click **Enter demo workspace**.
+
+3. **Run People Finder.**
+   In **People Finder**, search a company such as WestJet with a relevant role. Show that Weave returns company context plus ranked contacts.
+
+4. **Explain contact relevance.**
+   Point to **Why this person** on a contact card. The point is not just finding names; it is explaining why a student might have a credible reason to reach out.
+
+5. **Use the finder coach.**
+   Ask who to prioritize. Show that finder coaching is separate from outreach drafting, so the student can first decide where to spend effort.
+
+6. **Draft outreach.**
+   Click **Draft outreach** or move to **Outreach Chat** with selected contacts. Highlight how the draft uses student proof, company context, and contact relevance instead of generic flattery.
+
+7. **Show follow-ups.**
+   Open **Follow-ups** and show the pipeline. Close with: "Weave turns the emotional chaos of cold applications into a repeatable conversation loop."
+
+## Fallbacks
+
+- If live AI search is slow, use the WestJet cached sample or seeded people data.
+- If API keys are unavailable, focus the demo on the landing page, saved profile, seeded finder results, and follow-up UI.
+- If time is short, show only landing -> finder results -> outreach draft -> follow-up pipeline.

@@ -1,3 +1,10 @@
+/**
+ * Local repeat-search cache for live AI finder results.
+ *
+ * This is separate from the curated WestJet sample cache: WestJet guarantees a
+ * polished demo path, while this cache makes new company searches repeatable
+ * during judging without changing the finder response contract.
+ */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { createHash } from "crypto";
 import { join } from "path";

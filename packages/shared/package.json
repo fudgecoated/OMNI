@@ -1,5 +1,6 @@
 {
   "name": "@hermes/shared",
+  "description": "Shared TypeScript contracts and profile helpers for the Weave web and server packages.",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.ts",

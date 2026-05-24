@@ -1,3 +1,8 @@
+/**
+ * Shared chat surface for two different mental tasks:
+ * finder mode helps decide who to contact, while outreach mode helps write the message.
+ * Keeping both modes on the same pin preserves company/contact/applicant context.
+ */
 import { useCallback, useEffect } from "react";
 import type { UIMessage } from "ai";
 import type { OutreachContext } from "@hermes/shared";

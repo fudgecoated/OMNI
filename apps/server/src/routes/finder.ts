@@ -1,7 +1,9 @@
 /**
  * People Finder API — returns contacts + OutreachContext for a company search.
  *
- * Resolution order: WestJet cache → seed companies (google/amazon/meta) → Claude AI finder.
+ * Resolution order: WestJet cache -> repeat AI cache -> seed companies
+ * (google/amazon/meta) -> live Claude AI finder. This keeps demos fast while
+ * preserving the live-search path for new companies.
  * @see docs/FINDER.md
  */
 import { Router, type IRouter } from "express";

@@ -1,5 +1,7 @@
 # HERMES - PRODUCT IDEA DOCUMENT (PRD)
 
+> **Current demo note:** Weave is the final user-facing product name for the hackathon submission. OMNI is the repository name, and Hermes remains the original internal codename/package prefix. This PRD preserves the original product framing; current implementation details are superseded by the TypeScript monorepo docs in [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md), [docs/IMPLEMENTATION.md](./docs/IMPLEMENTATION.md), and [docs/FEATURE_STATUS.md](./docs/FEATURE_STATUS.md).
+
 | Field | Value |
 |-------|-------|
 | **Version** | 1.0 |
