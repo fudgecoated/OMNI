@@ -9,6 +9,8 @@ import { finderRouter } from "./routes/finder";
 import { messagesRouter } from "./routes/messages";
 import { contactsRouter } from "./routes/contacts";
 import { chatRoute } from "./routes/chat";
+import { profileChatRoute } from "./routes/profileChat";
+import { profileIngestRoute } from "./routes/profileIngest";
 
 export function createApp(): express.Express {
   const app = express();
@@ -22,6 +24,14 @@ export function createApp(): express.Express {
 
   app.post("/api/chat", (req, res, next) => {
     void chatRoute(req, res).catch(next);
+  });
+
+  app.post("/api/profile/chat", (req, res, next) => {
+    void profileChatRoute(req, res).catch(next);
+  });
+
+  app.post("/api/profile/ingest", (req, res, next) => {
+    void profileIngestRoute(req, res).catch(next);
   });
 
   app.use("/api", finderRouter);

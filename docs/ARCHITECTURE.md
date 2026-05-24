@@ -59,7 +59,7 @@ Vite proxies `/api` and `/health` to the server.
 - **Chat agent:** `POST /api/chat` — `streamText` + tools (`find_company_people`, …)
 - **Runtime skills:** `apps/server/skills/*/SKILL.md` loaded into system prompt (see [docs/AGENTS.md](./AGENTS.md))
 - **Message drafts:** `writer/messageGenerator.ts` (stub or `callLLM`)
-- Keys: `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` (chat only; people search uses local seed data)
+- Keys: `ANTHROPIC_API_KEY` (chat + Claude web search for any company); OpenAI fallback has no web search
 
 ## Out of scope (weekend)
 

@@ -4,9 +4,10 @@ import { MessageBubble } from "./MessageBubble";
 
 interface Props {
   messages: UIMessage[];
+  isStreaming?: boolean;
 }
 
-export function MessageList({ messages }: Props) {
+export function MessageList({ messages, isStreaming }: Props) {
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -16,12 +17,19 @@ export function MessageList({ messages }: Props) {
   return (
     <div data-testid="message-list" className="flex-1 overflow-y-auto p-4 flex flex-col">
       <div className="flex-1">
-        {messages.map((message) => (
+        {messages.map((message, index) => (
           <div
             key={message.id}
             className={`my-2 flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
           >
-            <MessageBubble message={message} />
+            <MessageBubble
+              message={message}
+              isStreaming={
+                isStreaming &&
+                index === messages.length - 1 &&
+                message.role === "assistant"
+              }
+            />
           </div>
         ))}
       </div>

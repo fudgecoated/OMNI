@@ -3,9 +3,14 @@ import { useEffect, useRef, useState } from "react";
 interface Props {
   onSend: (message: string) => void;
   disabled: boolean;
+  placeholder?: string;
 }
 
-export function ChatInput({ onSend, disabled }: Props) {
+export function ChatInput({
+  onSend,
+  disabled,
+  placeholder = "Ask Hermes about outreach…",
+}: Props) {
   const [value, setValue] = useState("");
   const ref = useRef<HTMLTextAreaElement>(null);
 
@@ -44,7 +49,7 @@ export function ChatInput({ onSend, disabled }: Props) {
             }
           }}
           disabled={disabled}
-          placeholder="Ask Hermes about outreach…"
+          placeholder={placeholder}
           rows={1}
           className="flex-1 text-sm"
           style={{

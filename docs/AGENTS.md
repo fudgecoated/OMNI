@@ -101,15 +101,40 @@ Open the center chat and use a phrase from the skill `description`, e.g.:
 
 ---
 
-## hiring-manager-finder (installed)
+## Context skills (installed)
 
-| Piece | Path |
-|-------|------|
-| Runtime skill | `apps/server/skills/hiring-manager-finder/SKILL.md` |
-| Cursor skill | `.cursor/skills/hiring-manager-finder/SKILL.md` |
-| Tool | `find_hiring_contacts` — seed data for Google/Amazon/Meta; **any other company** needs `TAVILY_API_KEY` |
+| Skill | When it runs | Purpose |
+|-------|----------------|---------|
+| `company-research` | **Automatically** on every `POST /api/finder/search` (before people finder) | Web research on the company |
+| `job-role-context` | Built from role + company brief on search | Frame the target role |
+| `applicant-context` | Built from **My Profile** (`buildProfileMarkdown` / Context tab) on every search, chat, and draft | Full student narrative (skills, projects, why, limits) |
+| `profile-ingest` | **Import with Hermes** on My Profile | Read resume/links and fill profile + markdown |
+| `outreach-messaging` | Chat + **Generate draft** | How to weave company + role + applicant into DMs |
+| `hiring-manager-finder` | During people finder + chat lookups | Find contacts |
 
-**Required:** `ANTHROPIC_API_KEY` (chat). **Optional:** `TAVILY_API_KEY` for Shopify, Microsoft, etc.
+Context is stored on each **search pin** (`outreachContext` on the session) and sent to chat + message generation.
+
+### Profile → skills pipeline
+
+```
+My Profile (form) ──► buildProfileMarkdown() ──► Context (Markdown) tab
+        │                        │
+        │                        └── narrativeForAI inside buildApplicantContext()
+        ▼
+POST /api/finder/search  ──► buildSearchContext() ──► outreachContext.applicant
+POST /api/chat           ──► resolveOutreachContext(student) ──► system prompt
+POST /api/messages/*     ──► outreachContext.applicant on GenerateMessageRequest
+```
+
+Editing profile fields updates markdown live; **Save** persists to localStorage. Other skills always read the latest `student` profile from the client on each request.
+
+| Tool | Use |
+|------|-----|
+| `find_hiring_contacts` | Seed data + suggested LinkedIn queries |
+| `research_company` | Refresh company brief in chat |
+| `web_search` | Anthropic built-in (chat + finder) |
+
+**Required:** `ANTHROPIC_API_KEY` only.
 
 ---
 

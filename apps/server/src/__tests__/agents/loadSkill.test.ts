@@ -6,8 +6,13 @@ import {
 } from "../../agents/loadSkill";
 
 describe("loadSkill", () => {
-  it("lists hiring-manager-finder", () => {
-    expect(listSkills()).toContain("hiring-manager-finder");
+  it("lists core skills", () => {
+    const names = listSkills();
+    expect(names).toContain("hiring-manager-finder");
+    expect(names).toContain("company-research");
+    expect(names).toContain("job-role-context");
+    expect(names).toContain("applicant-context");
+    expect(names).toContain("outreach-messaging");
   });
 
   it("loads skill body without frontmatter", () => {

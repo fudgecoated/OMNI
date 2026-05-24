@@ -1,43 +1,85 @@
 import { useState } from "react";
 import type { MessageTemplateType } from "@hermes/shared";
 import { useHermesStore } from "../../stores/hermesStore";
+import { useProfileStore } from "../../stores/profileStore";
+import { useSessionStore } from "../../stores/sessionStore";
 import { useMessageWriter } from "../../hooks/useMessageWriter";
+import { targetToPerson } from "../../lib/outreach";
 
 export function MessageResult() {
-  const selectedPerson = useHermesStore((s) => s.selectedPerson);
-  const student = useHermesStore((s) => s.student);
+  const selectedTargets = useHermesStore((s) => s.selectedTargets);
+  const student = useProfileStore((s) => s.profile);
   const generatedMessage = useHermesStore((s) => s.generatedMessage);
   const setGeneratedMessage = useHermesStore((s) => s.setGeneratedMessage);
+  const setSidebarSection = useHermesStore((s) => s.setSidebarSection);
   const { result, loading, error, generate } = useMessageWriter();
   const [templateType, setTemplateType] =
     useState<MessageTemplateType>("cold_email");
+  const [targetIndex, setTargetIndex] = useState(0);
 
+  const outreachContext = useSessionStore((s) =>
+    s.sessions.find((sess) => sess.id === s.activeId)?.outreachContext
+  );
+  const activeTarget = selectedTargets[targetIndex] ?? selectedTargets[0];
   const display = result ?? generatedMessage;
 
   const handleGenerate = () => {
-    if (!selectedPerson) return;
-    void generate(selectedPerson, student, templateType).then((data) => {
+    if (!activeTarget) return;
+    void generate(
+      targetToPerson(activeTarget),
+      student,
+      templateType,
+      outreachContext
+    ).then((data) => {
       if (data) setGeneratedMessage(data);
     });
   };
 
   const copy = () => {
     if (!display) return;
-    const text = display.subject
-      ? `Subject: ${display.subject}\n\n${display.body}`
-      : display.body;
+    const text = display.subject ? `Subject: ${display.subject}\n\n${display.body}` : display.body;
     void navigator.clipboard.writeText(text);
   };
 
   return (
     <div className="hermes-result-block">
       <h3 style={{ margin: "0 0 0.75rem", fontSize: "1rem" }}>Generated outreach</h3>
-      {!selectedPerson ? (
+      {selectedTargets.length === 0 ? (
         <p style={{ color: "var(--vl-muted)", fontSize: "0.875rem" }}>
-          Select a person in the left panel to generate a message.
+          Select contacts in{" "}
+          <button
+            type="button"
+            className="hermes-inline-link"
+            onClick={() => setSidebarSection("finder")}
+          >
+            People Finder
+          </button>{" "}
+          to generate a message.
         </p>
       ) : (
         <>
+          {selectedTargets.length > 1 && (
+            <div className="hermes-result-actions" style={{ marginBottom: "0.5rem" }}>
+              <label style={{ fontSize: "0.8rem" }}>
+                Draft for:{" "}
+                <select
+                  value={targetIndex}
+                  onChange={(e) => setTargetIndex(Number(e.target.value))}
+                  style={{
+                    padding: "0.35rem 0.5rem",
+                    borderRadius: 6,
+                    border: "1px solid var(--vl-border)",
+                  }}
+                >
+                  {selectedTargets.map((t, i) => (
+                    <option key={t.id} value={i}>
+                      {t.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          )}
           <div className="hermes-result-actions">
             <select
               value={templateType}

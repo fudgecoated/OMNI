@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import type { Contact, CreateContactRequest } from "@hermes/shared";
+import type { Contact, CreateContactRequest, UpdateContactRequest } from "@hermes/shared";
 import { apiFetch } from "../lib/api";
 
 interface ContactsResponse {
@@ -40,9 +40,20 @@ export function useContacts() {
     [refresh]
   );
 
+  const updateContact = useCallback(
+    async (id: string, patch: UpdateContactRequest) => {
+      await apiFetch<Contact>(`/api/contacts/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify(patch),
+      });
+      await refresh();
+    },
+    [refresh]
+  );
+
   useEffect(() => {
     void refresh();
   }, [refresh]);
 
-  return { contacts, due, loading, error, refresh, addContact };
+  return { contacts, due, loading, error, refresh, addContact, updateContact };
 }

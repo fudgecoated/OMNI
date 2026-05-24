@@ -7,6 +7,7 @@ import type {
   CreateContactRequest,
   UpdateContactRequest,
 } from "@hermes/shared";
+import { normalizeContactStatus } from "@hermes/shared";
 
 function resolveDataDir(dataDir?: string): string {
   return dataDir ?? join(process.cwd(), "data");
@@ -22,9 +23,17 @@ function contactsFile(dataDir: string): string {
   return file;
 }
 
+function normalizeContact(c: Contact): Contact {
+  return {
+    ...c,
+    company: String(c.company),
+    status: normalizeContactStatus(c.status),
+  };
+}
+
 function readAll(dataDir?: string): Contact[] {
   const raw = readFileSync(contactsFile(resolveDataDir(dataDir)), "utf-8");
-  return JSON.parse(raw) as Contact[];
+  return (JSON.parse(raw) as Contact[]).map(normalizeContact);
 }
 
 function writeAll(contacts: Contact[], dataDir?: string): void {
@@ -41,9 +50,13 @@ function addDays(isoDate: string, days: number): string {
   return d.toISOString().slice(0, 10);
 }
 
+const TERMINAL: ContactStatus[] = ["responded", "interview", "offer", "rejected"];
+
 export function listContacts(dataDir?: string): Contact[] {
   return readAll(dataDir).sort((a, b) =>
-    (b.followupDate ?? "").localeCompare(a.followupDate ?? "")
+    (b.followupDate ?? b.firstContactDate).localeCompare(
+      a.followupDate ?? a.firstContactDate
+    )
   );
 }
 
@@ -56,16 +69,18 @@ export function createContact(
   dataDir?: string
 ): Contact {
   const today = new Date().toISOString().slice(0, 10);
+  const status = input.status ? normalizeContactStatus(input.status) : "contacted";
   const contact: Contact = {
     id: randomUUID(),
-    company: input.company,
+    company: input.company.trim(),
     personName: input.personName,
     personRole: input.personRole,
     linkedinUrl: input.linkedinUrl,
     schoolConnection: input.schoolConnection,
-    status: "contacted",
+    status,
     firstContactDate: today,
-    followupDate: addDays(today, 5),
+    followupDate:
+      status === "prospect" || TERMINAL.includes(status) ? undefined : addDays(today, 5),
     notes: input.notes,
   };
   const all = readAll(dataDir);
@@ -84,13 +99,24 @@ export function updateContact(
   if (idx < 0) return null;
 
   const current = all[idx];
+  const today = new Date().toISOString().slice(0, 10);
+  const status = patch.status
+    ? normalizeContactStatus(patch.status)
+    : current.status;
+
   const next: Contact = {
     ...current,
     ...patch,
-    status: (patch.status ?? current.status) as ContactStatus,
+    status,
   };
 
-  if (patch.status === "responded") {
+  if (status === "contacted" && !next.followupDate) {
+    next.followupDate = addDays(today, 5);
+  }
+  if (status === "followup_due" && !patch.followupDate) {
+    next.followupDate = today;
+  }
+  if (TERMINAL.includes(status)) {
     next.followupDate = undefined;
   }
 
@@ -102,7 +128,10 @@ export function updateContact(
 export function listDueContacts(withinDays = 0, dataDir?: string): Contact[] {
   const today = new Date().toISOString().slice(0, 10);
   return readAll(dataDir).filter((c) => {
-    if (!c.followupDate || c.status === "responded" || c.status === "unlikely") {
+    if (!c.followupDate || TERMINAL.includes(c.status)) {
+      return false;
+    }
+    if (c.status !== "contacted" && c.status !== "followup_due") {
       return false;
     }
     if (withinDays <= 0) {

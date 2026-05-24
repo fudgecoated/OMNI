@@ -1,20 +1,35 @@
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useChat as useAISDKChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
-import type { Person, StudentProfile } from "@hermes/shared";
+import type { OutreachContext, OutreachTarget, StudentProfile } from "@hermes/shared";
 
 const CHAT_API_URL = "/api/chat";
 
 interface UseHermesChatOptions {
+  chatId: string;
+  initialMessages: UIMessage[];
   student: StudentProfile;
-  selectedPerson: Person | null;
+  selectedTargets: OutreachTarget[];
+  outreachContext?: OutreachContext;
+  onPersist: (messages: UIMessage[]) => void;
 }
 
-export function useHermesChat({ student, selectedPerson }: UseHermesChatOptions) {
+export function useHermesChat({
+  chatId,
+  initialMessages,
+  student,
+  selectedTargets,
+  outreachContext,
+  onPersist,
+}: UseHermesChatOptions) {
   const studentRef = useRef(student);
   studentRef.current = student;
-  const personRef = useRef(selectedPerson);
-  personRef.current = selectedPerson;
+  const targetsRef = useRef(selectedTargets);
+  targetsRef.current = selectedTargets;
+  const contextRef = useRef(outreachContext);
+  contextRef.current = outreachContext;
+  const onPersistRef = useRef(onPersist);
+  onPersistRef.current = onPersist;
 
   const transport = useMemo(
     () =>
@@ -22,7 +37,8 @@ export function useHermesChat({ student, selectedPerson }: UseHermesChatOptions)
         api: CHAT_API_URL,
         body: () => ({
           student: studentRef.current,
-          selectedPerson: personRef.current,
+          selectedTargets: targetsRef.current,
+          outreachContext: contextRef.current,
         }),
       }),
     []
@@ -33,13 +49,28 @@ export function useHermesChat({ student, selectedPerson }: UseHermesChatOptions)
     sendMessage,
     status,
     error,
-    setMessages,
   } = useAISDKChat({
+    id: chatId,
+    messages: initialMessages,
     transport,
     onError: (err) => console.error("Chat error:", err),
   });
 
   const isLoading = status === "submitted" || status === "streaming";
+
+  const persistRef = useRef(uiMessages);
+  useEffect(() => {
+    if (uiMessages === persistRef.current) return;
+    persistRef.current = uiMessages;
+    if (uiMessages.length === 0) return;
+    onPersistRef.current(uiMessages);
+  }, [uiMessages]);
+
+  useEffect(() => {
+    if (status === "ready" && uiMessages.length > 0) {
+      onPersistRef.current(uiMessages);
+    }
+  }, [status, uiMessages]);
 
   const send = useCallback(
     (text: string) => {
@@ -49,16 +80,11 @@ export function useHermesChat({ student, selectedPerson }: UseHermesChatOptions)
     [isLoading, sendMessage]
   );
 
-  const clearChat = useCallback(() => {
-    setMessages([]);
-  }, [setMessages]);
-
   return {
     uiMessages,
     isLoading,
     error: error?.message ?? null,
     send,
-    clearChat,
   };
 }
 
@@ -68,13 +94,19 @@ export const WELCOME_MESSAGE: UIMessage = {
   parts: [
     {
       type: "text",
-      text: "I'm Hermes — your outreach coach. Pick someone in People Finder, then ask me to help draft a message or plan a follow-up.",
+      text: "I'm Hermes — your outreach coach. Use **People Finder** to search any company, select contacts, then ask me to draft messages or plan follow-ups.",
     },
   ],
 };
 
 export const WELCOME_SUGGESTIONS = [
-  "Help me draft a LinkedIn message for the selected person",
+  "Draft a LinkedIn message for my selected contacts",
   "What should I mention as a UCalgary SWE student?",
   "Write a polite 5-day follow-up",
+];
+
+export const FINDER_CHAT_SUGGESTIONS = [
+  "Who should I message first from these results?",
+  "Which contacts best fit my profile?",
+  "What should I mention about this company?",
 ];

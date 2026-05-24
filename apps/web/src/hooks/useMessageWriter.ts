@@ -3,6 +3,7 @@ import type {
   GenerateMessageRequest,
   GenerateMessageResponse,
   MessageTemplateType,
+  OutreachContext,
   Person,
   StudentProfile,
 } from "@hermes/shared";
@@ -17,12 +18,18 @@ export function useMessageWriter() {
     async (
       person: Person,
       student: StudentProfile,
-      templateType: MessageTemplateType
+      templateType: MessageTemplateType,
+      outreachContext?: OutreachContext
     ): Promise<GenerateMessageResponse | null> => {
       setLoading(true);
       setError(null);
       try {
-        const body: GenerateMessageRequest = { person, student, templateType };
+        const body: GenerateMessageRequest = {
+          person,
+          student,
+          templateType,
+          outreachContext,
+        };
         const data = await apiFetch<GenerateMessageResponse>(
           "/api/messages/generate",
           { method: "POST", body: JSON.stringify(body) }

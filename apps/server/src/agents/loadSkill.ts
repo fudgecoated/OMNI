@@ -6,11 +6,26 @@ function skillsDir(): string {
   return join(process.cwd(), "skills");
 }
 
-function stripFrontmatter(raw: string): string {
-  if (!raw.startsWith("---")) return raw.trim();
+function stripFrontmatter(raw: string): { meta: Record<string, string>; body: string } {
+  if (!raw.startsWith("---")) return { meta: {}, body: raw.trim() };
   const end = raw.indexOf("---", 3);
-  if (end === -1) return raw.trim();
-  return raw.slice(end + 3).trim();
+  if (end === -1) return { meta: {}, body: raw.trim() };
+  const front = raw.slice(3, end).trim();
+  const body = raw.slice(end + 3).trim();
+  const meta: Record<string, string> = {};
+  for (const line of front.split("\n")) {
+    const idx = line.indexOf(":");
+    if (idx === -1) continue;
+    const key = line.slice(0, idx).trim();
+    const value = line.slice(idx + 1).trim();
+    meta[key] = value;
+  }
+  return { meta, body };
+}
+
+function parseScopes(meta: Record<string, string>): string[] {
+  const raw = meta.scopes ?? meta.scope ?? "chat,outreach,finder";
+  return raw.split(/[,\s]+/).map((s) => s.trim().toLowerCase()).filter(Boolean);
 }
 
 /** List skill folder names that contain SKILL.md */
@@ -29,12 +44,25 @@ export function listSkills(): string[] {
 export function loadSkillBody(skillName: string): string {
   const path = join(skillsDir(), skillName, "SKILL.md");
   if (!existsSync(path)) return "";
-  return stripFrontmatter(readFileSync(path, "utf-8"));
+  return stripFrontmatter(readFileSync(path, "utf-8")).body;
 }
 
-/** Concatenate all skills for injection into the chat system prompt. */
-export function buildSkillsSystemBlock(): string {
-  const names = listSkills();
+export function loadSkillMeta(skillName: string): Record<string, string> {
+  const path = join(skillsDir(), skillName, "SKILL.md");
+  if (!existsSync(path)) return {};
+  return stripFrontmatter(readFileSync(path, "utf-8")).meta;
+}
+
+export type SkillScope = "chat" | "outreach" | "finder" | "profile";
+
+/** Concatenate skills matching scopes for injection into prompts. */
+export function buildSkillsSystemBlock(scopes: SkillScope[] = ["chat", "outreach"]): string {
+  const scopeSet = new Set(scopes);
+  const names = listSkills().filter((name) => {
+    const skillScopes = parseScopes(loadSkillMeta(name));
+    return skillScopes.some((s) => scopeSet.has(s as SkillScope));
+  });
+
   if (names.length === 0) return "";
 
   const blocks = names.map((name) => {
@@ -42,5 +70,5 @@ export function buildSkillsSystemBlock(): string {
     return `# Runtime skill: ${name}\n\n${body}`;
   });
 
-  return `\n\n---\n# Available agent skills\n\nWhen the user's request matches a skill below, follow that skill exactly. Use tools instead of guessing.\n\n${blocks.join("\n\n---\n\n")}`;
+  return `\n\n---\n# Available agent skills\n\nFollow matching skills exactly. Use tools instead of guessing.\n\n${blocks.join("\n\n---\n\n")}`;
 }

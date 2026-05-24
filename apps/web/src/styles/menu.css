@@ -465,3 +465,7 @@
   padding: 4px 0;
 }
 .vl-project-header__brief--placeholder { color: var(--vl-menu-muted); }
+.vl-project-header--compact {
+  padding: 0.65rem 1.25rem;
+  border-bottom: 1px solid var(--vl-menu-border);
+}
