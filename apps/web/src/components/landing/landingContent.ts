@@ -63,7 +63,7 @@ export const productFeatures = [
 ] as const;
 
 export const studentBullets = [
-  "Demo workspace with WestJet sample data when you want a fast walkthrough.",
+  "Find people beyond your immediate circle at target companies—and see why each contact is worth a thoughtful note.",
   "No auto-send: you copy, personalize, and send on LinkedIn or email yourself.",
   "Skills you cannot claim stay out of drafts so outreach stays honest.",
 ] as const;
