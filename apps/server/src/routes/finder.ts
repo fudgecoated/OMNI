@@ -1,3 +1,9 @@
+/**
+ * People Finder API — returns contacts + OutreachContext for a company search.
+ *
+ * Resolution order: WestJet cache → seed companies (google/amazon/meta) → Claude AI finder.
+ * @see docs/FINDER.md
+ */
 import { Router, type IRouter } from "express";
 import type { FinderSearchRequest, FinderSearchResponse } from "@hermes/shared";
 import { normalizeStudentProfile } from "@hermes/shared";

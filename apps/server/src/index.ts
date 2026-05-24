@@ -34,9 +34,10 @@ export function createApp(): express.Express {
     void profileIngestRoute(req, res).catch(next);
   });
 
-  app.use("/api", finderRouter);
-  app.use("/api/messages", messagesRouter);
+  // Register specific /api/* routers before the generic /api finder mount.
   app.use("/api/contacts", contactsRouter);
+  app.use("/api/messages", messagesRouter);
+  app.use("/api", finderRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

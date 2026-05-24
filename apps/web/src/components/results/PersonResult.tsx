@@ -1,6 +1,5 @@
 import type { OutreachTarget } from "@hermes/shared";
 import { FinderContactRow } from "../finder/FinderContactRow";
-import { useFinder } from "../../hooks/useFinder";
 import { useHermesStore } from "../../stores/hermesStore";
 import { useSessionStore } from "../../stores/sessionStore";
 
@@ -9,7 +8,6 @@ export function PersonResult({ variant = "chat" }: { variant?: "chat" | "finder"
   const toggleTarget = useHermesStore((s) => s.toggleTarget);
   const setSidebarSection = useHermesStore((s) => s.setSidebarSection);
   const setResultsTab = useHermesStore((s) => s.setResultsTab);
-  const { resetSearch } = useFinder();
   const activeSession = useSessionStore((s) =>
     s.sessions.find((sess) => sess.id === s.activeId)
   );
@@ -22,7 +20,7 @@ export function PersonResult({ variant = "chat" }: { variant?: "chat" | "finder"
       <div className="hermes-result-block">
         <h3 style={{ margin: "0 0 0.5rem" }}>Contacts</h3>
         <p style={{ color: "var(--vl-muted)", fontSize: "0.875rem" }}>
-          Run a search from the center panel to load contacts here.
+          Use **+ New search** in the sidebar, then **Find people** in the center.
         </p>
       </div>
     );
@@ -59,16 +57,13 @@ export function PersonResult({ variant = "chat" }: { variant?: "chat" | "finder"
           <h3 className="hermes-finder-selected-panel__title">
             Contacts ({allPeople.length})
           </h3>
-          <div className="hermes-finder-selected-panel__actions">
-            <button type="button" className="vl-btn" onClick={resetSearch}>
-              New search
-            </button>
-            {selectedTargets.length > 0 && (
+          {selectedTargets.length > 0 && (
+            <div className="hermes-finder-selected-panel__actions">
               <button type="button" className="vl-btn vl-btn--primary" onClick={openOutreach}>
                 Draft outreach →
               </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         <p className="hermes-finder-selected-panel__hint">

@@ -4,8 +4,9 @@ import { DefaultChatTransport, type UIMessage } from "ai";
 import type { StudentProfile } from "@hermes/shared";
 import { getStudentProfile } from "../stores/profileStore";
 import { parseJsonBlock } from "../lib/parseJsonBlock";
+import { apiUrl } from "../lib/api";
 
-const PROFILE_CHAT_API = "/api/profile/chat";
+const PROFILE_CHAT_API = apiUrl("/api/profile/chat");
 
 export const PROFILE_WELCOME: UIMessage = {
   id: "profile-welcome",

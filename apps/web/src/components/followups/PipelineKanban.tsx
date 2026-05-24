@@ -4,9 +4,11 @@ import { CONTACT_STATUS_LABELS, PIPELINE_COLUMNS } from "@hermes/shared";
 export function PipelineKanban({
   contacts,
   onMove,
+  onRemove,
 }: {
   contacts: Contact[];
   onMove: (id: string, status: ContactStatus) => void;
+  onRemove?: (id: string) => void;
 }) {
   return (
     <div className="hermes-kanban">
@@ -42,6 +44,23 @@ export function PipelineKanban({
                         </option>
                       ))}
                     </select>
+                    {onRemove && (
+                      <button
+                        type="button"
+                        className="hermes-kanban__remove"
+                        onClick={() => {
+                          if (
+                            window.confirm(
+                              `Remove ${c.personName} from your tracker?`
+                            )
+                          ) {
+                            onRemove(c.id);
+                          }
+                        }}
+                      >
+                        Remove
+                      </button>
+                    )}
                   </div>
                 ))
               )}

@@ -1,3 +1,7 @@
+/**
+ * Per-nav-section copy and right-panel tabs (Profile, Finder, Outreach, Follow-ups).
+ * WorkspacePage and ResultsPanel read from here to avoid duplicated UI strings.
+ */
 import type { ResultsTab, SidebarSection } from "../stores/hermesStore";
 
 export interface SectionTab {
@@ -42,8 +46,8 @@ export const SECTION_CONFIG: Record<SidebarSection, SectionConfig> = {
       const pin = searchTitle ? `Pin: ${searchTitle}. ` : "";
       const sel =
         selectedCount > 0
-          ? `${selectedCount} selected — review on the right or open Outreach Chat.`
-          : "Pick contacts here; company research appears on the right.";
+          ? `${selectedCount} selected — see Selected tab or open Outreach Chat.`
+          : "Run Find people, then review Company and Selected on the right.";
       return `${pin}${sel}`;
     },
     centerTitle: "People Finder",

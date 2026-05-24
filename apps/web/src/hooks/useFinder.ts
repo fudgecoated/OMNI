@@ -1,3 +1,9 @@
+/**
+ * People Finder search hook: POST /api/finder/search, update active pin, auto-select all contacts.
+ *
+ * Loading is tracked per pin via hermesStore.finderLoadingSessionId.
+ * New searches are started from the sidebar (+ New search), not from this hook directly.
+ */
 import { useCallback } from "react";
 import type { FinderSearchResponse } from "@hermes/shared";
 import { apiFetch } from "../lib/api";

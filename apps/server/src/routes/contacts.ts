@@ -2,6 +2,7 @@ import { Router, type IRouter } from "express";
 import { AppError } from "../middleware/errorHandler";
 import {
   createContact,
+  deleteContact,
   getContact,
   listContacts,
   listDueContacts,
@@ -50,6 +51,16 @@ contactsRouter.patch("/:id", (req, res, next) => {
     const updated = updateContact(req.params.id, patch);
     if (!updated) throw new AppError(404, "Contact not found");
     res.json(updated);
+  } catch (err) {
+    next(err);
+  }
+});
+
+contactsRouter.delete("/:id", (req, res, next) => {
+  try {
+    const removed = deleteContact(req.params.id);
+    if (!removed) throw new AppError(404, "Contact not found");
+    res.status(204).send();
   } catch (err) {
     next(err);
   }

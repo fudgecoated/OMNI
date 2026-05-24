@@ -1,3 +1,12 @@
+/**
+ * Persisted "pins" — one HermesSession per company search / outreach thread.
+ *
+ * Each pin holds finder results, outreachContext from the server, selected contacts,
+ * and two message arrays: `messages` (outreach) vs `finderMessages` (people finder coach).
+ *
+ * @see docs/FRONTEND.md
+ * @see docs/FINDER.md
+ */
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { UIMessage } from "ai";
